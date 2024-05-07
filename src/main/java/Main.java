@@ -1,10 +1,11 @@
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import gui.MainFrame;
+import gui.SplashScreen;
+import gui.MyUiConstants;
 import org.hibernate.SessionFactory;
 import persistencia.HibernateUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -12,12 +13,16 @@ public class Main {
 
     public static void main (String[] args) {
 
-        // Set look and feel
+        // Cambiar look and feel
         FlatIntelliJLaf.setup();
         JFrame.setDefaultLookAndFeelDecorated(true);
-        UIManager.put("defaultFont", new Font("Verdana", Font.PLAIN, 14));
+        UIManager.put("defaultFont", MyUiConstants.font);
 
+        // Mostrar splashscreen mientras se establece conexión con BD
+        SplashScreen splashScreen = new SplashScreen();
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        splashScreen.dispose();
+
         if (sessionFactory == null) {
             JOptionPane.showMessageDialog(
                     null,
