@@ -1,11 +1,10 @@
 import com.formdev.flatlaf.FlatIntelliJLaf;
-import entidad.Cliente;
-import gui.MainWindow;
+import gui.MainFrame;
 import org.hibernate.SessionFactory;
-import persistencia.HibernateDAO;
 import persistencia.HibernateUtil;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -15,6 +14,8 @@ public class Main {
 
         // Set look and feel
         FlatIntelliJLaf.setup();
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        UIManager.put("defaultFont", new Font("Verdana", Font.PLAIN, 14));
 
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         if (sessionFactory == null) {
@@ -27,10 +28,8 @@ public class Main {
             System.exit(1);
         }
 
-        //new HibernateDAO<Cliente>(sessionFactory, Cliente.class).save(new Cliente("nigger","nigger","nigger"));
-
-        /*SwingUtilities.invokeLater(() -> {
-            MainWindow window = new MainWindow();
+        SwingUtilities.invokeLater(() -> {
+            MainFrame window = new MainFrame();
             window.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
@@ -40,6 +39,6 @@ public class Main {
                 }
             });
             window.setVisible(true);
-        });*/
+        });
     }
 }

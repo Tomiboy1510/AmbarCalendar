@@ -1,11 +1,9 @@
 package persistencia;
 
-import jakarta.persistence.Entity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class HibernateDAO<T> {
