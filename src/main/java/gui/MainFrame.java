@@ -1,10 +1,13 @@
 package gui;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends MyJFrame {
+
     public MainFrame() {
         super();
+        setDefaultCloseOperation(MyJFrame.EXIT_ON_CLOSE);
         setTitle("Ámbar Beauty & Spa");
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -12,7 +15,5 @@ public class MainFrame extends MyJFrame {
 
         setMinimumSize(new Dimension(500, 500));
         setLocationRelativeTo(null);
-
-        setDefaultCloseOperation(MyJFrame.EXIT_ON_CLOSE);
     }
 }

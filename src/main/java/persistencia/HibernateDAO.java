@@ -3,6 +3,7 @@ package persistencia;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -25,9 +26,21 @@ public class HibernateDAO<T> {
         }
     }
 
-    public List<T> findAll() {
+    public List<T> getAll() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM " + entityClass.getName(), entityClass).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<T> getAllWithPaging(int pageNum, int pageSize) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<T> query = session.createQuery("FROM " + entityClass.getName(), entityClass);
+            query.setFirstResult((pageNum - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            return query.list();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
