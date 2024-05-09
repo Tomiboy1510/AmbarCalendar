@@ -14,10 +14,14 @@ public class Profesional {
     @Column(nullable = false)
     private float porcentajeCobro;
 
+    @Column(nullable = false)
+    private int salarioBasico;
+
     public Profesional() {}
-    public Profesional(String nombre, float porcentajeCobro) {
+    public Profesional(String nombre, float porcentajeCobro, int salarioBasico) {
         this.nombre = nombre;
         this.porcentajeCobro = porcentajeCobro;
+        this.salarioBasico = salarioBasico;
     }
 
     public String getNombre() {
@@ -31,5 +35,11 @@ public class Profesional {
     }
     public void setPorcentajeCobro(float porcentajeCobro) {
         this.porcentajeCobro = porcentajeCobro;
+    }
+    public int getSalarioBasico() {
+        return salarioBasico;
+    }
+    public void setSalarioBasico(int salarioBasico) {
+        this.salarioBasico = salarioBasico;
     }
 }
