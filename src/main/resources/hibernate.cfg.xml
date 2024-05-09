@@ -14,14 +14,14 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Entity mapping configuration -->
-        <mapping class="entidad.Cliente"/>
-        <mapping class="entidad.Ingreso"/>
-        <mapping class="entidad.Egreso"/>
-        <mapping class="entidad.ItemVenta"/>
-        <mapping class="entidad.VentaProducto"/>
-        <mapping class="entidad.VentaServicio"/>
-        <mapping class="entidad.Profesional"/>
-        <mapping class="entidad.Producto"/>
+        <mapping class="entity.Cliente"/>
+        <mapping class="entity.Ingreso"/>
+        <mapping class="entity.Egreso"/>
+        <mapping class="entity.ItemVenta"/>
+        <mapping class="entity.VentaProducto"/>
+        <mapping class="entity.VentaServicio"/>
+        <mapping class="entity.Profesional"/>
+        <mapping class="entity.Producto"/>
 
     </session-factory>
 </hibernate-configuration>

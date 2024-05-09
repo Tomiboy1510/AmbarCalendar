@@ -1,12 +1,16 @@
-package entidad;
+package entity;
 
-import enums.TipoPago;
+import entity.enums.Servicio;
+import entity.enums.TipoPago;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 public class VentaServicio extends Ingreso {
+
+    @Enumerated(EnumType.ORDINAL)
+    private Servicio servicio;
 
     @ManyToOne
     private Profesional profesional;
@@ -21,7 +25,8 @@ public class VentaServicio extends Ingreso {
     private String notas;
 
     public VentaServicio() {}
-    public VentaServicio(int monto,
+    public VentaServicio(Servicio servicio,
+                         int monto,
                          Date fechaHora,
                          TipoPago tipoPago,
                          Profesional profesional,
@@ -30,12 +35,19 @@ public class VentaServicio extends Ingreso {
                          String notas
     ) {
         super(monto, fechaHora, tipoPago);
+        this.servicio = servicio;
         this.profesional = profesional;
         this.cliente = cliente;
         this.montoPagado = montoPagado;
         this.notas = notas;
     }
 
+    public Servicio getServicio() {
+        return servicio;
+    }
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
+    }
     public Profesional getProfesional() {
         return profesional;
     }

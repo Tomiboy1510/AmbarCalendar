@@ -1,6 +1,6 @@
-package entidad;
+package entity;
 
-import enums.TipoPago;
+import entity.enums.TipoPago;
 import jakarta.persistence.*;
 
 import java.util.Date;
