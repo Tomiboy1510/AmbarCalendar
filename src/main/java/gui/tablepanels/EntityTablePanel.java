@@ -1,11 +1,14 @@
-package gui;
+package gui.tablepanels;
+
+import gui.UiUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class EntityTablePanel extends JPanel {
+public abstract class EntityTablePanel extends JPanel {
 
     private final TableModel tableModel;
     private final JButton addButton;
@@ -17,9 +20,9 @@ public class EntityTablePanel extends JPanel {
 
         tableModel = model;
         JTable table = new JTable(model);
-        table.setBackground(UiUtils.greyscale[3]);
-        table.getTableHeader().setBackground(UiUtils.greyscale[2]);
-        table.setSelectionBackground(UiUtils.greyscale[1]);
+        table.setBackground(UiUtils.GREYSCALE[3]);
+        table.getTableHeader().setBackground(UiUtils.GREYSCALE[2]);
+        table.setSelectionBackground(UiUtils.GREYSCALE[1]);
 
         addButton = new JButton("Añadir");
         modifyButton = new JButton("Modificar");
@@ -45,19 +48,14 @@ public class EntityTablePanel extends JPanel {
         bottomPanel.add(addButton);
         bottomPanel.add(modifyButton);
         bottomPanel.add(removeButton);
-
         add(bottomPanel, BorderLayout.SOUTH);
+
+        addButton.addActionListener(getAddButtonHandler());
+        modifyButton.addActionListener(getModifyButtonHandler());
+        removeButton.addActionListener(getRemoveButtonHandler());
     }
 
-    public JButton getAddButton() {
-        return addButton;
-    }
-
-    public JButton getModifyButton() {
-        return modifyButton;
-    }
-
-    public JButton getRemoveButton() {
-        return removeButton;
-    }
+    protected abstract ActionListener getAddButtonHandler();
+    protected abstract ActionListener getModifyButtonHandler();
+    protected abstract ActionListener getRemoveButtonHandler();
 }

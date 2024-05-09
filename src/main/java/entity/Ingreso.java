@@ -19,7 +19,7 @@ public abstract class Ingreso {
     @Column(nullable = false)
     private Date fechaHora;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private TipoPago tipoPago;
 
     public Ingreso() {}

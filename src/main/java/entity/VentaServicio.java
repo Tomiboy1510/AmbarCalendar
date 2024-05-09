@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 public class VentaServicio extends Ingreso {
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Servicio servicio;
 
     @ManyToOne
