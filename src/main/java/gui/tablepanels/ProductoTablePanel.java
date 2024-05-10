@@ -1,6 +1,8 @@
 package gui.tablepanels;
 
+import entity.Producto;
 import gui.forms.EntityForm;
+import gui.forms.ProductoForm;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -15,14 +17,17 @@ public class ProductoTablePanel extends EntityTablePanel {
     @Override
     protected ActionListener getAddButtonHandler() {
         return (ActionEvent e) -> {
-            EntityForm form = new EntityForm("Añadir Producto") {};
+            EntityForm form = new ProductoForm();
             form.setVisible(true);
         };
     }
 
     @Override
     protected ActionListener getModifyButtonHandler() {
-        return null;
+        return (ActionEvent e) -> {
+            EntityForm form = new ProductoForm(new Producto());
+            form.setVisible(true);
+        };
     }
 
     @Override
