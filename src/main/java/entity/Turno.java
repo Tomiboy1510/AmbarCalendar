@@ -2,8 +2,6 @@ package entity;
 
 import entity.enums.Servicio;
 import entity.enums.TipoPago;
-import gui.forms.IngresoForm;
-import gui.forms.TurnoForm;
 import jakarta.persistence.*;
 
 import java.util.Date;
