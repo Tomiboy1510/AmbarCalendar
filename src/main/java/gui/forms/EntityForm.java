@@ -1,19 +1,24 @@
 package gui.forms;
 
 import gui.MyJFrame;
+import persistence.dao.HibernateDAO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class EntityForm extends MyJFrame {
 
     protected JPanel panel;
     protected JButton saveButton;
+    protected HibernateDAO dao;
+    protected boolean isNew = true;
 
-    public EntityForm(String title) {
+    public EntityForm(String title, HibernateDAO dao) {
+        this.dao = dao;
+
         setTitle(title);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -31,6 +36,15 @@ public abstract class EntityForm extends MyJFrame {
 
         saveButton = new JButton("Guardar");
         saveButton.setFocusable(false);
+
+        saveButton.addActionListener(_ -> {
+            Object entity = buildEntity();
+            if (isNew) {
+                dao.save(entity);
+            } else {
+                dao.update(entity);
+            }
+        });
 
         add(panel);
     }
@@ -52,5 +66,5 @@ public abstract class EntityForm extends MyJFrame {
         panel.add(field);
     }
 
-    protected abstract ActionListener getSaveButtonHandler();
+    protected abstract Object buildEntity();
 }

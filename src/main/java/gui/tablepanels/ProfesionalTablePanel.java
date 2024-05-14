@@ -3,34 +3,36 @@ package gui.tablepanels;
 import entity.Profesional;
 import gui.forms.EntityForm;
 import gui.forms.ProfesionalForm;
+import gui.tablemodels.ProfesionalTableModel;
+import persistence.dao.ProfesionalDAO;
 
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+public class ProfesionalTablePanel extends EntityTablePanel<Profesional> {
 
-public class ProfesionalTablePanel extends EntityTablePanel {
-    public ProfesionalTablePanel() {
-        super("Profesionales", new DefaultTableModel());
-    }
+    public ProfesionalTablePanel(ProfesionalDAO dao) {
+        super("Profesionales", new ProfesionalTableModel(dao));
 
-    @Override
-    protected ActionListener getAddButtonHandler() {
-        return (ActionEvent e) -> {
-            EntityForm form = new ProfesionalForm();
+        addButton.addActionListener(_ -> {
+            EntityForm form = new ProfesionalForm(dao);
             form.setVisible(true);
-        };
-    }
+        });
 
-    @Override
-    protected ActionListener getModifyButtonHandler() {
-        return (ActionEvent e) -> {
-            EntityForm form = new ProfesionalForm(new Profesional());
+        modifyButton.addActionListener(_ -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1)
+                return;
+
+            ProfesionalTableModel model = ((ProfesionalTableModel) table.getModel());
+            EntityForm form = new ProfesionalForm(model.getEntityAtRow(selectedRow), dao);
             form.setVisible(true);
-        };
-    }
+        });
 
-    @Override
-    protected ActionListener getRemoveButtonHandler() {
-        return null;
+        removeButton.addActionListener(_ -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1)
+                return;
+
+            ProfesionalTableModel model = ((ProfesionalTableModel) table.getModel());
+            model.delete(selectedRow);
+        });
     }
 }

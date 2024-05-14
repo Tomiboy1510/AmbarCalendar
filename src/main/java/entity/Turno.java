@@ -2,12 +2,14 @@ package entity;
 
 import entity.enums.Servicio;
 import entity.enums.TipoPago;
+import gui.forms.IngresoForm;
+import gui.forms.TurnoForm;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-public class VentaServicio extends Ingreso {
+public class Turno extends Ingreso {
 
     @Enumerated(EnumType.STRING)
     private Servicio servicio;
@@ -24,15 +26,15 @@ public class VentaServicio extends Ingreso {
     @Column
     private String notas;
 
-    public VentaServicio() {}
-    public VentaServicio(Servicio servicio,
-                         int monto,
-                         Date fechaHora,
-                         TipoPago tipoPago,
-                         Profesional profesional,
-                         Cliente cliente,
-                         int montoPagado,
-                         String notas
+    public Turno() {}
+    public Turno(Servicio servicio,
+                 int monto,
+                 Date fechaHora,
+                 TipoPago tipoPago,
+                 Profesional profesional,
+                 Cliente cliente,
+                 int montoPagado,
+                 String notas
     ) {
         super(monto, fechaHora, tipoPago);
         this.servicio = servicio;

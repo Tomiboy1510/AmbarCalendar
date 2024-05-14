@@ -8,13 +8,23 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/*
+    TODO
+    - Implementar lógica de validación en DAOs (incluyendo verificar si la entidad existe)
+    - Pago de salarios
+    - Informe de finanzas
+    - Agenda (registrar como subscriber!)
+    - Terminar Formularios
+ */
+
 public class Main {
 
     public static void main (String[] args) {
 
+        // Setup look and feel
         UiUtils.setup();
 
-        // Show splashscreen while establishing Database connection
+        // Show splashscreen while establishing DB connection
         SplashScreen splashScreen = new SplashScreen();
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         splashScreen.dispose();
@@ -30,7 +40,7 @@ public class Main {
         }
 
         SwingUtilities.invokeLater(() -> {
-            MainFrame window = new MainFrame();
+            MainFrame window = new MainFrame(sessionFactory);
             window.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
@@ -39,6 +49,8 @@ public class Main {
                     }
                 }
             });
+            //Set frame to fullscreen
+            window.setExtendedState(JFrame.MAXIMIZED_BOTH);
             window.setVisible(true);
         });
     }

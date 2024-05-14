@@ -1,24 +1,23 @@
 package gui.forms;
 
 import entity.Profesional;
+import persistence.dao.ProfesionalDAO;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class ProfesionalForm extends EntityForm {
 
     private final JTextField nombreField = new JTextField(20);
     private final JTextField porcentajeField = new JTextField(20);
     private final JTextField salarioField = new JTextField(20);
-    private boolean isNew = true;
 
-    public ProfesionalForm() {
-        super("Añadir Profesional");
+    public ProfesionalForm(ProfesionalDAO dao) {
+        super("Añadir Profesional", dao);
         init();
     }
 
-    public ProfesionalForm(Profesional p) {
-        super("Modificar Profesional");
+    public ProfesionalForm(Profesional p, ProfesionalDAO dao) {
+        super("Modificar Profesional", dao);
         isNew = false;
         init();
     }
@@ -32,7 +31,7 @@ public class ProfesionalForm extends EntityForm {
     }
 
     @Override
-    protected ActionListener getSaveButtonHandler() {
+    protected Profesional buildEntity() {
         return null;
     }
 }

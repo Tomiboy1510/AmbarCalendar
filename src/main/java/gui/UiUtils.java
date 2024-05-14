@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class UiUtils {
 
@@ -29,7 +30,7 @@ public class UiUtils {
 
     public static Font loadFont(String fontResourcePath) {
         try (InputStream stream = UiUtils.class.getClassLoader().getResourceAsStream(fontResourcePath)) {
-            return Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(Font.PLAIN, 15);
+            return Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(stream)).deriveFont(Font.PLAIN, 15);
         } catch (Exception e) {
             return new Font("Verdana", Font.PLAIN, 15);
         }

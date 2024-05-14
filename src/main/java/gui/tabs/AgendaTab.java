@@ -1,12 +1,14 @@
 package gui.tabs;
 
+import persistence.dao.TurnoDAO;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class AgendaPanel extends JPanel {
+public class AgendaTab extends JPanel {
 
-    public AgendaPanel() {
+    public AgendaTab(TurnoDAO turnoDAO) {
         super();
 
         setLayout(new BorderLayout());

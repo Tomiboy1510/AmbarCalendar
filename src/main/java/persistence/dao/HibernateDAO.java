@@ -1,29 +1,25 @@
-package persistence;
+package persistence.dao;
 
+import persistence.Subscriber;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class HibernateDAO<T> {
+public abstract class HibernateDAO<T> {
 
     private final SessionFactory sessionFactory;
     private final Class<T> entityClass;
+    private final List<Subscriber> subscribers;
 
     public HibernateDAO(SessionFactory sessionFactory, Class<T> entityClass) {
         this.sessionFactory = sessionFactory;
         this.entityClass = entityClass;
-    }
 
-    public T findById(int id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(entityClass, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        subscribers = new ArrayList<>();
     }
 
     public List<T> getAll() {
@@ -47,17 +43,17 @@ public class HibernateDAO<T> {
         }
     }
 
-    public void delete(int id) {
+    public void _delete(T entity) {
         try (Session s = sessionFactory.openSession()) {
             Transaction t = s.beginTransaction();
-            s.remove(s.byId(entityClass).load(id));
+            s.remove(entity);
             t.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void save(T entity) {
+    private void _save(T entity) {
         try (Session s = sessionFactory.openSession()) {
             Transaction t = s.beginTransaction();
             s.persist(entity);
@@ -67,7 +63,7 @@ public class HibernateDAO<T> {
         }
     }
 
-    public void update(T entity) {
+    private void _update(T entity) {
         try (Session s = sessionFactory.openSession()) {
             Transaction t = s.beginTransaction();
             s.merge(entity);
@@ -76,4 +72,35 @@ public class HibernateDAO<T> {
             e.printStackTrace();
         }
     }
+
+    public final void save(T entity) throws IllegalArgumentException {
+        validate(entity);
+        _save(entity);
+
+    }
+
+    public final void update(T entity) throws IllegalArgumentException {
+        validate(entity);
+        _update(entity);
+    }
+
+    public final void delete(T entity) throws IllegalArgumentException {
+        if (! entityExists(entity))
+            throw new IllegalArgumentException("Intentando eliminar una entidad que no existe");
+        _delete(entity);
+    }
+
+    private boolean entityExists(T entity) {
+        return false;
+    }
+
+    public void subscribe(Subscriber s) {
+        subscribers.add(s);
+    }
+
+    private void updateSubscribers() {
+        subscribers.forEach(Subscriber::update);
+    }
+
+    protected abstract void validate(T entity) throws IllegalArgumentException;
 }

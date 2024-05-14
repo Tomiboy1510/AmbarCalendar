@@ -18,8 +18,8 @@
         <mapping class="entity.Ingreso"/>
         <mapping class="entity.Egreso"/>
         <mapping class="entity.ItemVenta"/>
-        <mapping class="entity.VentaProducto"/>
-        <mapping class="entity.VentaServicio"/>
+        <mapping class="entity.Venta"/>
+        <mapping class="entity.Turno"/>
         <mapping class="entity.Profesional"/>
         <mapping class="entity.Producto"/>
 

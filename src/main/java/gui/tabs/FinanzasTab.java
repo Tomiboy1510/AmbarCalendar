@@ -1,15 +1,19 @@
 package gui.tabs;
 
 import gui.tablepanels.EgresoTablePanel;
-import gui.tablepanels.IngresoTablePanel;
+import gui.tablepanels.TurnoTablePanel;
+import gui.tablepanels.VentaTablePanel;
+import persistence.dao.EgresoDAO;
+import persistence.dao.TurnoDAO;
+import persistence.dao.VentaDAO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class FinanzasPanel extends JPanel {
+public class FinanzasTab extends JPanel {
 
-    public FinanzasPanel() {
+    public FinanzasTab(TurnoDAO turnoDAO, VentaDAO ventaDAO, EgresoDAO egresoDAO) {
         super();
 
         setLayout(new BorderLayout());
@@ -26,15 +30,27 @@ public class FinanzasPanel extends JPanel {
         topPanel.add(pagosButton);
         topPanel.add(informeButton);
 
+        JSplitPane nestedPanel = new JSplitPane(
+                JSplitPane.VERTICAL_SPLIT,
+                new TurnoTablePanel(turnoDAO),
+                new VentaTablePanel(ventaDAO)
+        );
+
         JSplitPane centerPanel = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
-                new EgresoTablePanel(),
-                new IngresoTablePanel()
+                new EgresoTablePanel(egresoDAO),
+                nestedPanel
         );
-        centerPanel.setDividerLocation(0.5);
-        centerPanel.setResizeWeight(0.5);
+
+        nestedPanel.setResizeWeight(0.5);
+        centerPanel.setResizeWeight(0.33);
 
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
+
+        SwingUtilities.invokeLater(() -> {
+            nestedPanel.setDividerLocation(0.5);
+            centerPanel.setDividerLocation(0.33);
+        });
     }
 }

@@ -1,26 +1,25 @@
 package gui.forms;
 
 import entity.Egreso;
+import persistence.dao.EgresoDAO;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class EgresoForm extends EntityForm {
 
     private final JTextField motivoField = new JTextField(20);
     private final JTextField montoField = new JTextField(20);
     private final JTextField fechaField = new JTextField(20);
-    private boolean isNew = true;
 
-    public EgresoForm() {
-        super("Registrar Egreso");
+    public EgresoForm(EgresoDAO dao) {
+        super("Registrar Egreso", dao);
         init();
 
         // Set today as default date
     }
 
-    public EgresoForm(Egreso e) {
-        super("Modificar Egreso");
+    public EgresoForm(Egreso e, EgresoDAO dao) {
+        super("Modificar Egreso", dao);
         isNew = false;
         init();
     }
@@ -34,7 +33,7 @@ public class EgresoForm extends EntityForm {
     }
 
     @Override
-    protected ActionListener getSaveButtonHandler() {
+    protected Egreso buildEntity() {
         return null;
     }
 }

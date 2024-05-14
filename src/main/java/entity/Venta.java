@@ -1,19 +1,22 @@
 package entity;
 
 import entity.enums.TipoPago;
+import gui.forms.IngresoForm;
+import gui.forms.VentaForm;
 import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class VentaProducto extends Ingreso {
+public class Venta extends Ingreso {
 
     @ElementCollection
     private List<ItemVenta> items;
 
-    public VentaProducto() {}
-    public VentaProducto(int monto, Date fechaHora, TipoPago tipoPago, List<ItemVenta> items) {
+    public Venta() {}
+
+    public Venta(int monto, Date fechaHora, TipoPago tipoPago, List<ItemVenta> items) {
         super(monto, fechaHora, tipoPago);
         this.items = items;
     }

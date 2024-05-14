@@ -1,10 +1,9 @@
 package gui.forms;
 
 import entity.Producto;
+import persistence.dao.ProductoDAO;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ProductoForm extends EntityForm {
 
@@ -13,15 +12,14 @@ public class ProductoForm extends EntityForm {
     private final JTextField costoField = new JTextField(20);
     private final JTextField precioField = new JTextField(20);
     private final JTextField stockField = new JTextField(20);
-    private boolean isNew = true;
 
-    public ProductoForm() {
-        super("Añadir Producto");
+    public ProductoForm(ProductoDAO dao) {
+        super("Añadir Producto", dao);
         init();
     }
 
-    public ProductoForm(Producto p) {
-        super("Modificar Producto");
+    public ProductoForm(Producto p, ProductoDAO dao) {
+        super("Modificar Producto", dao);
         isNew = false;
         init();
     }
@@ -37,9 +35,7 @@ public class ProductoForm extends EntityForm {
     }
 
     @Override
-    protected ActionListener getSaveButtonHandler() {
-        return (ActionEvent e) -> {
-
-        };
+    protected Producto buildEntity() {
+        return null;
     }
 }

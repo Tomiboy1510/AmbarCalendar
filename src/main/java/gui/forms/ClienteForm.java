@@ -1,25 +1,23 @@
 package gui.forms;
 
 import entity.Cliente;
+import persistence.dao.ClienteDAO;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ClienteForm extends EntityForm {
 
     private final JTextField dniField = new JTextField(20);
     private final JTextField nombreField = new JTextField(20);
     private final JTextField telefonoField = new JTextField(20);
-    private boolean isNew = true;
 
-    public ClienteForm() {
-        super("Añadir Cliente");
+    public ClienteForm(ClienteDAO dao) {
+        super("Añadir Cliente", dao);
         init();
     }
 
-    public ClienteForm(Cliente c) {
-        super("Modificar Cliente");
+    public ClienteForm(Cliente c, ClienteDAO dao) {
+        super("Modificar Cliente", dao);
         isNew = false;
         init();
     }
@@ -33,9 +31,7 @@ public class ClienteForm extends EntityForm {
     }
 
     @Override
-    protected ActionListener getSaveButtonHandler() {
-        return (ActionEvent e) -> {
-
-        };
+    protected Cliente buildEntity() {
+        return null;
     }
 }

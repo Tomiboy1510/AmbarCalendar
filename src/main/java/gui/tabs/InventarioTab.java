@@ -1,18 +1,17 @@
 package gui.tabs;
 
-import gui.tablepanels.EntityTablePanel;
 import gui.tablepanels.ProductoTablePanel;
+import persistence.dao.ProductoDAO;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class InventarioPanel extends JPanel {
+public class InventarioTab extends JPanel {
 
-    public InventarioPanel() {
+    public InventarioTab(ProductoDAO productoDAO) {
         super();
         setLayout(new BorderLayout());
-        EntityTablePanel tablePanel = new ProductoTablePanel();
+        ProductoTablePanel tablePanel = new ProductoTablePanel(productoDAO);
         add(tablePanel, BorderLayout.CENTER);
-
     }
 }

@@ -3,35 +3,36 @@ package gui.tablepanels;
 import entity.Egreso;
 import gui.forms.EgresoForm;
 import gui.forms.EntityForm;
+import gui.tablemodels.EgresoTableModel;
+import persistence.dao.EgresoDAO;
 
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+public class EgresoTablePanel extends EntityTablePanel<Egreso> {
 
-public class EgresoTablePanel extends EntityTablePanel {
+    public EgresoTablePanel(EgresoDAO dao) {
+        super("Egresos", new EgresoTableModel(dao));
 
-    public EgresoTablePanel() {
-        super("Egresos", new DefaultTableModel());
-    }
-
-    @Override
-    protected ActionListener getAddButtonHandler() {
-        return (ActionEvent e) -> {
-            EntityForm form = new EgresoForm();
+        addButton.addActionListener(_ -> {
+            EntityForm form = new EgresoForm(dao);
             form.setVisible(true);
-        };
-    }
+        });
 
-    @Override
-    protected ActionListener getModifyButtonHandler() {
-        return (ActionEvent e) -> {
-            EntityForm form = new EgresoForm(new Egreso());
+        modifyButton.addActionListener(_ -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1)
+                return;
+
+            EgresoTableModel model = ((EgresoTableModel) table.getModel());
+            EntityForm form = new EgresoForm(model.getEntityAtRow(selectedRow), dao);
             form.setVisible(true);
-        };
-    }
+        });
 
-    @Override
-    protected ActionListener getRemoveButtonHandler() {
-        return null;
+        removeButton.addActionListener(_ -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1)
+                return;
+
+            EgresoTableModel model = ((EgresoTableModel) table.getModel());
+            model.delete(selectedRow);
+        });
     }
 }
