@@ -21,13 +21,14 @@ public abstract class EntityTableModel<T> extends AbstractTableModel implements 
     public EntityTableModel(HibernateDAO<T> dao) {
         this.dao = dao;
         dao.subscribe(this);
-        update();
+        refresh();
         sorter = new TableRowSorter<>(this);
     }
 
     @Override
-    public void update() {
+    public void refresh() {
         data = dao.getAll();
+        fireTableDataChanged();
     }
 
     public void sortByColumn(int columnIndex) {

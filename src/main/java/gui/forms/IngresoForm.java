@@ -1,5 +1,7 @@
 package gui.forms;
 
+import entity.enums.TipoPago;
+import gui.formattedfields.IntegerField;
 import persistence.dao.HibernateDAO;
 
 import javax.swing.*;
@@ -7,9 +9,8 @@ import javax.swing.*;
 @SuppressWarnings("rawtypes")
 public abstract class IngresoForm extends EntityForm {
 
-    protected final JTextField tipoPagoField = new JTextField(20);
-    protected final JTextField fechaHoraField = new JTextField(20);
-    private final JTextField montoField = new JTextField(20);
+    protected final JComboBox<TipoPago> tipoPagoField = new JComboBox<>();
+    private final IntegerField montoField = new IntegerField(20);
 
     public IngresoForm(String title, HibernateDAO dao) {
         super(title, dao);
@@ -17,7 +18,6 @@ public abstract class IngresoForm extends EntityForm {
 
     protected void init() {
         addField("Tipo de Pago", tipoPagoField);
-        addField("Fecha y Hora", fechaHoraField);
         addField("Monto total", montoField);
 
         afterInit();

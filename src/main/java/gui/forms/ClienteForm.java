@@ -1,15 +1,17 @@
 package gui.forms;
 
 import entity.Cliente;
+import gui.formattedfields.DniField;
+import gui.formattedfields.TelefonoField;
 import persistence.dao.ClienteDAO;
 
 import javax.swing.*;
 
 public class ClienteForm extends EntityForm {
 
-    private final JTextField dniField = new JTextField(20);
+    private final DniField dniField = new DniField(20);
     private final JTextField nombreField = new JTextField(20);
-    private final JTextField telefonoField = new JTextField(20);
+    private final TelefonoField telefonoField = new TelefonoField(20);
 
     public ClienteForm(ClienteDAO dao) {
         super("Añadir Cliente", dao);

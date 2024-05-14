@@ -1,6 +1,7 @@
 package gui.forms;
 
 import entity.Producto;
+import gui.formattedfields.IntegerField;
 import persistence.dao.ProductoDAO;
 
 import javax.swing.*;
@@ -9,9 +10,9 @@ public class ProductoForm extends EntityForm {
 
     private final JTextField nombreField = new JTextField(20);
     private final JTextField marcaField = new JTextField(20);
-    private final JTextField costoField = new JTextField(20);
-    private final JTextField precioField = new JTextField(20);
-    private final JTextField stockField = new JTextField(20);
+    private final IntegerField costoField = new IntegerField(20);
+    private final IntegerField precioField = new IntegerField(20);
+    private final IntegerField stockField = new IntegerField(20);
 
     public ProductoForm(ProductoDAO dao) {
         super("Añadir Producto", dao);

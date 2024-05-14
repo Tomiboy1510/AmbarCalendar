@@ -99,7 +99,7 @@ public abstract class HibernateDAO<T> {
     }
 
     private void updateSubscribers() {
-        subscribers.forEach(Subscriber::update);
+        subscribers.forEach(Subscriber::refresh);
     }
 
     protected abstract void validate(T entity) throws IllegalArgumentException;
