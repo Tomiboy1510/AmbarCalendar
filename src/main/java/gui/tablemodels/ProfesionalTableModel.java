@@ -6,12 +6,11 @@ import persistence.dao.ProfesionalDAO;
 public class ProfesionalTableModel extends EntityTableModel<Profesional> {
 
     public ProfesionalTableModel(ProfesionalDAO dao) {
-        super(dao);
-        columnNames = new String[] {
+        super(dao, new String[] {
                 "Nombre",
                 "Porcentaje de Cobro",
                 "Salario Básico"
-        };
+        });
     }
 
     @Override

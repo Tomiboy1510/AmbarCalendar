@@ -7,6 +7,7 @@ import gui.tablemodels.ProductoTableModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
 public abstract class EntityTablePanel<T> extends JPanel {
@@ -25,6 +26,24 @@ public abstract class EntityTablePanel<T> extends JPanel {
         table.getTableHeader().setBackground(UiUtils.GREYSCALE[2]);
         table.setSelectionBackground(UiUtils.GREYSCALE[1]);
         table.setRowSorter(tableModel.getSorter());
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            {
+                setHorizontalAlignment(SwingConstants.CENTER);
+            }
+            @Override
+            public Component getTableCellRendererComponent(
+                    JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column
+            ) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (isSelected) {
+                    setForeground(Color.BLACK);
+                } else {
+                    setBackground(table.getBackground());
+                }
+                return this;
+            }
+        });
 
         addButton = new JButton("Añadir");
         modifyButton = new JButton("Modificar");
@@ -35,13 +54,14 @@ public abstract class EntityTablePanel<T> extends JPanel {
         removeButton.setFocusable(false);
 
         removeButton.addActionListener(_ -> {
-            form.dispose();
+            closeForm(form);
 
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)
                 return;
 
-            ProductoTableModel model = ((ProductoTableModel) table.getModel());
+            @SuppressWarnings("rawtypes")
+            EntityTableModel model = ((EntityTableModel) table.getModel());
             model.delete(selectedRow);
         });
 
@@ -62,6 +82,11 @@ public abstract class EntityTablePanel<T> extends JPanel {
         bottomPanel.add(modifyButton);
         bottomPanel.add(removeButton);
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private void closeForm(EntityForm form) {
+        if (form != null)
+            form.dispose();
     }
 
     protected final void openForm(EntityForm newForm) {

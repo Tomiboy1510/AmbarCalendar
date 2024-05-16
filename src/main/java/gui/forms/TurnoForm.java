@@ -47,13 +47,11 @@ public class TurnoForm extends IngresoForm {
     }
 
     public TurnoForm(Turno t, TurnoDAO dao, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
-        super("Modificar Turno", dao);
+        super("Modificar Turno", t, dao);
         this.clienteDAO = clienteDAO;
         this.profesionalDAO = profesionalDAO;
         isNew = false;
 
-        tipoPagoField.setSelectedItem(t.getTipoPago());
-        montoField.setText(String.valueOf(t.getMonto()));
         fechaField.setText(dateFormat.format(t.getFechaHora()));
         horaField.setText(timeFormat.format(t.getFechaHora()));
         servicioField.setSelectedItem(t.getServicio());
@@ -124,13 +122,23 @@ public class TurnoForm extends IngresoForm {
         t.setServicio((Servicio) servicioField.getSelectedItem());
         t.setTipoPago((TipoPago) tipoPagoField.getSelectedItem());
         t.setNotas(notasField.getText());
-        t.setMonto(Integer.parseInt(montoField.getText()));
-        t.setMontoPagado(Integer.parseInt(montoPagadoField.getText()));
+        try {
+            t.setMonto(Integer.parseInt(montoField.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Monto obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        try {
+            t.setMontoPagado(Integer.parseInt(montoPagadoField.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Monto pagado obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
         try {
             t.setFechaHora(new SimpleDateFormat(dateFormat.toPattern() + " " + timeFormat.toPattern())
                     .parse(fechaField.getText() + " " + horaField.getText())
             );
-        } catch (ParseException e) {
+        } catch (Exception e) {
             t.setFechaHora(null);
         }
         t.setCliente(clienteDAO.get((

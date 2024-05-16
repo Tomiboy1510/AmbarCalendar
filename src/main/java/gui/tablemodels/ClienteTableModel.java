@@ -6,12 +6,11 @@ import persistence.dao.ClienteDAO;
 public class ClienteTableModel extends EntityTableModel<Cliente> {
 
     public ClienteTableModel(ClienteDAO dao) {
-        super(dao);
-        columnNames = new String[] {
+        super(dao, new String[] {
                 "DNI",
                 "Nombre",
                 "Teléfono"
-        };
+        });
     }
 
     @Override

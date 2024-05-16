@@ -6,12 +6,11 @@ import persistence.dao.HibernateDAO;
 public class EgresoTableModel extends EntityTableModel<Egreso> {
 
     public EgresoTableModel(HibernateDAO<Egreso> dao) {
-        super(dao);
-        columnNames = new String[] {
+        super(dao, new String[] {
                 "Motivo",
                 "Monto",
                 "Fecha"
-        };
+        });
     }
 
     @Override

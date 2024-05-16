@@ -6,14 +6,13 @@ import persistence.dao.ProductoDAO;
 public class ProductoTableModel extends EntityTableModel<Producto> {
 
     public ProductoTableModel(ProductoDAO dao) {
-        super(dao);
-        columnNames = new String[] {
+        super(dao, new String[] {
                 "Nombre",
                 "Marca",
                 "Costo",
                 "Precio",
                 "Stock"
-        };
+        });
     }
 
     @Override

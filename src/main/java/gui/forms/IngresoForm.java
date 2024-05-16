@@ -1,10 +1,12 @@
 package gui.forms;
 
+import entity.Ingreso;
 import entity.enums.TipoPago;
 import gui.formattedfields.IntegerField;
 import persistence.dao.HibernateDAO;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 @SuppressWarnings("rawtypes")
 public abstract class IngresoForm extends EntityForm {
@@ -16,8 +18,17 @@ public abstract class IngresoForm extends EntityForm {
         super(title, dao);
     }
 
+    public IngresoForm(String title, Ingreso i, HibernateDAO dao) {
+        super(title, dao);
+
+        tipoPagoField.setSelectedItem(i.getTipoPago());
+        montoField.setText(String.valueOf(i.getMonto()));
+    }
+
     protected void init() {
         addField("Tipo de Pago", tipoPagoField);
         addField("Monto total", montoField);
+
+        Arrays.stream(TipoPago.values()).forEach(tipoPagoField::addItem);
     }
 }

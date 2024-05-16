@@ -24,12 +24,12 @@ public class MainFrame extends MyJFrame {
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        TurnoDAO turnoDAO = new TurnoDAO(sessionFactory);
         ProductoDAO productoDAO = new ProductoDAO(sessionFactory);
-        VentaDAO ventaDAO = new VentaDAO(sessionFactory);
+        VentaDAO ventaDAO = new VentaDAO(sessionFactory, productoDAO);
         EgresoDAO egresoDAO = new EgresoDAO(sessionFactory);
         ClienteDAO clienteDAO = new ClienteDAO(sessionFactory);
         ProfesionalDAO profesionalDAO = new ProfesionalDAO(sessionFactory);
+        TurnoDAO turnoDAO = new TurnoDAO(sessionFactory, clienteDAO, profesionalDAO);
 
         tabbedPane.addTab("Agenda", new AgendaTab(turnoDAO));
 

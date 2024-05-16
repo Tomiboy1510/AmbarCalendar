@@ -13,16 +13,17 @@ import java.util.List;
 public abstract class EntityTableModel<T> extends AbstractTableModel implements Subscriber {
 
     protected List<T> data;
-    protected HibernateDAO<T> dao;
-    protected String[] columnNames;
+    protected final HibernateDAO<T> dao;
+    private final String[] columnNames;
     private final TableRowSorter<TableModel> sorter;
     private boolean ascending = true;
 
-    public EntityTableModel(HibernateDAO<T> dao) {
+    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames) {
         this.dao = dao;
         dao.subscribe(this);
         refresh();
         sorter = new TableRowSorter<>(this);
+        this.columnNames = columnNames;
     }
 
     @Override
@@ -72,10 +73,6 @@ public abstract class EntityTableModel<T> extends AbstractTableModel implements 
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    public HibernateDAO<T> getDao() {
-        return dao;
     }
 
     @Override

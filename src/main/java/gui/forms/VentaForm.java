@@ -49,9 +49,8 @@ public class VentaForm extends IngresoForm {
         v.setTipoPago((TipoPago) tipoPagoField.getSelectedItem());
         v.setMonto(999);
         try {
-            v.setFechaHora(dateFormat.parse(fechaField.getText())
-            );
-        } catch (ParseException e) {
+            v.setFechaHora(dateFormat.parse(fechaField.getText()));
+        } catch (Exception e) {
             v.setFechaHora(null);
         }
         v.setItems(null);

@@ -44,12 +44,27 @@ public class ProductoForm extends EntityForm {
 
     @Override
     protected Producto buildEntity() {
-        return new Producto(
-                nombreField.getText(),
-                marcaField.getText(),
-                Integer.parseInt(costoField.getText()),
-                Integer.parseInt(precioField.getText()),
-                Integer.parseInt(stockField.getText())
-        );
+        Producto p = new Producto();
+        p.setNombre(nombreField.getText());
+        p.setMarca(marcaField.getText());
+        try {
+            p.setCosto(Integer.parseInt(costoField.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Costo obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        try {
+            p.setPrecio(Integer.parseInt(precioField.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Precio obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        try {
+            p.setStock(Integer.parseInt(stockField.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Stock obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        return p;
     }
 }

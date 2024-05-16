@@ -48,7 +48,12 @@ public class EgresoForm extends EntityForm {
     protected Egreso buildEntity() {
         Egreso e = new Egreso();
         e.setMotivo(motivoField.getText());
-        e.setMonto(Integer.parseInt(montoField.getText()));
+        try {
+            e.setMonto(Integer.parseInt(montoField.getText()));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Monto obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
         try {
             e.setFecha(dateFormat.parse(fechaField.getText()));
         } catch (ParseException ex) {

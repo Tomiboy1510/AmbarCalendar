@@ -6,8 +6,7 @@ import persistence.dao.HibernateDAO;
 public class TurnoTableModel extends EntityTableModel<Turno> {
 
     public TurnoTableModel(HibernateDAO<Turno> dao) {
-        super(dao);
-        columnNames = new String[] {
+        super(dao, new String[] {
                 "Monto total",
                 "Monto pagado",
                 "Fecha y Hora",
@@ -16,7 +15,7 @@ public class TurnoTableModel extends EntityTableModel<Turno> {
                 "Profesional",
                 "Cliente",
                 "Notas adicionales"
-        };
+        });
     }
 
     @Override

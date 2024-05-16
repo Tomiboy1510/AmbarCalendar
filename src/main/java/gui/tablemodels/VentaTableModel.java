@@ -6,13 +6,12 @@ import persistence.dao.HibernateDAO;
 public class VentaTableModel extends EntityTableModel<Venta> {
 
     public VentaTableModel(HibernateDAO<Venta> dao) {
-        super(dao);
-        columnNames = new String[] {
+        super(dao, new String[] {
                 "Monto",
                 "Fecha",
                 "Tipo de Pago",
                 "Items"
-        };
+        });
     }
 
     @Override

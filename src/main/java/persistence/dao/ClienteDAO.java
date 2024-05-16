@@ -14,14 +14,19 @@ public class ClienteDAO extends HibernateDAO<Cliente> {
     }
 
     @Override
-    protected void validate(Cliente entity) throws IllegalArgumentException {
-        if (entity.getDni().isEmpty())
+    protected boolean entityExists(Cliente c) {
+        return get(c.getDni()) != null;
+    }
+
+    @Override
+    protected void validate(Cliente c) throws IllegalArgumentException {
+        if (c.getDni() == null || c.getDni().isEmpty())
             throw new IllegalArgumentException("DNI obligatorio");
 
-        if (entity.getNombre().isEmpty())
+        if (c.getNombre() == null || c.getNombre().isEmpty())
             throw new IllegalArgumentException("Nombre obligatorio");
 
-        if (entity.getTelefono().isEmpty())
+        if (c.getTelefono() == null || c.getTelefono().isEmpty())
             throw new IllegalArgumentException("Teléfono obligatorio");
     }
 }

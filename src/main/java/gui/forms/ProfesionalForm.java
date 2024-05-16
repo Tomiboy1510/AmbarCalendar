@@ -39,10 +39,20 @@ public class ProfesionalForm extends EntityForm {
 
     @Override
     protected Profesional buildEntity() {
-        return new Profesional(
-                nombreField.getText(),
-                Float.parseFloat(porcentajeField.getText()),
-                Integer.parseInt(salarioField.getText())
-        );
+        Profesional p = new Profesional();
+        p.setNombre(nombreField.getText());
+        try {
+            p.setPorcentajeCobro(Float.parseFloat(porcentajeField.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Porcentaje de cobro obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        try {
+            p.setSalarioBasico(Integer.parseInt(salarioField.getText()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Salario básico obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        return p;
     }
 }

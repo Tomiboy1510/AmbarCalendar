@@ -9,9 +9,9 @@ import javax.swing.border.EmptyBorder;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class EntityForm extends MyJFrame {
 
-    protected JPanel panel;
-    protected JButton saveButton;
-    protected HibernateDAO dao;
+    protected final JPanel panel;
+    protected final JButton saveButton;
+    protected final HibernateDAO dao;
     protected boolean isNew = true;
 
     public EntityForm(String title, HibernateDAO dao) {
@@ -30,12 +30,15 @@ public abstract class EntityForm extends MyJFrame {
 
         saveButton.addActionListener(_ -> {
             Object entity = buildEntity();
+            if (entity == null)
+                return;
             try {
                 if (isNew) {
                     dao.save(entity);
                 } else {
                     dao.update(entity);
                 }
+                dispose();
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
