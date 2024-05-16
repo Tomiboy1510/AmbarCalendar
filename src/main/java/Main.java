@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
     - Ordenar filas en las tablas distinguiendo orden alfabético y numérico?
     - Modificar stock al registrar, eliminar o modificar ventas?
     - Implementar paginado en las tablas?
+    - Añadir comentarios y Javadoc?
  */
 
 public class Main {
