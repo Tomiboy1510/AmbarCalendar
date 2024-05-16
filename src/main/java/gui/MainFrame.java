@@ -1,6 +1,5 @@
 package gui;
 
-import com.mysql.cj.xdevapi.Client;
 import gui.tabs.AgendaTab;
 import gui.tabs.FinanzasTab;
 import gui.tabs.InventarioTab;

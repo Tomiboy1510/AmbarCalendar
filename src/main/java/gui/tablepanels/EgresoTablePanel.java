@@ -10,9 +10,7 @@ public class EgresoTablePanel extends EntityTablePanel<Egreso> {
     public EgresoTablePanel(EgresoDAO dao) {
         super("Egresos", new EgresoTableModel(dao));
 
-        addButton.addActionListener(_ -> {
-            openForm(new EgresoForm(dao));
-        });
+        addButton.addActionListener(_ -> openForm(new EgresoForm(dao)));
 
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();

@@ -14,9 +14,7 @@ public class TurnoTablePanel extends EntityTablePanel<Turno> {
     public TurnoTablePanel(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
         super("Turnos", new TurnoTableModel(turnoDAO));
 
-        addButton.addActionListener(_ -> {
-            openForm(new TurnoForm(turnoDAO, clienteDAO, profesionalDAO, new Date()));
-        });
+        addButton.addActionListener(_ -> openForm(new TurnoForm(turnoDAO, clienteDAO, profesionalDAO, new Date())));
 
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();

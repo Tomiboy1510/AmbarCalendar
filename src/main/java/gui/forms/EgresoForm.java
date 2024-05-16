@@ -16,16 +16,23 @@ public class EgresoForm extends EntityForm {
     private final IntegerField montoField = new IntegerField(20);
     private final FechaField fechaField = new FechaField(20);
 
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     public EgresoForm(EgresoDAO dao) {
         super("Registrar Egreso", dao);
         init();
 
-        fechaField.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        fechaField.setText(dateFormat.format(new Date()));
     }
 
     public EgresoForm(Egreso e, EgresoDAO dao) {
         super("Modificar Egreso", dao);
         isNew = false;
+
+        motivoField.setText(e.getMotivo());
+        montoField.setText(String.valueOf(e.getMonto()));
+        fechaField.setText(dateFormat.format(e.getFecha()));
+
         init();
     }
 
@@ -43,7 +50,7 @@ public class EgresoForm extends EntityForm {
         e.setMotivo(motivoField.getText());
         e.setMonto(Integer.parseInt(montoField.getText()));
         try {
-            e.setFecha(new SimpleDateFormat("dd/MM/yyyy").parse(fechaField.getText()));
+            e.setFecha(dateFormat.parse(fechaField.getText()));
         } catch (ParseException ex) {
             e.setFecha(null);
         }

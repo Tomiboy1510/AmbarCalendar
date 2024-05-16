@@ -33,14 +33,17 @@ public class TurnoForm extends IngresoForm {
     private final ClienteDAO clienteDAO;
     private final ProfesionalDAO profesionalDAO;
 
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
     public TurnoForm(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO, Date defaultDate) {
         super("Registrar Turno", turnoDAO);
         this.clienteDAO = clienteDAO;
         this.profesionalDAO = profesionalDAO;
         init();
 
-        fechaField.setText(new SimpleDateFormat("dd/MM/yyyy").format(defaultDate));
-        horaField.setText(new SimpleDateFormat("HH:mm").format(defaultDate));
+        fechaField.setText(dateFormat.format(defaultDate));
+        horaField.setText(timeFormat.format(defaultDate));
     }
 
     public TurnoForm(Turno t, TurnoDAO dao, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
@@ -48,6 +51,17 @@ public class TurnoForm extends IngresoForm {
         this.clienteDAO = clienteDAO;
         this.profesionalDAO = profesionalDAO;
         isNew = false;
+
+        tipoPagoField.setSelectedItem(t.getTipoPago());
+        montoField.setText(String.valueOf(t.getMonto()));
+        fechaField.setText(dateFormat.format(t.getFechaHora()));
+        horaField.setText(timeFormat.format(t.getFechaHora()));
+        servicioField.setSelectedItem(t.getServicio());
+        profesionalField.setSelectedItem(t.getProfesional());
+        clienteField.setSelectedItem(t.getCliente());
+        montoPagadoField.setText(String.valueOf(t.getMontoPagado()));
+        notasField.setText(t.getNotas());
+
         init();
     }
 
@@ -113,7 +127,7 @@ public class TurnoForm extends IngresoForm {
         t.setMonto(Integer.parseInt(montoField.getText()));
         t.setMontoPagado(Integer.parseInt(montoPagadoField.getText()));
         try {
-            t.setFechaHora(new SimpleDateFormat("dd/MM/yyyy HH:mm")
+            t.setFechaHora(new SimpleDateFormat(dateFormat.toPattern() + " " + timeFormat.toPattern())
                     .parse(fechaField.getText() + " " + horaField.getText())
             );
         } catch (ParseException e) {

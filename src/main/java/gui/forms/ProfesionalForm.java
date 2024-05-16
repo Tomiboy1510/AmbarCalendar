@@ -21,6 +21,11 @@ public class ProfesionalForm extends EntityForm {
     public ProfesionalForm(Profesional p, ProfesionalDAO dao) {
         super("Modificar Profesional", dao);
         isNew = false;
+
+        nombreField.setText(p.getNombre());
+        porcentajeField.setText(String.valueOf(p.getPorcentajeCobro()));
+        salarioField.setText(String.valueOf(p.getSalarioBasico()));
+
         init();
     }
 

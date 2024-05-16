@@ -10,9 +10,7 @@ public class ProductoTablePanel extends EntityTablePanel<Producto> {
     public ProductoTablePanel(ProductoDAO dao) {
         super("Productos", new ProductoTableModel(dao));
 
-        addButton.addActionListener(_ -> {
-            openForm(new ProductoForm(dao));
-        });
+        addButton.addActionListener(_ -> openForm(new ProductoForm(dao)));
 
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();

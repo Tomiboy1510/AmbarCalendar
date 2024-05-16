@@ -21,6 +21,11 @@ public class ClienteForm extends EntityForm {
     public ClienteForm(Cliente c, ClienteDAO dao) {
         super("Modificar Cliente", dao);
         isNew = false;
+
+        dniField.setText(c.getDni());
+        nombreField.setText(c.getNombre());
+        telefonoField.setText(c.getTelefono());
+
         init();
     }
 

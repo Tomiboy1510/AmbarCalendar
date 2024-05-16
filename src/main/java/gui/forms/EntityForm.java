@@ -5,8 +5,6 @@ import persistence.dao.HibernateDAO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class EntityForm extends MyJFrame {

@@ -15,16 +15,24 @@ public class VentaForm extends IngresoForm {
     private final FechaField fechaField = new FechaField(20);
     private final JTextField itemsField = new JTextField(20);
 
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     public VentaForm(VentaDAO dao) {
         super("Registrar Venta", dao);
         init();
 
-        fechaField.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        fechaField.setText(dateFormat.format(new Date()));
     }
 
     public VentaForm(Venta v, VentaDAO dao) {
         super("Modificar Venta", dao);
         isNew = false;
+
+        tipoPagoField.setSelectedItem(v.getTipoPago());
+        montoField.setText(String.valueOf(v.getMonto()));
+        fechaField.setText(dateFormat.format(v.getFechaHora()));
+        itemsField.setText(v.getItems().toString());
+
         init();
     }
 
@@ -41,7 +49,7 @@ public class VentaForm extends IngresoForm {
         v.setTipoPago((TipoPago) tipoPagoField.getSelectedItem());
         v.setMonto(999);
         try {
-            v.setFechaHora(new SimpleDateFormat("dd/MM/yyyy").parse(fechaField.getText())
+            v.setFechaHora(dateFormat.parse(fechaField.getText())
             );
         } catch (ParseException e) {
             v.setFechaHora(null);

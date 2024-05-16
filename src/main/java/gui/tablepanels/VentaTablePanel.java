@@ -10,9 +10,7 @@ public class VentaTablePanel extends EntityTablePanel<Venta> {
     public VentaTablePanel(VentaDAO dao) {
         super("Ventas", new VentaTableModel(dao));
 
-        addButton.addActionListener(_ -> {
-            openForm(new VentaForm(dao));
-        });
+        addButton.addActionListener(_ -> openForm(new VentaForm(dao)));
 
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();

@@ -22,6 +22,13 @@ public class ProductoForm extends EntityForm {
     public ProductoForm(Producto p, ProductoDAO dao) {
         super("Modificar Producto", dao);
         isNew = false;
+
+        nombreField.setText(p.getNombre());
+        marcaField.setText(p.getMarca());
+        costoField.setText(String.valueOf(p.getCosto()));
+        precioField.setText(String.valueOf(p.getPrecio()));
+        stockField.setText(String.valueOf(p.getStock()));
+
         init();
     }
 
