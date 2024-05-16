@@ -37,6 +37,12 @@ public class ProductoForm extends EntityForm {
 
     @Override
     protected Producto buildEntity() {
-        return null;
+        return new Producto(
+                nombreField.getText(),
+                marcaField.getText(),
+                Integer.parseInt(costoField.getText()),
+                Integer.parseInt(precioField.getText()),
+                Integer.parseInt(stockField.getText())
+        );
     }
 }

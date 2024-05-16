@@ -6,6 +6,7 @@ import gui.formattedfields.IntegerField;
 import persistence.dao.EgresoDAO;
 
 import javax.swing.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,6 +39,14 @@ public class EgresoForm extends EntityForm {
 
     @Override
     protected Egreso buildEntity() {
-        return null;
+        Egreso e = new Egreso();
+        e.setMotivo(motivoField.getText());
+        e.setMonto(Integer.parseInt(montoField.getText()));
+        try {
+            e.setFecha(new SimpleDateFormat("dd/MM/yyyy").parse(fechaField.getText()));
+        } catch (ParseException ex) {
+            e.setFecha(null);
+        }
+        return e;
     }
 }

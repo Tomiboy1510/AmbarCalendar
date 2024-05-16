@@ -1,19 +1,21 @@
 package gui.tablepanels;
 
 import entity.Turno;
-import gui.forms.EntityForm;
 import gui.forms.TurnoForm;
 import gui.tablemodels.TurnoTableModel;
+import persistence.dao.ClienteDAO;
+import persistence.dao.ProfesionalDAO;
 import persistence.dao.TurnoDAO;
+
+import java.util.Date;
 
 public class TurnoTablePanel extends EntityTablePanel<Turno> {
 
-    public TurnoTablePanel(TurnoDAO dao) {
-        super("Turnos", new TurnoTableModel(dao));
+    public TurnoTablePanel(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
+        super("Turnos", new TurnoTableModel(turnoDAO));
 
         addButton.addActionListener(_ -> {
-            EntityForm form = new TurnoForm(dao);
-            form.setVisible(true);
+            openForm(new TurnoForm(turnoDAO, clienteDAO, profesionalDAO, new Date()));
         });
 
         modifyButton.addActionListener(_ -> {
@@ -22,17 +24,7 @@ public class TurnoTablePanel extends EntityTablePanel<Turno> {
                 return;
 
             TurnoTableModel model = ((TurnoTableModel) table.getModel());
-            EntityForm form = new TurnoForm(model.getEntityAtRow(selectedRow), dao);
-            form.setVisible(true);
-        });
-
-        removeButton.addActionListener(_ -> {
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow == -1)
-                return;
-
-            TurnoTableModel model = ((TurnoTableModel) table.getModel());
-            model.delete(selectedRow);
+            openForm(new TurnoForm(model.getEntityAtRow(selectedRow), turnoDAO, clienteDAO, profesionalDAO));
         });
     }
 }

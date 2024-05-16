@@ -1,10 +1,12 @@
 package gui.forms;
 
 import entity.Venta;
+import entity.enums.TipoPago;
 import gui.formattedfields.FechaField;
 import persistence.dao.VentaDAO;
 
 import javax.swing.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,13 +29,24 @@ public class VentaForm extends IngresoForm {
     }
 
     protected void init() {
+        super.init();
         addField("Fecha", fechaField);
         addField("Items", itemsField);
-        super.init();
+        afterInit();
     }
 
     @Override
     protected Venta buildEntity() {
-        return null;
+        Venta v = new Venta();
+        v.setTipoPago((TipoPago) tipoPagoField.getSelectedItem());
+        v.setMonto(999);
+        try {
+            v.setFechaHora(new SimpleDateFormat("dd/MM/yyyy").parse(fechaField.getText())
+            );
+        } catch (ParseException e) {
+            v.setFechaHora(null);
+        }
+        v.setItems(null);
+        return v;
     }
 }

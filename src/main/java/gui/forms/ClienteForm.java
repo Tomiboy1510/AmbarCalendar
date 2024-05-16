@@ -34,6 +34,10 @@ public class ClienteForm extends EntityForm {
 
     @Override
     protected Cliente buildEntity() {
-        return null;
+        return new Cliente(
+                dniField.getText(),
+                nombreField.getText(),
+                telefonoField.getText()
+        );
     }
 }

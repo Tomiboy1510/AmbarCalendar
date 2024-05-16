@@ -9,6 +9,10 @@ public class TurnoDAO extends HibernateDAO<Turno> {
         super(sessionFactory, Turno.class);
     }
 
+    public Turno get(int id) {
+        return super.get(id);
+    }
+
     @Override
     protected void validate(Turno entity) throws IllegalArgumentException {
 

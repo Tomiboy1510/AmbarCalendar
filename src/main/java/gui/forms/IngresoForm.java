@@ -10,7 +10,7 @@ import javax.swing.*;
 public abstract class IngresoForm extends EntityForm {
 
     protected final JComboBox<TipoPago> tipoPagoField = new JComboBox<>();
-    private final IntegerField montoField = new IntegerField(20);
+    protected final IntegerField montoField = new IntegerField(20);
 
     public IngresoForm(String title, HibernateDAO dao) {
         super(title, dao);
@@ -19,7 +19,5 @@ public abstract class IngresoForm extends EntityForm {
     protected void init() {
         addField("Tipo de Pago", tipoPagoField);
         addField("Monto total", montoField);
-
-        afterInit();
     }
 }

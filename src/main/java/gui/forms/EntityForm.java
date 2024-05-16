@@ -23,13 +23,6 @@ public abstract class EntityForm extends MyJFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        addWindowFocusListener(new WindowAdapter() {
-            @Override
-            public void windowLostFocus(WindowEvent e) {
-                dispose();
-            }
-        });
-
         panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 10, 0, 10));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -39,10 +32,14 @@ public abstract class EntityForm extends MyJFrame {
 
         saveButton.addActionListener(_ -> {
             Object entity = buildEntity();
-            if (isNew) {
-                dao.save(entity);
-            } else {
-                dao.update(entity);
+            try {
+                if (isNew) {
+                    dao.save(entity);
+                } else {
+                    dao.update(entity);
+                }
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 

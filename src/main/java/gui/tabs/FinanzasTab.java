@@ -3,9 +3,7 @@ package gui.tabs;
 import gui.tablepanels.EgresoTablePanel;
 import gui.tablepanels.TurnoTablePanel;
 import gui.tablepanels.VentaTablePanel;
-import persistence.dao.EgresoDAO;
-import persistence.dao.TurnoDAO;
-import persistence.dao.VentaDAO;
+import persistence.dao.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,7 +11,13 @@ import java.awt.*;
 
 public class FinanzasTab extends JPanel {
 
-    public FinanzasTab(TurnoDAO turnoDAO, VentaDAO ventaDAO, EgresoDAO egresoDAO) {
+    public FinanzasTab(
+            TurnoDAO turnoDAO,
+            ClienteDAO clienteDAO,
+            ProfesionalDAO profesionalDAO,
+            VentaDAO ventaDAO,
+            EgresoDAO egresoDAO
+    ) {
         super();
 
         setLayout(new BorderLayout());
@@ -32,7 +36,7 @@ public class FinanzasTab extends JPanel {
 
         JSplitPane nestedPanel = new JSplitPane(
                 JSplitPane.VERTICAL_SPLIT,
-                new TurnoTablePanel(turnoDAO),
+                new TurnoTablePanel(turnoDAO, clienteDAO, profesionalDAO),
                 new VentaTablePanel(ventaDAO)
         );
 

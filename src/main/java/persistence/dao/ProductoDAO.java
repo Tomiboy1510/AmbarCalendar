@@ -9,6 +9,10 @@ public class ProductoDAO extends HibernateDAO<Producto> {
         super(sessionFactory, Producto.class);
     }
 
+    public Producto get(String nombre) {
+        return super.get(nombre);
+    }
+
     @Override
     public void validate(Producto p) throws IllegalArgumentException {
 

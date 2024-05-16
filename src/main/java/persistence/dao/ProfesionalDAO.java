@@ -9,6 +9,10 @@ public class ProfesionalDAO extends HibernateDAO<Profesional> {
         super(sessionFactory, Profesional.class);
     }
 
+    public Profesional get(String nombre) {
+        return super.get(nombre);
+    }
+
     @Override
     protected void validate(Profesional entity) throws IllegalArgumentException {
 

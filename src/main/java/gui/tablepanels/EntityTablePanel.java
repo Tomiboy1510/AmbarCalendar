@@ -1,7 +1,9 @@
 package gui.tablepanels;
 
 import gui.UiUtils;
+import gui.forms.EntityForm;
 import gui.tablemodels.EntityTableModel;
+import gui.tablemodels.ProductoTableModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +14,8 @@ public abstract class EntityTablePanel<T> extends JPanel {
     protected final JTable table;
     protected final JButton addButton;
     protected final JButton modifyButton;
-    protected final JButton removeButton;
+
+    protected EntityForm form;
 
     public EntityTablePanel(String title, EntityTableModel<T> tableModel) {
         setLayout(new BorderLayout());
@@ -25,11 +28,22 @@ public abstract class EntityTablePanel<T> extends JPanel {
 
         addButton = new JButton("Añadir");
         modifyButton = new JButton("Modificar");
-        removeButton = new JButton("Eliminar");
+        JButton removeButton = new JButton("Eliminar");
 
         addButton.setFocusable(false);
         modifyButton.setFocusable(false);
         removeButton.setFocusable(false);
+
+        removeButton.addActionListener(_ -> {
+            form.dispose();
+
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1)
+                return;
+
+            ProductoTableModel model = ((ProductoTableModel) table.getModel());
+            model.delete(selectedRow);
+        });
 
         JScrollPane tablePanel = new JScrollPane(table);
         JPanel bottomPanel = new JPanel();
@@ -48,5 +62,12 @@ public abstract class EntityTablePanel<T> extends JPanel {
         bottomPanel.add(modifyButton);
         bottomPanel.add(removeButton);
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    protected final void openForm(EntityForm newForm) {
+        if (form != null)
+            form.dispose();
+        form = newForm;
+        form.setVisible(true);
     }
 }

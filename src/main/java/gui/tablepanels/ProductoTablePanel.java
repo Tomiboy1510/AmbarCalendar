@@ -1,7 +1,6 @@
 package gui.tablepanels;
 
 import entity.Producto;
-import gui.forms.EntityForm;
 import gui.forms.ProductoForm;
 import gui.tablemodels.ProductoTableModel;
 import persistence.dao.ProductoDAO;
@@ -12,8 +11,7 @@ public class ProductoTablePanel extends EntityTablePanel<Producto> {
         super("Productos", new ProductoTableModel(dao));
 
         addButton.addActionListener(_ -> {
-            EntityForm form = new ProductoForm(dao);
-            form.setVisible(true);
+            openForm(new ProductoForm(dao));
         });
 
         modifyButton.addActionListener(_ -> {
@@ -22,17 +20,7 @@ public class ProductoTablePanel extends EntityTablePanel<Producto> {
                 return;
 
             ProductoTableModel model = ((ProductoTableModel) table.getModel());
-            EntityForm form = new ProductoForm(model.getEntityAtRow(selectedRow), dao);
-            form.setVisible(true);
-        });
-
-        removeButton.addActionListener(_ -> {
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow == -1)
-                return;
-
-            ProductoTableModel model = ((ProductoTableModel) table.getModel());
-            model.delete(selectedRow);
+            openForm(new ProductoForm(model.getEntityAtRow(selectedRow), dao));
         });
     }
 }

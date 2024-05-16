@@ -1,5 +1,6 @@
 package gui;
 
+import com.mysql.cj.xdevapi.Client;
 import gui.tabs.AgendaTab;
 import gui.tabs.FinanzasTab;
 import gui.tabs.InventarioTab;
@@ -23,21 +24,29 @@ public class MainFrame extends MyJFrame {
         setLocationRelativeTo(null);
 
         JTabbedPane tabbedPane = new JTabbedPane();
+
         TurnoDAO turnoDAO = new TurnoDAO(sessionFactory);
+        ProductoDAO productoDAO = new ProductoDAO(sessionFactory);
+        VentaDAO ventaDAO = new VentaDAO(sessionFactory);
+        EgresoDAO egresoDAO = new EgresoDAO(sessionFactory);
+        ClienteDAO clienteDAO = new ClienteDAO(sessionFactory);
+        ProfesionalDAO profesionalDAO = new ProfesionalDAO(sessionFactory);
 
         tabbedPane.addTab("Agenda", new AgendaTab(turnoDAO));
 
-        tabbedPane.addTab("Inventario", new InventarioTab(new ProductoDAO(sessionFactory)));
+        tabbedPane.addTab("Inventario", new InventarioTab(productoDAO));
 
         tabbedPane.addTab("Finanzas", new FinanzasTab(
                 turnoDAO,
-                new VentaDAO(sessionFactory),
-                new EgresoDAO(sessionFactory))
+                clienteDAO,
+                profesionalDAO,
+                ventaDAO,
+                egresoDAO)
         );
 
         tabbedPane.addTab("Personas", new PersonasTab(
-                new ClienteDAO(sessionFactory),
-                new ProfesionalDAO(sessionFactory))
+                clienteDAO,
+                profesionalDAO)
         );
 
         getContentPane().add(tabbedPane, BorderLayout.CENTER);

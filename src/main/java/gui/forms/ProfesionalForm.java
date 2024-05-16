@@ -34,6 +34,10 @@ public class ProfesionalForm extends EntityForm {
 
     @Override
     protected Profesional buildEntity() {
-        return null;
+        return new Profesional(
+                nombreField.getText(),
+                Float.parseFloat(porcentajeField.getText()),
+                Integer.parseInt(salarioField.getText())
+        );
     }
 }

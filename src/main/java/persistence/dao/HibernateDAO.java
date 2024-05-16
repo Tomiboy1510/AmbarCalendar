@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class HibernateDAO<T> {
 
-    private final SessionFactory sessionFactory;
+    protected final SessionFactory sessionFactory;
     private final Class<T> entityClass;
     private final List<Subscriber> subscribers;
 
@@ -20,6 +20,15 @@ public abstract class HibernateDAO<T> {
         this.entityClass = entityClass;
 
         subscribers = new ArrayList<>();
+    }
+
+    protected T get(Object id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(entityClass, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<T> getAll() {
