@@ -3,7 +3,6 @@ package gui.tablepanels;
 import gui.UiUtils;
 import gui.forms.EntityForm;
 import gui.tablemodels.EntityTableModel;
-import gui.tablemodels.ProductoTableModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +25,7 @@ public abstract class EntityTablePanel<T> extends JPanel {
         table.getTableHeader().setBackground(UiUtils.GREYSCALE[2]);
         table.setSelectionBackground(UiUtils.GREYSCALE[1]);
         table.setRowSorter(tableModel.getSorter());
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             {
                 setHorizontalAlignment(SwingConstants.CENTER);

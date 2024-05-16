@@ -6,7 +6,6 @@ import gui.formattedfields.FechaField;
 import persistence.dao.VentaDAO;
 
 import javax.swing.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
