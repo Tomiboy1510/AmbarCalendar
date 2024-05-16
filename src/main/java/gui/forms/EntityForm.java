@@ -1,10 +1,13 @@
 package gui.forms;
 
+import entity.AbstractEntity;
 import gui.MyJFrame;
 import persistence.dao.HibernateDAO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class EntityForm extends MyJFrame {
@@ -13,9 +16,24 @@ public abstract class EntityForm extends MyJFrame {
     protected final JButton saveButton;
     protected final HibernateDAO dao;
     protected boolean isNew = true;
+    protected int id = 0;
+    private boolean disposeIfLostFocus = true;
+
+    public EntityForm(String title, HibernateDAO dao, int id) {
+        this(title, dao);
+        this.id = id;
+    }
 
     public EntityForm(String title, HibernateDAO dao) {
         this.dao = dao;
+
+        addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                if (disposeIfLostFocus)
+                    dispose();
+            }
+        });
 
         setTitle(title);
         setResizable(false);
@@ -29,7 +47,8 @@ public abstract class EntityForm extends MyJFrame {
         saveButton.setFocusable(false);
 
         saveButton.addActionListener(_ -> {
-            Object entity = buildEntity();
+            disposeIfLostFocus = false;
+            AbstractEntity entity = buildEntity();
             if (entity == null)
                 return;
             try {
@@ -42,6 +61,7 @@ public abstract class EntityForm extends MyJFrame {
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+            disposeIfLostFocus = true;
         });
 
         add(panel);
@@ -64,5 +84,5 @@ public abstract class EntityForm extends MyJFrame {
         panel.add(field);
     }
 
-    protected abstract Object buildEntity();
+    protected abstract AbstractEntity buildEntity();
 }

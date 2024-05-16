@@ -9,15 +9,6 @@ public class ProductoDAO extends HibernateDAO<Producto> {
         super(sessionFactory, Producto.class);
     }
 
-    public Producto get(String nombre) {
-        return super.get(nombre);
-    }
-
-    @Override
-    protected boolean entityExists(Producto p) {
-        return get(p.getNombre()) != null;
-    }
-
     @Override
     public void validate(Producto p) throws IllegalArgumentException {
         if (p.getNombre() == null || p.getNombre().isEmpty())

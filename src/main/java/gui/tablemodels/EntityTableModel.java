@@ -1,5 +1,6 @@
 package gui.tablemodels;
 
+import entity.AbstractEntity;
 import persistence.Subscriber;
 import persistence.dao.HibernateDAO;
 
@@ -10,7 +11,8 @@ import javax.swing.table.TableRowSorter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class EntityTableModel<T> extends AbstractTableModel implements Subscriber {
+public abstract class EntityTableModel<T extends AbstractEntity>
+        extends AbstractTableModel implements Subscriber {
 
     protected List<T> data;
     protected final HibernateDAO<T> dao;
@@ -48,22 +50,6 @@ public abstract class EntityTableModel<T> extends AbstractTableModel implements 
 
     public T getEntityAtRow(int rowIndex) {
         return data.get(rowIndex);
-    }
-
-    public void save(T entity) {
-        try {
-            dao.save(entity);
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void update(T entity) {
-        try {
-            dao.update(entity);
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public void delete(int rowIndex) {

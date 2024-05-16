@@ -11,15 +11,6 @@ public class EgresoDAO extends HibernateDAO<Egreso> {
         super(sessionFactory, Egreso.class);
     }
 
-    public Egreso get(int id) {
-        return super.get(id);
-    }
-
-    @Override
-    protected boolean entityExists(Egreso e) {
-        return get(e.getId()) != null;
-    }
-
     @Override
     protected void validate(Egreso e) throws IllegalArgumentException {
         if (e.getMotivo() == null || e.getMotivo().isEmpty())

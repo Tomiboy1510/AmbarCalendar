@@ -19,7 +19,7 @@ public class ClienteForm extends EntityForm {
     }
 
     public ClienteForm(Cliente c, ClienteDAO dao) {
-        super("Modificar Cliente", dao);
+        super("Modificar Cliente", dao, c.getId());
         isNew = false;
 
         dniField.setText(c.getDni());
@@ -39,10 +39,11 @@ public class ClienteForm extends EntityForm {
 
     @Override
     protected Cliente buildEntity() {
-        return new Cliente(
-                dniField.getText(),
-                nombreField.getText(),
-                telefonoField.getText()
-        );
+        Cliente c = new Cliente();
+        c.setId(id);
+        c.setDni(dniField.getText());
+        c.setNombre(nombreField.getText());
+        c.setTelefono(telefonoField.getText());
+        return c;
     }
 }

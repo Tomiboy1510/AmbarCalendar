@@ -1,5 +1,6 @@
 package gui.tablepanels;
 
+import entity.AbstractEntity;
 import gui.UiUtils;
 import gui.forms.EntityForm;
 import gui.tablemodels.EntityTableModel;
@@ -9,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
-public abstract class EntityTablePanel<T> extends JPanel {
+public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel {
 
     protected final JTable table;
     protected final JButton addButton;

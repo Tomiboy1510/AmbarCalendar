@@ -118,6 +118,7 @@ public class TurnoForm extends IngresoForm {
     @Override
     protected Turno buildEntity() {
         Turno t = new Turno();
+        t.setId(id);
         t.setServicio((Servicio) servicioField.getSelectedItem());
         t.setTipoPago((TipoPago) tipoPagoField.getSelectedItem());
         t.setNotas(notasField.getText());
@@ -140,12 +141,8 @@ public class TurnoForm extends IngresoForm {
         } catch (Exception e) {
             t.setFechaHora(null);
         }
-        t.setCliente(clienteDAO.get((
-                (Cliente) Objects.requireNonNull(clienteField.getSelectedItem())).getDni()
-        ));
-        t.setProfesional(profesionalDAO.get((
-                (Profesional) Objects.requireNonNull(profesionalField.getSelectedItem())).getNombre()
-        ));
+        t.setCliente(clienteDAO.get(((Cliente) Objects.requireNonNull(clienteField.getSelectedItem())).getId()));
+        t.setProfesional(profesionalDAO.get(((Profesional) Objects.requireNonNull(profesionalField.getSelectedItem())).getId()));
         return t;
     }
 }

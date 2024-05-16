@@ -1,13 +1,15 @@
 package entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import entity.util.MyUtils;
+import jakarta.persistence.*;
 
 @Entity
-public class Profesional {
+public class Profesional implements AbstractEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
+
     @Column(length = 50, nullable = false)
     private String nombre;
 
@@ -18,17 +20,12 @@ public class Profesional {
     private int salarioBasico;
 
     public Profesional() {}
-    public Profesional(String nombre, float porcentajeCobro, int salarioBasico) {
-        this.nombre = nombre;
-        this.porcentajeCobro = porcentajeCobro;
-        this.salarioBasico = salarioBasico;
-    }
 
     public String getNombre() {
         return nombre;
     }
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = MyUtils.abbreviate(nombre, 50);
     }
     public float getPorcentajeCobro() {
         return porcentajeCobro;
@@ -41,5 +38,14 @@ public class Profesional {
     }
     public void setSalarioBasico(int salarioBasico) {
         this.salarioBasico = salarioBasico;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

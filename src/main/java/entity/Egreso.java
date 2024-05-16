@@ -1,15 +1,16 @@
 package entity;
 
+import entity.util.MyUtils;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-public class Egreso {
+public class Egreso implements AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
 
     @Column(length = 50, nullable = false)
     private String motivo;
@@ -21,23 +22,12 @@ public class Egreso {
     private Date fecha;
 
     public Egreso() {}
-    public Egreso(String motivo, int monto, Date fecha) {
-        this.motivo = motivo;
-        this.monto = monto;
-        this.fecha = fecha;
-    }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
     public String getMotivo() {
         return motivo;
     }
     public void setMotivo(String motivo) {
-        this.motivo = motivo;
+        this.motivo = MyUtils.abbreviate(motivo, 50);
     }
     public int getMonto() {
         return monto;
@@ -50,5 +40,14 @@ public class Egreso {
     }
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

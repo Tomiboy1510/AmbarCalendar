@@ -1,13 +1,15 @@
 package entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import entity.util.MyUtils;
+import jakarta.persistence.*;
 
 @Entity
-public class Cliente {
+public class Cliente implements AbstractEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
+
     @Column(length = 20, nullable = false)
     private String dni;
 
@@ -18,28 +20,32 @@ public class Cliente {
     private String telefono;
 
     public Cliente() {}
-    public Cliente(String dni, String nombre, String telefono) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.telefono = telefono;
-    }
 
     public String getDni() {
         return dni;
     }
     public void setDni(String dni) {
-        this.dni = dni;
+        this.dni = MyUtils.abbreviate(dni, 20);
     }
     public String getNombre() {
         return nombre;
     }
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = MyUtils.abbreviate(nombre, 50);
     }
     public String getTelefono() {
         return telefono;
     }
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        this.telefono = MyUtils.abbreviate(telefono, 25);
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,13 +1,18 @@
 package entity;
 
 import entity.enums.Servicio;
-import entity.enums.TipoPago;
+import entity.util.MyUtils;
 import jakarta.persistence.*;
-
-import java.util.Date;
 
 @Entity
 public class Turno extends Ingreso {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
+
+    @Column(nullable = false)
+    private int monto;
 
     @Enumerated(EnumType.STRING)
     private Servicio servicio;
@@ -21,27 +26,18 @@ public class Turno extends Ingreso {
     @Column(nullable = false)
     private int montoPagado;
 
-    @Column
+    @Column(length = 100)
     private String notas;
 
     public Turno() {}
-    public Turno(Servicio servicio,
-                 int monto,
-                 Date fechaHora,
-                 TipoPago tipoPago,
-                 Profesional profesional,
-                 Cliente cliente,
-                 int montoPagado,
-                 String notas
-    ) {
-        super(monto, fechaHora, tipoPago);
-        this.servicio = servicio;
-        this.profesional = profesional;
-        this.cliente = cliente;
-        this.montoPagado = montoPagado;
-        this.notas = notas;
-    }
 
+    @Override
+    public int getMonto() {
+        return monto;
+    }
+    public void setMonto(int monto) {
+        this.monto = monto;
+    }
     public Servicio getServicio() {
         return servicio;
     }
@@ -70,6 +66,6 @@ public class Turno extends Ingreso {
         return notas;
     }
     public void setNotas(String notas) {
-        this.notas = notas;
+        this.notas = MyUtils.abbreviate(notas, 100);
     }
 }

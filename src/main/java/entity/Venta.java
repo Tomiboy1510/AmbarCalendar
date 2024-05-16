@@ -1,24 +1,27 @@
 package entity;
 
-import entity.enums.TipoPago;
 import jakarta.persistence.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Venta extends Ingreso {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
 
     @ElementCollection
     private List<ItemVenta> items;
 
     public Venta() {}
 
-    public Venta(int monto, Date fechaHora, TipoPago tipoPago, List<ItemVenta> items) {
-        super(monto, fechaHora, tipoPago);
-        this.items = items;
+    @Override
+    public int getMonto() {
+        return items.stream()
+                .mapToInt(ItemVenta::getMonto)
+                .sum();
     }
-
     public List<ItemVenta> getItems() {
         return items;
     }

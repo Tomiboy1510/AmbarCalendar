@@ -19,7 +19,7 @@ public class ProfesionalForm extends EntityForm {
     }
 
     public ProfesionalForm(Profesional p, ProfesionalDAO dao) {
-        super("Modificar Profesional", dao);
+        super("Modificar Profesional", dao, p.getId());
         isNew = false;
 
         nombreField.setText(p.getNombre());
@@ -40,6 +40,7 @@ public class ProfesionalForm extends EntityForm {
     @Override
     protected Profesional buildEntity() {
         Profesional p = new Profesional();
+        p.setId(id);
         p.setNombre(nombreField.getText());
         try {
             p.setPorcentajeCobro(Float.parseFloat(porcentajeField.getText()));

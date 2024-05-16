@@ -19,7 +19,7 @@ public abstract class IngresoForm extends EntityForm {
     }
 
     public IngresoForm(String title, Ingreso i, HibernateDAO dao) {
-        super(title, dao);
+        super(title, dao, i.getId());
 
         tipoPagoField.setSelectedItem(i.getTipoPago());
         montoField.setText(String.valueOf(i.getMonto()));

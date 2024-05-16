@@ -14,15 +14,6 @@ public class TurnoDAO extends HibernateDAO<Turno> {
         this.profesionalDAO = profesionalDAO;
     }
 
-    public Turno get(int id) {
-        return super.get(id);
-    }
-
-    @Override
-    protected boolean entityExists(Turno t) {
-        return get(t.getId()) != null;
-    }
-
     @Override
     protected void validate(Turno t) throws IllegalArgumentException {
         if (t.getMonto() <= 0)
@@ -43,10 +34,10 @@ public class TurnoDAO extends HibernateDAO<Turno> {
         if (t.getProfesional() == null)
             throw new IllegalArgumentException("Profesional obligatorio");
 
-        if (clienteDAO.get(t.getCliente().getDni()) == null)
+        if (! clienteDAO.entityExists(t.getCliente()))
             throw new IllegalArgumentException("El cliente no existe");
 
-        if (profesionalDAO.get(t.getProfesional().getNombre()) == null)
+        if (! profesionalDAO.entityExists(t.getProfesional()))
             throw new IllegalArgumentException("El profesional no existe");
     }
 }

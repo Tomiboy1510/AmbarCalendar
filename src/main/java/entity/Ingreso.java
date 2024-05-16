@@ -6,15 +6,12 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Ingreso {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Ingreso implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    @Column(nullable = false)
-    private int monto;
+    protected int id;
 
     @Column(nullable = false)
     private Date fechaHora;
@@ -23,24 +20,8 @@ public abstract class Ingreso {
     private TipoPago tipoPago;
 
     public Ingreso() {}
-    public Ingreso(int monto, Date fechaHora, TipoPago tipoPago) {
-        this.monto = monto;
-        this.fechaHora = fechaHora;
-        this.tipoPago = tipoPago;
-    }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public int getMonto() {
-        return monto;
-    }
-    public void setMonto(int monto) {
-        this.monto = monto;
-    }
+    public abstract int getMonto();
     public Date getFechaHora() {
         return fechaHora;
     }
@@ -52,5 +33,14 @@ public abstract class Ingreso {
     }
     public void setTipoPago(TipoPago tipoPago) {
         this.tipoPago = tipoPago;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

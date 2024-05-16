@@ -3,11 +3,11 @@ package entity;
 import jakarta.persistence.*;
 
 @Entity
-public class ItemVenta {
+public class ItemVenta implements AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
 
     @ManyToOne(optional = false)
     private Producto producto;
@@ -19,18 +19,7 @@ public class ItemVenta {
     private int monto;
 
     public ItemVenta() {}
-    public ItemVenta(Producto producto, int cantidad, int monto) {
-        this.producto = producto;
-        this.cantidad = cantidad;
-        this.monto = monto;
-    }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
     public Producto getProducto() {
         return producto;
     }
@@ -48,5 +37,14 @@ public class ItemVenta {
     }
     public void setMonto(int monto) {
         this.monto = monto;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

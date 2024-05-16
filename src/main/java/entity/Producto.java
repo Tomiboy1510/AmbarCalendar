@@ -1,13 +1,15 @@
 package entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import entity.util.MyUtils;
+import jakarta.persistence.*;
 
 @Entity
-public class Producto {
+public class Producto implements AbstractEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected int id;
+
     @Column(length = 60, nullable = false)
     private String nombre;
 
@@ -24,25 +26,18 @@ public class Producto {
     private int stock;
 
     public Producto() {}
-    public Producto(String nombre, String marca, int costo, int precio, int stock) {
-        this.nombre = nombre;
-        this.marca = marca;
-        this.costo = costo;
-        this.precio = precio;
-        this.stock = stock;
-    }
 
     public String getNombre() {
         return nombre;
     }
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = MyUtils.abbreviate(nombre, 60);
     }
     public String getMarca() {
         return marca;
     }
     public void setMarca(String marca) {
-        this.marca = marca;
+        this.marca = MyUtils.abbreviate(marca, 40);
     }
     public int getCosto() {
         return costo;
@@ -61,5 +56,14 @@ public class Producto {
     }
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

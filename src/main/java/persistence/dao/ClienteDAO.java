@@ -9,15 +9,6 @@ public class ClienteDAO extends HibernateDAO<Cliente> {
         super(sessionFactory, Cliente.class);
     }
 
-    public Cliente get(String dni) {
-        return super.get(dni);
-    }
-
-    @Override
-    protected boolean entityExists(Cliente c) {
-        return get(c.getDni()) != null;
-    }
-
     @Override
     protected void validate(Cliente c) throws IllegalArgumentException {
         if (c.getDni() == null || c.getDni().isEmpty())

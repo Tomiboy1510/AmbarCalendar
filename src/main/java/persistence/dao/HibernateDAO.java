@@ -1,5 +1,6 @@
 package persistence.dao;
 
+import entity.AbstractEntity;
 import persistence.Subscriber;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public abstract class HibernateDAO<T> {
+public abstract class HibernateDAO<T extends AbstractEntity> {
 
     protected final SessionFactory sessionFactory;
     private final Class<T> entityClass;
@@ -19,11 +20,10 @@ public abstract class HibernateDAO<T> {
     public HibernateDAO(SessionFactory sessionFactory, Class<T> entityClass) {
         this.sessionFactory = sessionFactory;
         this.entityClass = entityClass;
-
         subscribers = new ArrayList<>();
     }
 
-    protected T get(Object id) {
+    public T get(int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(entityClass, id);
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public abstract class HibernateDAO<T> {
         }
     }
 
-    public final void save(T entity) throws IllegalArgumentException {
+    public void save(T entity) throws IllegalArgumentException {
         if (entity == null)
             throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
         validate(entity);
@@ -95,29 +95,29 @@ public abstract class HibernateDAO<T> {
         _save(entity);
     }
 
-    public final void update(T entity) throws IllegalArgumentException {
+    public void update(T entity) throws IllegalArgumentException {
         validate(entity);
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando modificar una entidad que no existe");
         _update(entity);
     }
 
-    public final void delete(T entity) throws IllegalArgumentException {
+    public void delete(T entity) throws IllegalArgumentException {
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando eliminar una entidad que no existe");
         _delete(entity);
     }
 
-
     public void subscribe(Subscriber s) {
         subscribers.add(s);
     }
-
     private void updateSubscribers() {
         subscribers.forEach(Subscriber::refresh);
     }
 
-    protected abstract boolean entityExists(T entity);
+    protected boolean entityExists(T entity) {
+        return get(entity.getId()) != null;
+    }
 
     protected abstract void validate(T entity) throws IllegalArgumentException;
 }

@@ -7,6 +7,7 @@ import persistence.dao.VentaDAO;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class VentaForm extends IngresoForm {
@@ -24,7 +25,7 @@ public class VentaForm extends IngresoForm {
     }
 
     public VentaForm(Venta v, VentaDAO dao) {
-        super("Modificar Venta", dao);
+        super("Modificar Venta", v, dao);
         isNew = false;
 
         tipoPagoField.setSelectedItem(v.getTipoPago());
@@ -45,14 +46,14 @@ public class VentaForm extends IngresoForm {
     @Override
     protected Venta buildEntity() {
         Venta v = new Venta();
+        v.setId(id);
         v.setTipoPago((TipoPago) tipoPagoField.getSelectedItem());
-        v.setMonto(999);
         try {
             v.setFechaHora(dateFormat.parse(fechaField.getText()));
         } catch (Exception e) {
             v.setFechaHora(null);
         }
-        v.setItems(null);
+        v.setItems(new ArrayList<>());
         return v;
     }
 }

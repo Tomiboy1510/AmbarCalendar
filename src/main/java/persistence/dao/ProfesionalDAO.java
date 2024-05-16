@@ -9,15 +9,6 @@ public class ProfesionalDAO extends HibernateDAO<Profesional> {
         super(sessionFactory, Profesional.class);
     }
 
-    public Profesional get(String nombre) {
-        return super.get(nombre);
-    }
-
-    @Override
-    protected boolean entityExists(Profesional p) {
-        return get(p.getNombre()) != null;
-    }
-
     @Override
     protected void validate(Profesional p) throws IllegalArgumentException {
         if (p.getNombre() == null || p.getNombre().isEmpty())

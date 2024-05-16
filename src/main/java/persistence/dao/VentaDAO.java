@@ -13,13 +13,16 @@ public class VentaDAO extends HibernateDAO<Venta> {
         this.productoDAO = productoDAO;
     }
 
-    public Venta get(int id) {
-        return super.get(id);
+    public void save(Venta v) throws IllegalArgumentException {
+        super.save(v);
+        // MODIFICAR STOCK EN CADA PRODUCTO
     }
 
-    @Override
-    protected boolean entityExists(Venta v) {
-        return get(v.getId()) != null;
+    // UPDATE REQUIERE SABER LA CANTIDAD ANTERIOR :p
+
+    public void delete(Venta v) throws IllegalArgumentException {
+        super.delete(v);
+        // MODIFICAR STOCK EN CADA PRODUCTO
     }
 
     @Override
@@ -40,7 +43,7 @@ public class VentaDAO extends HibernateDAO<Venta> {
             if (item.getMonto() <= 0)
                 throw new IllegalArgumentException("El monto de un item debe ser positivo");
 
-            if (productoDAO.get(item.getProducto().getNombre()) == null)
+            if (! productoDAO.entityExists(item.getProducto()))
                 throw new IllegalArgumentException("El producto de un item no existe");
         }
 

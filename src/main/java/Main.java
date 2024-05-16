@@ -10,11 +10,12 @@ import java.awt.event.WindowEvent;
 
 /*
     TODO
-    - Implementar lógica de validación en DAOs (incluyendo verificar si la entidad existe)
     - Pago de salarios
     - Informe de finanzas
     - Agenda (registrar como subscriber!)
-    - Terminar Formularios
+    - Ordenar filas en las tablas distinguiendo orden alfabético y numérico?
+    - Modificar stock al registrar, eliminar o modificar ventas?
+    - Implementar paginado en las tablas?
  */
 
 public class Main {

@@ -20,7 +20,7 @@ public class ProductoForm extends EntityForm {
     }
 
     public ProductoForm(Producto p, ProductoDAO dao) {
-        super("Modificar Producto", dao);
+        super("Modificar Producto", dao, p.getId());
         isNew = false;
 
         nombreField.setText(p.getNombre());
@@ -45,6 +45,7 @@ public class ProductoForm extends EntityForm {
     @Override
     protected Producto buildEntity() {
         Producto p = new Producto();
+        p.setId(id);
         p.setNombre(nombreField.getText());
         p.setMarca(marcaField.getText());
         try {

@@ -26,7 +26,7 @@ public class EgresoForm extends EntityForm {
     }
 
     public EgresoForm(Egreso e, EgresoDAO dao) {
-        super("Modificar Egreso", dao);
+        super("Modificar Egreso", dao, e.getId());
         isNew = false;
 
         motivoField.setText(e.getMotivo());
@@ -47,6 +47,7 @@ public class EgresoForm extends EntityForm {
     @Override
     protected Egreso buildEntity() {
         Egreso e = new Egreso();
+        e.setId(id);
         e.setMotivo(motivoField.getText());
         try {
             e.setMonto(Integer.parseInt(montoField.getText()));
