@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class VentaDAO extends HibernateDAO<Venta> {
 
     private final ProductoDAO productoDAO;

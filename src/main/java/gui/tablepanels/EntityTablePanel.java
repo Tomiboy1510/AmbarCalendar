@@ -15,6 +15,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
     protected final JTable table;
     protected final JButton addButton;
     protected final JButton modifyButton;
+    protected final JButton removeButton;
 
     protected EntityForm form;
 
@@ -48,7 +49,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
 
         addButton = new JButton("Añadir");
         modifyButton = new JButton("Modificar");
-        JButton removeButton = new JButton("Eliminar");
+        removeButton = new JButton("Eliminar");
 
         addButton.setFocusable(false);
         modifyButton.setFocusable(false);

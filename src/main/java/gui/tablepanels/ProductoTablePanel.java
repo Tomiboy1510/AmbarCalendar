@@ -12,6 +12,8 @@ public class ProductoTablePanel extends EntityTablePanel<Producto> {
 
         addButton.addActionListener(_ -> openForm(new ProductoForm(dao)));
 
+        removeButton.setVisible(false);
+
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)

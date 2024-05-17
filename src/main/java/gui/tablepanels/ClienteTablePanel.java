@@ -12,6 +12,8 @@ public class ClienteTablePanel extends EntityTablePanel<Cliente> {
 
         addButton.addActionListener(_ -> openForm(new ClienteForm(dao)));
 
+        removeButton.setVisible(false);
+
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)

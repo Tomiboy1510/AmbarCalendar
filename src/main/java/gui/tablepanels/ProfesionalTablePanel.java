@@ -12,6 +12,8 @@ public class ProfesionalTablePanel extends EntityTablePanel<Profesional> {
 
         addButton.addActionListener(_ -> openForm(new ProfesionalForm(dao)));
 
+        removeButton.setVisible(false);
+
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)

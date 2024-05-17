@@ -18,7 +18,7 @@ public class MainFrame extends MyJFrame {
         setDefaultCloseOperation(MyJFrame.EXIT_ON_CLOSE);
         setTitle("Ámbar Beauty & Spa");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize((int) (0.9 * screenSize.getWidth()), (int) (0.9 * screenSize.getHeight()));
+        setSize((int) (0.7 * screenSize.getWidth()), (int) (0.7 * screenSize.getHeight()));
         setMinimumSize(new Dimension(800, 800));
         setLocationRelativeTo(null);
 
