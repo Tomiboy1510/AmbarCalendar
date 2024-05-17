@@ -12,6 +12,8 @@ public class EgresoTablePanel extends EntityTablePanel<Egreso> {
 
         addButton.addActionListener(_ -> openForm(new EgresoForm(dao)));
 
+        modifyButton.setVisible(false);
+        /*
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)
@@ -20,5 +22,6 @@ public class EgresoTablePanel extends EntityTablePanel<Egreso> {
             EgresoTableModel model = ((EgresoTableModel) table.getModel());
             openForm(new EgresoForm(model.getEntityAtRow(selectedRow), dao));
         });
+        */
     }
 }

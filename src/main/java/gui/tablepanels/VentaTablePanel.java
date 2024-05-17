@@ -11,7 +11,8 @@ public class VentaTablePanel extends EntityTablePanel<Venta> {
         super("Ventas", new VentaTableModel(dao));
 
         addButton.addActionListener(_ -> openForm(new VentaForm(dao)));
-
+        modifyButton.setVisible(false);
+        /*
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)
@@ -20,5 +21,6 @@ public class VentaTablePanel extends EntityTablePanel<Venta> {
             VentaTableModel model = ((VentaTableModel) table.getModel());
             openForm(new VentaForm(model.getEntityAtRow(selectedRow), dao));
         });
+        */
     }
 }

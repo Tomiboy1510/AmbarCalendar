@@ -53,17 +53,6 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         }
     }
 
-    public void _delete(T entity) {
-        try (Session s = sessionFactory.openSession()) {
-            Transaction t = s.beginTransaction();
-            s.remove(entity);
-            t.commit();
-            updateSubscribers();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void _save(T entity) {
         try (Session s = sessionFactory.openSession()) {
             Transaction t = s.beginTransaction();
@@ -84,6 +73,29 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void _delete(T entity) {
+        try (Session s = sessionFactory.openSession()) {
+            Transaction t = s.beginTransaction();
+            s.remove(entity);
+            t.commit();
+            updateSubscribers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void _save(T entity, Transaction t, Session s) {
+        s.persist(entity);
+    }
+
+    private void _update(T entity, Transaction t, Session s) {
+        s.merge(entity);
+    }
+
+    private void _delete(T entity, Transaction t, Session s) {
+        s.remove(entity);
     }
 
     public void save(T entity) throws IllegalArgumentException {
@@ -108,10 +120,32 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         _delete(entity);
     }
 
+    public void save(T entity, Transaction t, Session s) throws IllegalArgumentException {
+        if (entity == null)
+            throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
+        validate(entity);
+        if (entityExists(entity))
+            throw new IllegalArgumentException("La entidad provista ya existe");
+        _save(entity, t, s);
+    }
+
+    public void update(T entity, Transaction t, Session s) throws IllegalArgumentException {
+        validate(entity);
+        if (! entityExists(entity))
+            throw new IllegalArgumentException("Intentando modificar una entidad que no existe");
+        _update(entity, t, s);
+    }
+
+    public void delete(T entity, Transaction t, Session s) throws IllegalArgumentException {
+        if (! entityExists(entity))
+            throw new IllegalArgumentException("Intentando eliminar una entidad que no existe");
+        _delete(entity, t, s);
+    }
+
     public void subscribe(Subscriber s) {
         subscribers.add(s);
     }
-    private void updateSubscribers() {
+    public void updateSubscribers() {
         subscribers.forEach(Subscriber::refresh);
     }
 

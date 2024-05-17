@@ -14,8 +14,9 @@ import java.awt.event.WindowEvent;
     - Informe de finanzas
     - Agenda (registrar como subscriber!)
     - Ordenar filas en las tablas distinguiendo orden alfabético y numérico?
-    - Modificar stock al registrar, eliminar o modificar ventas?
+    - Modificar stock al registrar y eliminar ventas
     - Implementar paginado en las tablas?
+    - Logical deletion?
     - Añadir comentarios y Javadoc?
  */
 

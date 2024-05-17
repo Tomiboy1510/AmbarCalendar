@@ -1,8 +1,11 @@
 package persistence.dao;
 
 import entity.ItemVenta;
+import entity.Producto;
 import entity.Venta;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class VentaDAO extends HibernateDAO<Venta> {
 
@@ -14,15 +17,39 @@ public class VentaDAO extends HibernateDAO<Venta> {
     }
 
     public void save(Venta v) throws IllegalArgumentException {
-        super.save(v);
-        // MODIFICAR STOCK EN CADA PRODUCTO
+        try (Session s = sessionFactory.openSession()) {
+            Transaction t = s.beginTransaction();
+
+            super.save(v, t, s);
+            for (ItemVenta i : v.getItems()) {
+                Producto p = i.getProducto();
+                p.setStock(p.getStock() - i.getCantidad());
+                productoDAO.update(p, t, s);
+            }
+
+            t.commit();
+            updateSubscribers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    // UPDATE REQUIERE SABER LA CANTIDAD ANTERIOR :p
-
     public void delete(Venta v) throws IllegalArgumentException {
-        super.delete(v);
-        // MODIFICAR STOCK EN CADA PRODUCTO
+        try (Session s = sessionFactory.openSession()) {
+            Transaction t = s.beginTransaction();
+
+            super.delete(v, t, s);
+            for (ItemVenta i : v.getItems()) {
+                Producto p = i.getProducto();
+                p.setStock(p.getStock() + i.getCantidad());
+                productoDAO.update(p, t, s);
+            }
+
+            t.commit();
+            updateSubscribers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
