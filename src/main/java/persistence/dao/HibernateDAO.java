@@ -86,15 +86,15 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         }
     }
 
-    private void _save(T entity, Transaction t, Session s) {
+    private void _save(T entity, Session s) {
         s.persist(entity);
     }
 
-    private void _update(T entity, Transaction t, Session s) {
+    private void _update(T entity, Session s) {
         s.merge(entity);
     }
 
-    private void _delete(T entity, Transaction t, Session s) {
+    private void _delete(T entity, Session s) {
         s.remove(entity);
     }
 
@@ -126,20 +126,20 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         validate(entity);
         if (entityExists(entity))
             throw new IllegalArgumentException("La entidad provista ya existe");
-        _save(entity, t, s);
+        _save(entity, s);
     }
 
     public void update(T entity, Transaction t, Session s) throws IllegalArgumentException {
         validate(entity);
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando modificar una entidad que no existe");
-        _update(entity, t, s);
+        _update(entity, s);
     }
 
     public void delete(T entity, Transaction t, Session s) throws IllegalArgumentException {
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando eliminar una entidad que no existe");
-        _delete(entity, t, s);
+        _delete(entity, s);
     }
 
     public void subscribe(Subscriber s) {
