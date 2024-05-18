@@ -10,7 +10,7 @@ public class ClienteTablePanel extends EntityTablePanel<Cliente> {
     public ClienteTablePanel(ClienteDAO dao) {
         super("Clientes", new ClienteTableModel(dao));
 
-        addButton.addActionListener(_ -> openForm(new ClienteForm(dao)));
+        addButton.addActionListener(_ -> new ClienteForm(dao));
 
         removeButton.setVisible(false);
 
@@ -20,7 +20,7 @@ public class ClienteTablePanel extends EntityTablePanel<Cliente> {
                 return;
 
             ClienteTableModel model = ((ClienteTableModel) table.getModel());
-            openForm(new ClienteForm(model.getEntityAtRow(selectedRow), dao));
+            new ClienteForm(model.getEntityAtRow(selectedRow), dao);
         });
     }
 }

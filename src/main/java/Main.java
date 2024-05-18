@@ -39,16 +39,19 @@ public class Main {
             System.exit(1);
         }
 
-        SwingUtilities.invokeLater(() -> {
-            MainFrame window = new MainFrame(sessionFactory);
-            window.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    if (!sessionFactory.isClosed()) {
-                        sessionFactory.close();
+        final MainFrame window = new MainFrame(sessionFactory);
+        SwingUtilities.invokeLater(() ->
+                window.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        if (!sessionFactory.isClosed()) {
+                            sessionFactory.close();
+                        }
                     }
-                }
-            });
+                })
+        );
+
+        SwingUtilities.invokeLater(() -> {
             //Set frame to fullscreen
             window.setExtendedState(JFrame.MAXIMIZED_BOTH);
             window.setVisible(true);

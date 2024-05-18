@@ -1,7 +1,6 @@
 package gui.tablemodels;
 
 import entity.AbstractEntity;
-import entity.util.MyUtils;
 import persistence.Subscriber;
 import persistence.dao.HibernateDAO;
 
@@ -15,20 +14,17 @@ public abstract class EntityTableModel<T extends AbstractEntity>
     protected List<T> data;
     protected final HibernateDAO<T> dao;
     private final String[] columnNames;
-    private final String[] fieldNames;
     private final int pageSize;
     private int currentPage, maxPage;
     protected String sortField;
     protected boolean sortAscending = true;
 
-    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames, String[] fieldNames, int pageSize) {
+    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames, int pageSize) {
         this.dao = dao;
         dao.subscribe(this);
         this.pageSize = pageSize;
         currentPage = 1;
         this.columnNames = columnNames;
-        this.fieldNames = fieldNames;
-        sortField = fieldNames[0];
         refresh();
     }
 
@@ -37,7 +33,8 @@ public abstract class EntityTableModel<T extends AbstractEntity>
         maxPage = ((int) Math.ceil((double) dao.getCount() / pageSize));
         if (maxPage == 0)
             maxPage = 1;
-        data = dao.getAllPagedSorted(currentPage, pageSize, sortField, sortAscending);
+        List<T> newData = dao.getAllPagedSorted(currentPage, pageSize, sortField, sortAscending);
+        data = newData == null ? data : newData;
         fireTableDataChanged();
     }
 
@@ -77,25 +74,11 @@ public abstract class EntityTableModel<T extends AbstractEntity>
     }
 
     public void sortByColumn(int columnIndex) {
-        String newSortField = fieldNames[columnIndex];
-        if (newSortField.equals(sortField))
-            sortAscending = (! sortAscending);
-        else
-            sortAscending = true;
-        sortField = newSortField;
-        refresh();
+        //refresh();
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        AbstractEntity entity = data.get(rowIndex);
-        try {
-            String methodName = "get" + MyUtils.capitalizeFirstLetter(fieldNames[columnIndex]);
-            return entity.getClass().getMethod(methodName).invoke(entity);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public abstract Object getValueAt(int rowIndex, int columnIndex);
 
     @Override
     public String getColumnName(int columnIndex) {

@@ -10,7 +10,7 @@ public class ProductoTablePanel extends EntityTablePanel<Producto> {
     public ProductoTablePanel(ProductoDAO dao) {
         super("Productos", new ProductoTableModel(dao));
 
-        addButton.addActionListener(_ -> openForm(new ProductoForm(dao)));
+        addButton.addActionListener(_ -> new ProductoForm(dao));
 
         removeButton.setVisible(false);
 
@@ -20,7 +20,7 @@ public class ProductoTablePanel extends EntityTablePanel<Producto> {
                 return;
 
             ProductoTableModel model = ((ProductoTableModel) table.getModel());
-            openForm(new ProductoForm(model.getEntityAtRow(selectedRow), dao));
+            new ProductoForm(model.getEntityAtRow(selectedRow), dao);
         });
     }
 }

@@ -58,7 +58,7 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
 
     public List<T> getAllPagedSorted(int pageNum, int pageSize, String sortField, boolean sortAscending) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM " + entityClass.getName() + " ORDER BY " + sortField + " " + (sortAscending ? "asc" : "desc");
+            String hql = "FROM " + entityClass.getName() + " ORDER BY " + sortField + " " + (sortAscending ? "ASC" : "DESC");
             Query<T> query = session.createQuery(hql, entityClass);
             query.setFirstResult((pageNum - 1) * pageSize);
             query.setMaxResults(pageSize);

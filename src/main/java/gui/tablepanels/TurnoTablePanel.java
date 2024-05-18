@@ -14,7 +14,7 @@ public class TurnoTablePanel extends EntityTablePanel<Turno> {
     public TurnoTablePanel(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
         super("Turnos", new TurnoTableModel(turnoDAO));
 
-        addButton.addActionListener(_ -> openForm(new TurnoForm(turnoDAO, clienteDAO, profesionalDAO, new Date())));
+        addButton.addActionListener(_ -> new TurnoForm(turnoDAO, clienteDAO, profesionalDAO, new Date()));
 
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
@@ -22,7 +22,7 @@ public class TurnoTablePanel extends EntityTablePanel<Turno> {
                 return;
 
             TurnoTableModel model = ((TurnoTableModel) table.getModel());
-            openForm(new TurnoForm(model.getEntityAtRow(selectedRow), turnoDAO, clienteDAO, profesionalDAO));
+            new TurnoForm(model.getEntityAtRow(selectedRow), turnoDAO, clienteDAO, profesionalDAO);
         });
     }
 }

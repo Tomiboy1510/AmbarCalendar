@@ -2,7 +2,6 @@ package gui.tablepanels;
 
 import entity.AbstractEntity;
 import gui.UiUtils;
-import gui.forms.EntityForm;
 import gui.tablemodels.EntityTableModel;
 
 import javax.swing.*;
@@ -18,9 +17,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
     protected final JButton addButton;
     protected final JButton modifyButton;
     protected final JButton removeButton;
-    private final JLabel pageLabel = new JLabel();
-
-    protected EntityForm form;
+    private final JLabel pageLabel;
 
     public EntityTablePanel(String title, EntityTableModel<T> tableModel) {
         setLayout(new BorderLayout());
@@ -70,8 +67,6 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
         removeButton.setFocusable(false);
 
         removeButton.addActionListener(_ -> {
-            closeForm(form);
-
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)
                 return;
@@ -102,6 +97,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
         JPanel bottomLeftPanel = new JPanel();
         JPanel bottomRightPanel = new JPanel();
 
+        pageLabel = new JLabel();
         bottomLeftPanel.add(prevPageButton);
         bottomLeftPanel.add(pageLabel);
         bottomLeftPanel.add(nextPageButton);
@@ -132,17 +128,5 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
         @SuppressWarnings("unchecked")
         EntityTableModel<T> tableModel = ((EntityTableModel<T>) table.getModel());
         pageLabel.setText("Página " + tableModel.getCurrentPage() + " de " + tableModel.getMaxPage());
-    }
-
-    private void closeForm(EntityForm form) {
-        if (form != null)
-            form.dispose();
-    }
-
-    protected final void openForm(EntityForm newForm) {
-        if (form != null)
-            form.dispose();
-        form = newForm;
-        form.setVisible(true);
     }
 }

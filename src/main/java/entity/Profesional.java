@@ -6,13 +6,6 @@ import jakarta.persistence.*;
 @Entity
 public class Profesional implements AbstractEntity {
 
-    private static final String[] fieldNames = {
-            "nombre", "porcentajeCobro", "salarioBasico"
-    };
-    private static final String[] fieldNamesButPretty = {
-            "Nombre", "Porcentaje de Cobro", "Salario Básico"
-    };
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -54,12 +47,5 @@ public class Profesional implements AbstractEntity {
     @Override
     public void setId(int id) {
         this.id = id;
-    }
-
-    public static String[] getFieldNames() {
-        return fieldNames;
-    }
-    public static String[] getFieldNamesButPretty() {
-        return fieldNamesButPretty;
     }
 }

@@ -47,14 +47,14 @@ public class FinanzasTab extends JPanel {
         );
 
         nestedPanel.setResizeWeight(0.5);
-        centerPanel.setResizeWeight(0.4);
+        centerPanel.setResizeWeight(0.25);
 
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
 
         SwingUtilities.invokeLater(() -> {
             nestedPanel.setDividerLocation(0.5);
-            centerPanel.setDividerLocation(0.4);
+            centerPanel.setDividerLocation(0.25);
         });
     }
 }

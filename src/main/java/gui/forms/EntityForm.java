@@ -49,8 +49,10 @@ public abstract class EntityForm extends MyJFrame {
         saveButton.addActionListener(_ -> {
             disposeIfLostFocus = false;
             AbstractEntity entity = buildEntity();
-            if (entity == null)
+            if (entity == null) {
+                disposeIfLostFocus = true;
                 return;
+            }
             try {
                 if (isNew) {
                     dao.save(entity);
@@ -74,6 +76,7 @@ public abstract class EntityForm extends MyJFrame {
         panel.add(buttonPanel);
         pack();
         setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     protected void addField(String name, JComponent field) {

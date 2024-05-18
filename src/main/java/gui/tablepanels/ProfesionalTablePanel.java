@@ -10,7 +10,7 @@ public class ProfesionalTablePanel extends EntityTablePanel<Profesional> {
     public ProfesionalTablePanel(ProfesionalDAO dao) {
         super("Profesionales", new ProfesionalTableModel(dao));
 
-        addButton.addActionListener(_ -> openForm(new ProfesionalForm(dao)));
+        addButton.addActionListener(_ -> new ProfesionalForm(dao));
 
         removeButton.setVisible(false);
 
@@ -20,7 +20,7 @@ public class ProfesionalTablePanel extends EntityTablePanel<Profesional> {
                 return;
 
             ProfesionalTableModel model = ((ProfesionalTableModel) table.getModel());
-            openForm(new ProfesionalForm(model.getEntityAtRow(selectedRow), dao));
+            new ProfesionalForm(model.getEntityAtRow(selectedRow), dao);
         });
     }
 }
