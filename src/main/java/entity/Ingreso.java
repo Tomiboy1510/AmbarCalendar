@@ -11,7 +11,7 @@ public abstract class Ingreso implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int id;
+    private int id;
 
     @Column(nullable = false)
     private Date fechaHora;

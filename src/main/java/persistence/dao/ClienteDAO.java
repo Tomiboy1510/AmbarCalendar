@@ -11,8 +11,8 @@ public class ClienteDAO extends HibernateDAO<Cliente> {
 
     @Override
     protected void validate(Cliente c) throws IllegalArgumentException {
-        if (c.getDni() == null || c.getDni().isEmpty())
-            throw new IllegalArgumentException("DNI obligatorio");
+        if (c.getDni() <= 0)
+            throw new IllegalArgumentException("DNI debe ser positivo");
 
         if (c.getNombre() == null || c.getNombre().isEmpty())
             throw new IllegalArgumentException("Nombre obligatorio");

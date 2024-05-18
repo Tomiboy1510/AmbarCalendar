@@ -8,9 +8,16 @@ import java.util.Date;
 @Entity
 public class Egreso implements AbstractEntity {
 
+    private static final String[] fieldNames = {
+            "motivo", "monto", "fecha"
+    };
+    private static final String[] fieldNamesButPretty = {
+            "Motivo", "Monto", "Fecha"
+    };
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int id;
+    private int id;
 
     @Column(length = 50, nullable = false)
     private String motivo;
@@ -49,5 +56,12 @@ public class Egreso implements AbstractEntity {
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+    public static String[] getFieldNames() {
+        return fieldNames;
+    }
+    public static String[] getFieldNamesButPretty() {
+        return fieldNamesButPretty;
     }
 }

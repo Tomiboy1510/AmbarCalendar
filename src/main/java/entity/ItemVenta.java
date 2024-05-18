@@ -3,11 +3,11 @@ package entity;
 import jakarta.persistence.*;
 
 @Entity
-public class ItemVenta implements AbstractEntity {
+public class ItemVenta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int id;
+    private int id;
 
     @ManyToOne(optional = false)
     private Producto producto;
@@ -39,11 +39,9 @@ public class ItemVenta implements AbstractEntity {
         this.monto = monto;
     }
 
-    @Override
     public int getId() {
         return id;
     }
-    @Override
     public void setId(int id) {
         this.id = id;
     }

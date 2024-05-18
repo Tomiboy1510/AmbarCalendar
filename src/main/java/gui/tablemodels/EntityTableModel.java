@@ -1,14 +1,12 @@
 package gui.tablemodels;
 
 import entity.AbstractEntity;
+import entity.util.MyUtils;
 import persistence.Subscriber;
 import persistence.dao.HibernateDAO;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class EntityTableModel<T extends AbstractEntity>
@@ -17,19 +15,21 @@ public abstract class EntityTableModel<T extends AbstractEntity>
     protected List<T> data;
     protected final HibernateDAO<T> dao;
     private final String[] columnNames;
-    private final TableRowSorter<TableModel> sorter;
-    private boolean ascending = true;
+    private final String[] fieldNames;
     private final int pageSize;
     private int currentPage, maxPage;
+    protected String sortField;
+    protected boolean sortAscending = true;
 
-    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames, int pageSize) {
+    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames, String[] fieldNames, int pageSize) {
         this.dao = dao;
         dao.subscribe(this);
         this.pageSize = pageSize;
         currentPage = 1;
-        refresh();
-        sorter = new TableRowSorter<>(this);
         this.columnNames = columnNames;
+        this.fieldNames = fieldNames;
+        sortField = fieldNames[0];
+        refresh();
     }
 
     @Override
@@ -37,22 +37,8 @@ public abstract class EntityTableModel<T extends AbstractEntity>
         maxPage = ((int) Math.ceil((double) dao.getCount() / pageSize));
         if (maxPage == 0)
             maxPage = 1;
-        data = dao.getAllWithPaging(currentPage, pageSize);
+        data = dao.getAllPagedSorted(currentPage, pageSize, sortField, sortAscending);
         fireTableDataChanged();
-    }
-
-    public void sortByColumn(int columnIndex) {
-        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        sortKeys.add(new RowSorter.SortKey(
-                        columnIndex,
-                        ascending ? SortOrder.ASCENDING : SortOrder.DESCENDING
-                ));
-        sorter.setSortKeys(sortKeys);
-        ascending = (! ascending);
-    }
-
-    public TableRowSorter<TableModel> getSorter() {
-        return sorter;
     }
 
     public T getEntityAtRow(int rowIndex) {
@@ -90,6 +76,27 @@ public abstract class EntityTableModel<T extends AbstractEntity>
         return maxPage;
     }
 
+    public void sortByColumn(int columnIndex) {
+        String newSortField = fieldNames[columnIndex];
+        if (newSortField.equals(sortField))
+            sortAscending = (! sortAscending);
+        else
+            sortAscending = true;
+        sortField = newSortField;
+        refresh();
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        AbstractEntity entity = data.get(rowIndex);
+        try {
+            String methodName = "get" + MyUtils.capitalizeFirstLetter(fieldNames[columnIndex]);
+            return entity.getClass().getMethod(methodName).invoke(entity);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public String getColumnName(int columnIndex) {
         return columnNames[columnIndex];
@@ -104,7 +111,4 @@ public abstract class EntityTableModel<T extends AbstractEntity>
     public int getColumnCount() {
         return columnNames.length;
     }
-
-    @Override
-    public abstract Object getValueAt(int rowIndex, int columnIndex);
 }

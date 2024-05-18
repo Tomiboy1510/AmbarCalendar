@@ -30,6 +30,8 @@ public class VentaDAO extends HibernateDAO<Venta> {
 
             t.commit();
             updateSubscribers();
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,6 +50,8 @@ public class VentaDAO extends HibernateDAO<Venta> {
 
             t.commit();
             updateSubscribers();
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 package gui.forms;
 
 import entity.Cliente;
-import gui.formattedfields.DniField;
+import gui.formattedfields.IntegerField;
 import gui.formattedfields.TelefonoField;
 import persistence.dao.ClienteDAO;
 
@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class ClienteForm extends EntityForm {
 
-    private final DniField dniField = new DniField(20);
+    private final IntegerField dniField = new IntegerField(20);
     private final JTextField nombreField = new JTextField(20);
     private final TelefonoField telefonoField = new TelefonoField(20);
 
@@ -22,7 +22,7 @@ public class ClienteForm extends EntityForm {
         super("Modificar Cliente", dao, c.getId());
         isNew = false;
 
-        dniField.setText(c.getDni());
+        dniField.setText(String.valueOf(c.getDni()));
         nombreField.setText(c.getNombre());
         telefonoField.setText(c.getTelefono());
 
@@ -41,7 +41,12 @@ public class ClienteForm extends EntityForm {
     protected Cliente buildEntity() {
         Cliente c = new Cliente();
         c.setId(id);
-        c.setDni(dniField.getText());
+        try {
+            c.setDni(Integer.parseInt(dniField.getText()));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "DNI obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
         c.setNombre(nombreField.getText());
         c.setTelefono(telefonoField.getText());
         return c;

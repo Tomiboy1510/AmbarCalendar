@@ -29,7 +29,6 @@ public class VentaForm extends IngresoForm {
         isNew = false;
 
         tipoPagoField.setSelectedItem(v.getTipoPago());
-        montoField.setText(String.valueOf(v.getMonto()));
         fechaField.setText(dateFormat.format(v.getFechaHora()));
         itemsField.setText(v.getItems().toString());
 

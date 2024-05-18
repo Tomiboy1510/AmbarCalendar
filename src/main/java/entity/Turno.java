@@ -7,9 +7,12 @@ import jakarta.persistence.*;
 @Entity
 public class Turno extends Ingreso {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int id;
+    private static final String[] fieldNames = {
+            "fechaHora", "tipoPago", "monto", "servicio", "profesional", "cliente", "montoPagado", "notas"
+    };
+    private static final String[] fieldNamesButPretty = {
+            "Fecha y Hora", "Tipo de Pago", "Monto", "Servicio", "Profesional", "Cliente", "Monto Pagado", "Notas"
+    };
 
     @Column(nullable = false)
     private int monto;
@@ -67,5 +70,12 @@ public class Turno extends Ingreso {
     }
     public void setNotas(String notas) {
         this.notas = MyUtils.abbreviate(notas, 100);
+    }
+
+    public static String[] getFieldNames() {
+        return fieldNames;
+    }
+    public static String[] getFieldNamesButPretty() {
+        return fieldNamesButPretty;
     }
 }

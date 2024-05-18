@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel {
 
@@ -24,10 +26,21 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
         setLayout(new BorderLayout());
 
         table = new JTable(tableModel);
+
         table.setBackground(UiUtils.GREYSCALE[3]);
         table.getTableHeader().setBackground(UiUtils.GREYSCALE[2]);
         table.setSelectionBackground(UiUtils.GREYSCALE[1]);
-        table.setRowSorter(tableModel.getSorter());
+
+        table.setAutoCreateRowSorter(false);
+        table.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = table.columnAtPoint(e.getPoint());
+                column = table.convertColumnIndexToModel(column);
+                tableModel.sortByColumn(column);
+            }
+        });
+
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             {

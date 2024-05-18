@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
     - Pago de salarios
     - Informe de finanzas
     - Agenda (registrar como subscriber!)
-    - Ordenar filas en las tablas distinguiendo orden alfabético y numérico?
+    - Formulario de ventas
     - Añadir comentarios y Javadoc?
  */
 

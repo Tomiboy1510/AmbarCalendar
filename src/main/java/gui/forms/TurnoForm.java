@@ -27,6 +27,7 @@ public class TurnoForm extends IngresoForm {
     private final JComboBox<Profesional> profesionalField = new JComboBox<>();
     private final JComboBox<Cliente> clienteField = new JComboBox<>();
     private final JTextField notasField = new JTextField(20);
+    private final IntegerField montoField = new IntegerField(20);
     private final IntegerField montoPagadoField = new IntegerField(20);
 
     private final ClienteDAO clienteDAO;
@@ -56,6 +57,7 @@ public class TurnoForm extends IngresoForm {
         servicioField.setSelectedItem(t.getServicio());
         profesionalField.setSelectedItem(t.getProfesional());
         clienteField.setSelectedItem(t.getCliente());
+        montoField.setText(String.valueOf(t.getMonto()));
         montoPagadoField.setText(String.valueOf(t.getMontoPagado()));
         notasField.setText(t.getNotas());
 
@@ -65,6 +67,7 @@ public class TurnoForm extends IngresoForm {
     protected void init() {
         super.init();
 
+        addField("Monto total", montoField);
         addField("Monto Pagado", montoPagadoField);
 
         JPanel fechaHoraPanel = new JPanel();
