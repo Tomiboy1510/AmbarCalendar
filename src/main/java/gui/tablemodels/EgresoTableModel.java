@@ -9,8 +9,8 @@ public class EgresoTableModel extends EntityTableModel<Egreso> {
         super(dao, new String[] {
                 "Motivo",
                 "Monto",
-                "Fecha"
-        });
+                "Fecha"},
+        200);
     }
 
     @Override

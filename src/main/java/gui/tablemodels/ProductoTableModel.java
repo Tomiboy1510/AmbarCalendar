@@ -11,8 +11,8 @@ public class ProductoTableModel extends EntityTableModel<Producto> {
                 "Marca",
                 "Costo",
                 "Precio",
-                "Stock"
-        });
+                "Stock"},
+        80);
     }
 
     @Override

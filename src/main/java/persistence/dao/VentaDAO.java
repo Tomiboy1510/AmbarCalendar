@@ -21,11 +21,11 @@ public class VentaDAO extends HibernateDAO<Venta> {
         try (Session s = sessionFactory.openSession()) {
             Transaction t = s.beginTransaction();
 
-            super.save(v, t, s);
+            super.save(v, s);
             for (ItemVenta i : v.getItems()) {
                 Producto p = i.getProducto();
                 p.setStock(p.getStock() - i.getCantidad());
-                productoDAO.update(p, t, s);
+                productoDAO.update(p, s);
             }
 
             t.commit();
@@ -39,11 +39,11 @@ public class VentaDAO extends HibernateDAO<Venta> {
         try (Session s = sessionFactory.openSession()) {
             Transaction t = s.beginTransaction();
 
-            super.delete(v, t, s);
+            super.delete(v, s);
             for (ItemVenta i : v.getItems()) {
                 Producto p = i.getProducto();
                 p.setStock(p.getStock() + i.getCantidad());
-                productoDAO.update(p, t, s);
+                productoDAO.update(p, s);
             }
 
             t.commit();

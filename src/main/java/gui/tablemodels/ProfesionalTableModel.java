@@ -9,8 +9,8 @@ public class ProfesionalTableModel extends EntityTableModel<Profesional> {
         super(dao, new String[] {
                 "Nombre",
                 "Porcentaje de Cobro",
-                "Salario Básico"
-        });
+                "Salario Básico"},
+        40);
     }
 
     @Override

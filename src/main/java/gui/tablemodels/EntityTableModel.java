@@ -19,10 +19,14 @@ public abstract class EntityTableModel<T extends AbstractEntity>
     private final String[] columnNames;
     private final TableRowSorter<TableModel> sorter;
     private boolean ascending = true;
+    private final int pageSize;
+    private int currentPage, maxPage;
 
-    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames) {
+    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames, int pageSize) {
         this.dao = dao;
         dao.subscribe(this);
+        this.pageSize = pageSize;
+        currentPage = 1;
         refresh();
         sorter = new TableRowSorter<>(this);
         this.columnNames = columnNames;
@@ -30,7 +34,10 @@ public abstract class EntityTableModel<T extends AbstractEntity>
 
     @Override
     public void refresh() {
-        data = dao.getAll();
+        maxPage = ((int) Math.ceil((double) dao.getCount() / pageSize));
+        if (maxPage == 0)
+            maxPage = 1;
+        data = dao.getAllWithPaging(currentPage, pageSize);
         fireTableDataChanged();
     }
 
@@ -59,6 +66,28 @@ public abstract class EntityTableModel<T extends AbstractEntity>
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void previousPage() {
+        if (currentPage <= 1)
+            return;
+        currentPage --;
+        refresh();
+    }
+
+    public void nextPage() {
+        if (currentPage >= maxPage)
+            return;
+        currentPage ++;
+        refresh();
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public int getMaxPage() {
+        return maxPage;
     }
 
     @Override

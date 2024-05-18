@@ -14,8 +14,8 @@ public class TurnoTableModel extends EntityTableModel<Turno> {
                 "Servicio",
                 "Profesional",
                 "Cliente",
-                "Notas adicionales"
-        });
+                "Notas adicionales"},
+        200);
     }
 
     @Override

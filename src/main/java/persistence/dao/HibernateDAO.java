@@ -1,6 +1,8 @@
 package persistence.dao;
 
 import entity.AbstractEntity;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 import persistence.Subscriber;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,6 +23,19 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         this.sessionFactory = sessionFactory;
         this.entityClass = entityClass;
         subscribers = new ArrayList<>();
+    }
+
+    public long getCount() {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+            criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(entityClass)));
+            Long count = session.createQuery(criteriaQuery).uniqueResult();
+            return count != null ? count : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public T get(int id) {
@@ -120,7 +135,7 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         _delete(entity);
     }
 
-    public void save(T entity, Transaction t, Session s) throws IllegalArgumentException {
+    public void save(T entity, Session s) throws IllegalArgumentException {
         if (entity == null)
             throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
         validate(entity);
@@ -129,14 +144,14 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         _save(entity, s);
     }
 
-    public void update(T entity, Transaction t, Session s) throws IllegalArgumentException {
+    public void update(T entity, Session s) throws IllegalArgumentException {
         validate(entity);
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando modificar una entidad que no existe");
         _update(entity, s);
     }
 
-    public void delete(T entity, Transaction t, Session s) throws IllegalArgumentException {
+    public void delete(T entity, Session s) throws IllegalArgumentException {
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando eliminar una entidad que no existe");
         _delete(entity, s);

@@ -9,8 +9,8 @@ public class ClienteTableModel extends EntityTableModel<Cliente> {
         super(dao, new String[] {
                 "DNI",
                 "Nombre",
-                "Teléfono"
-        });
+                "Teléfono"},
+        40);
     }
 
     @Override

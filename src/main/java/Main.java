@@ -14,7 +14,6 @@ import java.awt.event.WindowEvent;
     - Informe de finanzas
     - Agenda (registrar como subscriber!)
     - Ordenar filas en las tablas distinguiendo orden alfabético y numérico?
-    - Implementar paginado en las tablas?
     - Añadir comentarios y Javadoc?
  */
 

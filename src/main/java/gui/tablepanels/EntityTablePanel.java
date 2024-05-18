@@ -16,6 +16,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
     protected final JButton addButton;
     protected final JButton modifyButton;
     protected final JButton removeButton;
+    private final JLabel pageLabel = new JLabel();
 
     protected EntityForm form;
 
@@ -68,7 +69,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
         });
 
         JScrollPane tablePanel = new JScrollPane(table);
-        JPanel bottomPanel = new JPanel();
+        JPanel bottomPanel = new JPanel(new BorderLayout());
 
         tablePanel.setBorder(new EmptyBorder(10, 10, 0, 10));
         bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -80,10 +81,44 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
         add(titleLabel, BorderLayout.NORTH);
         add(tablePanel, BorderLayout.CENTER);
 
-        bottomPanel.add(addButton);
-        bottomPanel.add(modifyButton);
-        bottomPanel.add(removeButton);
+        JButton prevPageButton = new JButton("-");
+        JButton nextPageButton = new JButton("+");
+        prevPageButton.setFocusable(false);
+        nextPageButton.setFocusable(false);
+
+        JPanel bottomLeftPanel = new JPanel();
+        JPanel bottomRightPanel = new JPanel();
+
+        bottomLeftPanel.add(prevPageButton);
+        bottomLeftPanel.add(pageLabel);
+        bottomLeftPanel.add(nextPageButton);
+
+        bottomRightPanel.add(addButton);
+        bottomRightPanel.add(modifyButton);
+        bottomRightPanel.add(removeButton);
+
+        bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
+        bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
+
         add(bottomPanel, BorderLayout.SOUTH);
+
+        prevPageButton.addActionListener(_ -> {
+            tableModel.previousPage();
+            updatePageLabel();
+        });
+
+        nextPageButton.addActionListener(_ -> {
+            tableModel.nextPage();
+            updatePageLabel();
+        });
+
+        updatePageLabel();
+    }
+
+    private void updatePageLabel() {
+        @SuppressWarnings("unchecked")
+        EntityTableModel<T> tableModel = ((EntityTableModel<T>) table.getModel());
+        pageLabel.setText("Página " + tableModel.getCurrentPage() + " de " + tableModel.getMaxPage());
     }
 
     private void closeForm(EntityForm form) {

@@ -10,8 +10,8 @@ public class VentaTableModel extends EntityTableModel<Venta> {
                 "Monto",
                 "Fecha",
                 "Tipo de Pago",
-                "Items"
-        });
+                "Items"},
+        200);
     }
 
     @Override
