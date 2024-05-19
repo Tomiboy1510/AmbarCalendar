@@ -7,13 +7,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.HashSet;
+import java.util.List;
+
 @SuppressWarnings("CallToPrintStackTrace")
 public class VentaDAO extends HibernateDAO<Venta> {
 
     private final ProductoDAO productoDAO;
 
     public VentaDAO(SessionFactory sessionFactory, ProductoDAO productoDAO) {
-        super(sessionFactory, Venta.class);
+        super(sessionFactory, Venta.class,
+                new HashSet<>(List.of("tipoPago", "fechaHora")));
         this.productoDAO = productoDAO;
     }
 
@@ -82,5 +86,13 @@ public class VentaDAO extends HibernateDAO<Venta> {
         int montoTotal = v.getItems().stream().mapToInt(ItemVenta::getMonto).sum();
         if (montoTotal != v.getMonto())
             throw new IllegalArgumentException("El monto total no coincide con la suma del monto de cada item");
+    }
+
+    public void sortByTipoPago(boolean ascending) {
+        super.setSorting("tipoPago", ascending);
+    }
+
+    public void sortByFechaHora(boolean ascending) {
+        super.setSorting("fechaHora", ascending);
     }
 }

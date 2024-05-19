@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public abstract class HibernateDAO<T extends AbstractEntity> {
@@ -19,10 +20,15 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
     private final Class<T> entityClass;
     private final List<Subscriber> subscribers;
 
-    public HibernateDAO(SessionFactory sessionFactory, Class<T> entityClass) {
+    private final Set<String> validParams;
+    private String getAllQuery;
+
+    public HibernateDAO(SessionFactory sessionFactory, Class<T> entityClass, Set<String> validParams) {
         this.sessionFactory = sessionFactory;
         this.entityClass = entityClass;
+        this.validParams = validParams;
         subscribers = new ArrayList<>();
+        getAllQuery = "FROM " + entityClass.getName();
     }
 
     public long getCount() {
@@ -56,12 +62,14 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
         }
     }
 
-    public List<T> getAllPagedSorted(int pageNum, int pageSize, String sortField, boolean sortAscending) {
+    public List<T> getAll(int pageNum, int pageSize) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM " + entityClass.getName() + " ORDER BY " + sortField + " " + (sortAscending ? "ASC" : "DESC");
-            Query<T> query = session.createQuery(hql, entityClass);
+            if (pageNum < 1 || pageSize < 1)
+                throw new IllegalArgumentException("Número de página o tamaño de página inválido");
+            Query<T> query = session.createQuery(getAllQuery, entityClass);
             query.setFirstResult((pageNum - 1) * pageSize);
             query.setMaxResults(pageSize);
+
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,4 +179,31 @@ public abstract class HibernateDAO<T extends AbstractEntity> {
     }
 
     protected abstract void validate(T entity) throws IllegalArgumentException;
+
+    protected void setSorting(String field, boolean ascending) {
+        if (! validParams.contains(field)) {
+            throw new RuntimeException("Parámetro de ordenamiento '" + field + "' inválido");
+        }
+
+        getAllQuery =
+                "FROM " + entityClass.getName() +
+                " ORDER BY " + field +
+                (ascending ? " ASC" : " DESC");
+    }
+
+    protected void setSortingWithJoin(String joinField, String sortField, boolean ascending) {
+        if (! validParams.contains(sortField)) {
+            throw new RuntimeException("Parámetro de ordenamiento inválido");
+        }
+        if (! validParams.contains(joinField)) {
+            throw new RuntimeException("Propiedad de Join '" + joinField + "' inválida");
+        }
+
+        getAllQuery =
+                "SELECT a " +
+                "FROM " + entityClass.getName() + " a " +
+                "JOIN a." + joinField + " b " +
+                "ORDER BY b." + sortField +
+                (ascending ? " ASC" : " DESC");
+    }
 }

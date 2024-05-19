@@ -16,8 +16,8 @@ public abstract class EntityTableModel<T extends AbstractEntity>
     private final String[] columnNames;
     private final int pageSize;
     private int currentPage, maxPage;
-    protected String sortField;
     protected boolean sortAscending = true;
+    protected int sortingColumn = 0;
 
     public EntityTableModel(HibernateDAO<T> dao, String[] columnNames, int pageSize) {
         this.dao = dao;
@@ -33,7 +33,7 @@ public abstract class EntityTableModel<T extends AbstractEntity>
         maxPage = ((int) Math.ceil((double) dao.getCount() / pageSize));
         if (maxPage == 0)
             maxPage = 1;
-        List<T> newData = dao.getAllPagedSorted(currentPage, pageSize, sortField, sortAscending);
+        List<T> newData = dao.getAll(currentPage, pageSize);
         data = newData == null ? data : newData;
         fireTableDataChanged();
     }
@@ -73,9 +73,7 @@ public abstract class EntityTableModel<T extends AbstractEntity>
         return maxPage;
     }
 
-    public void sortByColumn(int columnIndex) {
-        //refresh();
-    }
+    public abstract void sortByColumn(int columnIndex);
 
     @Override
     public abstract Object getValueAt(int rowIndex, int columnIndex);

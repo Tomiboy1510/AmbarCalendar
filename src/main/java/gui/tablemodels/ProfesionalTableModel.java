@@ -10,6 +10,21 @@ public class ProfesionalTableModel extends EntityTableModel<Profesional> {
     }
 
     @Override
+    public void sortByColumn(int columnIndex) {
+        if (sortingColumn == columnIndex)
+            sortAscending = (! sortAscending);
+        ProfesionalDAO dao = ((ProfesionalDAO) this.dao);
+        switch (columnIndex) {
+            case 0 -> dao.sortByNombre(sortAscending);
+            case 1 -> dao.sortByPorcentajeCobro(sortAscending);
+            case 2 -> dao.sortBySalarioBasico(sortAscending);
+            default -> {return;}
+        }
+        sortingColumn = columnIndex;
+        refresh();
+    }
+
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Profesional p = data.get(rowIndex);
         return switch (columnIndex) {

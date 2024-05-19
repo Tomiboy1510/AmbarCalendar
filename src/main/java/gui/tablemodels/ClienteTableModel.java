@@ -10,6 +10,21 @@ public class ClienteTableModel extends EntityTableModel<Cliente> {
     }
 
     @Override
+    public void sortByColumn(int columnIndex) {
+        if (sortingColumn == columnIndex)
+            sortAscending = (! sortAscending);
+        ClienteDAO dao = ((ClienteDAO) this.dao);
+        switch (columnIndex) {
+            case 0 -> dao.sortByDni(sortAscending);
+            case 1 -> dao.sortByNombre(sortAscending);
+            case 2 -> dao.sortByTelefono(sortAscending);
+            default -> {return;}
+        }
+        sortingColumn = columnIndex;
+        refresh();
+    }
+
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Cliente c = data.get(rowIndex);
         return switch (columnIndex) {

@@ -2,6 +2,7 @@ package gui.tablemodels;
 
 import entity.Venta;
 import persistence.dao.HibernateDAO;
+import persistence.dao.VentaDAO;
 
 import java.text.SimpleDateFormat;
 
@@ -11,6 +12,20 @@ public class VentaTableModel extends EntityTableModel<Venta> {
 
     public VentaTableModel(HibernateDAO<Venta> dao) {
         super(dao, new String[] {"Monto", "Fecha", "Tipo de Pago", "Items"}, 200);
+    }
+
+    @Override
+    public void sortByColumn(int columnIndex) {
+        if (sortingColumn == columnIndex)
+            sortAscending = (! sortAscending);
+        VentaDAO dao = ((VentaDAO) this.dao);
+        switch (columnIndex) {
+            case 1 -> dao.sortByFechaHora(sortAscending);
+            case 2 -> dao.sortByTipoPago(sortAscending);
+            default -> {return;}
+        }
+        sortingColumn = columnIndex;
+        refresh();
     }
 
     @Override

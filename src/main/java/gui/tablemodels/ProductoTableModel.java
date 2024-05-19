@@ -10,6 +10,23 @@ public class ProductoTableModel extends EntityTableModel<Producto> {
     }
 
     @Override
+    public void sortByColumn(int columnIndex) {
+        if (sortingColumn == columnIndex)
+            sortAscending = (! sortAscending);
+        ProductoDAO dao = ((ProductoDAO) this.dao);
+        switch (columnIndex) {
+            case 0 -> dao.sortByNombre(sortAscending);
+            case 1 -> dao.sortByMarca(sortAscending);
+            case 2 -> dao.sortByCosto(sortAscending);
+            case 3 -> dao.sortByPrecio(sortAscending);
+            case 4 -> dao.sortByStock(sortAscending);
+            default -> {return;}
+        }
+        sortingColumn = columnIndex;
+        refresh();
+    }
+
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Producto p = data.get(rowIndex);
         return switch (columnIndex) {
