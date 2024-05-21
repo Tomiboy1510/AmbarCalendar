@@ -3,6 +3,7 @@ package gui.tablepanels;
 import entity.ItemVenta;
 import gui.UiUtils;
 import gui.tablemodels.ItemVentaTableModel;
+import persistence.dao.ProductoDAO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,7 +15,7 @@ public class ItemVentaTablePanel extends JPanel {
     private final JTable table;
     private final JLabel montoTotalLabel;
 
-    public ItemVentaTablePanel(ItemVentaTableModel tableModel) {
+    public ItemVentaTablePanel(ItemVentaTableModel tableModel, ProductoDAO productoDAO) {
         setLayout(new BorderLayout());
 
         table = new JTable(tableModel);
@@ -26,8 +27,7 @@ public class ItemVentaTablePanel extends JPanel {
         removeButton.setFocusable(false);
 
         addButton.addActionListener(_ -> {
-            ((ItemVentaTableModel) table.getModel()).add();
-            updateMontoLabel();
+
         });
 
         removeButton.addActionListener(_ -> {

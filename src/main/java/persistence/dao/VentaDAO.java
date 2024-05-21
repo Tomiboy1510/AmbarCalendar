@@ -45,14 +45,14 @@ public class VentaDAO extends StandaloneEntityDAO<Venta> {
 
     @Override
     protected void validate(Venta v) throws IllegalArgumentException {
-        if (v.getMonto() <= 0)
-            throw new IllegalArgumentException("El monto debe ser positivo");
-
         if (v.getFechaHora() == null)
             throw new IllegalArgumentException("Fecha obligatoria");
 
         if (v.getItems() == null || v.getItems().isEmpty())
             throw new IllegalArgumentException("Se requiere al menos un item");
+
+        if (v.getMonto() <= 0)
+            throw new IllegalArgumentException("El monto debe ser positivo");
 
         int montoTotal = v.getItems().stream().mapToInt(ItemVenta::getMonto).sum();
         if (montoTotal != v.getMonto())

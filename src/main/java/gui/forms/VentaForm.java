@@ -21,7 +21,7 @@ public class VentaForm extends IngresoForm {
     public VentaForm(VentaDAO ventaDAO, ProductoDAO productoDAO) {
         super("Registrar Venta", ventaDAO);
         dateFormat.setLenient(false);
-        itemsField = new ItemVentaTablePanel(new ItemVentaTableModel(productoDAO));
+        itemsField = new ItemVentaTablePanel(new ItemVentaTableModel(), productoDAO);
 
         init();
 
