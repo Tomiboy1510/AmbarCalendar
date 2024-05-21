@@ -43,6 +43,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
             {
                 setHorizontalAlignment(SwingConstants.CENTER);
             }
+
             @Override
             public Component getTableCellRendererComponent(
                     JTable table, Object value, boolean isSelected,
@@ -50,9 +51,15 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
             ) {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (isSelected) {
-                    setForeground(Color.BLACK);
+                    setBackground(UiUtils.MAIN_COLOR);
+                    setForeground(Color.WHITE);
                 } else {
-                    setBackground(table.getBackground());
+                    setForeground(Color.BLACK);
+                    if (row % 2 == 0) {
+                        setBackground(UiUtils.GREYSCALE[0]);
+                    } else {
+                        setBackground(UiUtils.GREYSCALE[1]);
+                    }
                 }
                 return this;
             }
@@ -71,9 +78,23 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
             if (selectedRow == -1)
                 return;
 
-            @SuppressWarnings("rawtypes")
-            EntityTableModel model = ((EntityTableModel) table.getModel());
-            model.delete(selectedRow);
+            String[] options = {"Sí", "No"};
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    "¿Eliminar? (No se puede deshacer)",
+                    "Eliminar " + title,
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[1]);
+
+            if (choice == JOptionPane.YES_OPTION) {
+                @SuppressWarnings("rawtypes")
+                EntityTableModel model = ((EntityTableModel) table.getModel());
+                model.delete(selectedRow);
+            }
+
         });
 
         JScrollPane tablePanel = new JScrollPane(table);

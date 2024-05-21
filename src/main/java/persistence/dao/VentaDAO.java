@@ -1,7 +1,6 @@
 package persistence.dao;
 
 import entity.ItemVenta;
-import entity.Producto;
 import entity.Venta;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,46 +10,29 @@ import java.util.HashSet;
 import java.util.List;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class VentaDAO extends HibernateDAO<Venta> {
+public class VentaDAO extends StandaloneEntityDAO<Venta> {
 
-    private final ProductoDAO productoDAO;
+    private final ItemVentaDAO itemVentaDAO;
 
-    public VentaDAO(SessionFactory sessionFactory, ProductoDAO productoDAO) {
+    public VentaDAO(SessionFactory sessionFactory, ItemVentaDAO itemVentaDAO) {
         super(sessionFactory, Venta.class,
                 new HashSet<>(List.of("tipoPago", "fechaHora")));
-        this.productoDAO = productoDAO;
+        this.itemVentaDAO = itemVentaDAO;
     }
 
+    @Override
     public void save(Venta v) throws IllegalArgumentException {
         try (Session s = sessionFactory.openSession()) {
             Transaction t = s.beginTransaction();
 
-            super.save(v, s);
-            for (ItemVenta i : v.getItems()) {
-                Producto p = i.getProducto();
-                p.setStock(p.getStock() - i.getCantidad());
-                productoDAO.update(p, s);
-            }
+            if (v == null)
+                throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
+            validate(v);
+            if (entityExists(v))
+                throw new IllegalArgumentException("La entidad provista ya existe");
 
-            t.commit();
-            updateSubscribers();
-        } catch (IllegalArgumentException e) {
-            throw e;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void delete(Venta v) throws IllegalArgumentException {
-        try (Session s = sessionFactory.openSession()) {
-            Transaction t = s.beginTransaction();
-
-            super.delete(v, s);
-            for (ItemVenta i : v.getItems()) {
-                Producto p = i.getProducto();
-                p.setStock(p.getStock() + i.getCantidad());
-                productoDAO.update(p, s);
-            }
+            v.getItems().forEach(i -> itemVentaDAO.save(i, s));
+            _save(v, s);
 
             t.commit();
             updateSubscribers();
@@ -71,17 +53,6 @@ public class VentaDAO extends HibernateDAO<Venta> {
 
         if (v.getItems() == null || v.getItems().isEmpty())
             throw new IllegalArgumentException("Se requiere al menos un item");
-
-        for (ItemVenta item : v.getItems()) {
-            if (item.getCantidad() <= 0)
-                throw new IllegalArgumentException("La cantidad de un item debe ser positiva");
-
-            if (item.getMonto() <= 0)
-                throw new IllegalArgumentException("El monto de un item debe ser positivo");
-
-            if (! productoDAO.entityExists(item.getProducto()))
-                throw new IllegalArgumentException("El producto de un item no existe");
-        }
 
         int montoTotal = v.getItems().stream().mapToInt(ItemVenta::getMonto).sum();
         if (montoTotal != v.getMonto())

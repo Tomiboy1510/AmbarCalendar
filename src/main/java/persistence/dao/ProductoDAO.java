@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import java.util.HashSet;
 import java.util.List;
 
-public class ProductoDAO extends HibernateDAO<Producto> {
+public class ProductoDAO extends StandaloneEntityDAO<Producto> {
 
     public ProductoDAO(SessionFactory sessionFactory) {
         super(sessionFactory, Producto.class,

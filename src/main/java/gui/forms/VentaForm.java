@@ -3,36 +3,29 @@ package gui.forms;
 import entity.Venta;
 import entity.enums.TipoPago;
 import gui.formattedfields.FechaField;
+import gui.tablemodels.ItemVentaTableModel;
+import gui.tablepanels.ItemVentaTablePanel;
+import persistence.dao.ProductoDAO;
 import persistence.dao.VentaDAO;
 
-import javax.swing.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class VentaForm extends IngresoForm {
 
     private final FechaField fechaField = new FechaField(20);
-    private final JTextField itemsField = new JTextField(20);
+    private final ItemVentaTablePanel itemsField;
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public VentaForm(VentaDAO dao) {
-        super("Registrar Venta", dao);
+    public VentaForm(VentaDAO ventaDAO, ProductoDAO productoDAO) {
+        super("Registrar Venta", ventaDAO);
+        dateFormat.setLenient(false);
+        itemsField = new ItemVentaTablePanel(new ItemVentaTableModel(productoDAO));
+
         init();
 
         fechaField.setText(dateFormat.format(new Date()));
-    }
-
-    public VentaForm(Venta v, VentaDAO dao) {
-        super("Modificar Venta", v, dao);
-        isNew = false;
-
-        tipoPagoField.setSelectedItem(v.getTipoPago());
-        fechaField.setText(dateFormat.format(v.getFechaHora()));
-        itemsField.setText(v.getItems().toString());
-
-        init();
     }
 
     protected void init() {
@@ -52,7 +45,7 @@ public class VentaForm extends IngresoForm {
         } catch (Exception e) {
             v.setFechaHora(null);
         }
-        v.setItems(new ArrayList<>());
+        v.setItems(itemsField.getItems());
         return v;
     }
 }

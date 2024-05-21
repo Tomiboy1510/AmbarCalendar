@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import java.util.HashSet;
 import java.util.List;
 
-public class TurnoDAO extends HibernateDAO<Turno> {
+public class TurnoDAO extends StandaloneEntityDAO<Turno> {
 
     private final ClienteDAO clienteDAO;
     private final ProfesionalDAO profesionalDAO;

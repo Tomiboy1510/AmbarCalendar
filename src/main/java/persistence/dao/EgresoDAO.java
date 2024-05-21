@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-public class EgresoDAO extends HibernateDAO<Egreso> {
+public class EgresoDAO extends StandaloneEntityDAO<Egreso> {
 
     public EgresoDAO(SessionFactory sessionFactory) {
         super(sessionFactory, Egreso.class,

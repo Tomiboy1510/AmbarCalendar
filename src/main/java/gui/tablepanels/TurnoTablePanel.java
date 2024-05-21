@@ -1,12 +1,14 @@
 package gui.tablepanels;
 
 import entity.Turno;
+import gui.MultiLineTableCellRenderer;
 import gui.forms.TurnoForm;
 import gui.tablemodels.TurnoTableModel;
 import persistence.dao.ClienteDAO;
 import persistence.dao.ProfesionalDAO;
 import persistence.dao.TurnoDAO;
 
+import javax.swing.table.TableColumnModel;
 import java.util.Date;
 
 public class TurnoTablePanel extends EntityTablePanel<Turno> {
@@ -24,5 +26,9 @@ public class TurnoTablePanel extends EntityTablePanel<Turno> {
             TurnoTableModel model = ((TurnoTableModel) table.getModel());
             new TurnoForm(model.getEntityAtRow(selectedRow), turnoDAO, clienteDAO, profesionalDAO);
         });
+
+        TurnoTableModel tableModel = (TurnoTableModel) table.getModel();
+        TableColumnModel columnModel = table.getTableHeader().getColumnModel();
+        columnModel.getColumn(tableModel.getColumnIndex("Cliente")).setCellRenderer(new MultiLineTableCellRenderer());
     }
 }

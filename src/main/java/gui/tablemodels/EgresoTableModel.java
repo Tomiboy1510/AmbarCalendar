@@ -2,7 +2,7 @@ package gui.tablemodels;
 
 import entity.Egreso;
 import persistence.dao.EgresoDAO;
-import persistence.dao.HibernateDAO;
+import persistence.dao.StandaloneEntityDAO;
 
 import java.text.SimpleDateFormat;
 
@@ -10,7 +10,7 @@ public class EgresoTableModel extends EntityTableModel<Egreso> {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public EgresoTableModel(HibernateDAO<Egreso> dao) {
+    public EgresoTableModel(StandaloneEntityDAO<Egreso> dao) {
         super(dao, new String[] {"Motivo", "Monto", "Fecha"}, 200);
     }
 

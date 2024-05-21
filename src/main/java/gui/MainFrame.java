@@ -25,7 +25,8 @@ public class MainFrame extends MyJFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         ProductoDAO productoDAO = new ProductoDAO(sessionFactory);
-        VentaDAO ventaDAO = new VentaDAO(sessionFactory, productoDAO);
+        ItemVentaDAO itemVentaDAO = new ItemVentaDAO(sessionFactory, productoDAO);
+        VentaDAO ventaDAO = new VentaDAO(sessionFactory, itemVentaDAO);
         EgresoDAO egresoDAO = new EgresoDAO(sessionFactory);
         ClienteDAO clienteDAO = new ClienteDAO(sessionFactory);
         ProfesionalDAO profesionalDAO = new ProfesionalDAO(sessionFactory);
@@ -40,6 +41,7 @@ public class MainFrame extends MyJFrame {
                 clienteDAO,
                 profesionalDAO,
                 ventaDAO,
+                productoDAO,
                 egresoDAO)
         );
 

@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import java.util.HashSet;
 import java.util.List;
 
-public class ProfesionalDAO extends HibernateDAO<Profesional> {
+public class ProfesionalDAO extends StandaloneEntityDAO<Profesional> {
 
     public ProfesionalDAO(SessionFactory sessionFactory) {
         super(sessionFactory, Profesional.class,

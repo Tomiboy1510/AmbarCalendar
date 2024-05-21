@@ -2,24 +2,25 @@ package gui.tablemodels;
 
 import entity.AbstractEntity;
 import persistence.Subscriber;
-import persistence.dao.HibernateDAO;
+import persistence.dao.StandaloneEntityDAO;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public abstract class EntityTableModel<T extends AbstractEntity>
         extends AbstractTableModel implements Subscriber {
 
     protected List<T> data;
-    protected final HibernateDAO<T> dao;
+    protected final StandaloneEntityDAO<T> dao;
     private final String[] columnNames;
     private final int pageSize;
     private int currentPage, maxPage;
     protected boolean sortAscending = true;
     protected int sortingColumn = 0;
 
-    public EntityTableModel(HibernateDAO<T> dao, String[] columnNames, int pageSize) {
+    public EntityTableModel(StandaloneEntityDAO<T> dao, String[] columnNames, int pageSize) {
         this.dao = dao;
         dao.subscribe(this);
         this.pageSize = pageSize;
@@ -91,5 +92,12 @@ public abstract class EntityTableModel<T extends AbstractEntity>
     @Override
     public int getColumnCount() {
         return columnNames.length;
+    }
+
+    public int getColumnIndex(String columnName) {
+        return IntStream.range(0, columnNames.length)
+                .filter(i -> columnNames[i].equals(columnName))
+                .findFirst()
+                .orElse(-1);
     }
 }

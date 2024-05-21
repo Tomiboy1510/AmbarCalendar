@@ -16,8 +16,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.Objects;
 
 public class TurnoForm extends IngresoForm {
 
@@ -103,16 +103,19 @@ public class TurnoForm extends IngresoForm {
                     boolean isSelected, boolean cellHasFocus
             ) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                Profesional c = ((Profesional) value);
-                if (c != null)
-                    label.setText(c.getNombre());
+                Profesional p = ((Profesional) value);
+                if (p != null)
+                    label.setText(p.getNombre());
                 return label;
             }
         });
 
-        clienteDAO.getAll()
+        clienteDAO.getAll().stream()
+                .sorted(Comparator.comparing(Cliente::getNombre))
                 .forEach(clienteField::addItem);
-        profesionalDAO.getAll()
+
+        profesionalDAO.getAll().stream()
+                .sorted(Comparator.comparing(Profesional::getNombre))
                 .forEach(profesionalField::addItem);
 
         afterInit();
@@ -138,14 +141,16 @@ public class TurnoForm extends IngresoForm {
             return null;
         }
         try {
-            t.setFechaHora(new SimpleDateFormat(dateFormat.toPattern() + " " + timeFormat.toPattern())
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat(dateFormat.toPattern() + " " + timeFormat.toPattern());
+            dateTimeFormat.setLenient(false);
+            t.setFechaHora(dateTimeFormat
                     .parse(fechaField.getText() + " " + horaField.getText())
             );
         } catch (Exception e) {
             t.setFechaHora(null);
         }
-        t.setCliente(clienteDAO.get(((Cliente) Objects.requireNonNull(clienteField.getSelectedItem())).getId()));
-        t.setProfesional(profesionalDAO.get(((Profesional) Objects.requireNonNull(profesionalField.getSelectedItem())).getId()));
+        t.setCliente((Cliente) clienteField.getSelectedItem());
+        t.setProfesional((Profesional) profesionalField.getSelectedItem());
         return t;
     }
 }

@@ -2,7 +2,7 @@ package gui.forms;
 
 import entity.AbstractEntity;
 import gui.MyJFrame;
-import persistence.dao.HibernateDAO;
+import persistence.dao.EntityDAO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,17 +14,17 @@ public abstract class EntityForm extends MyJFrame {
 
     protected final JPanel panel;
     protected final JButton saveButton;
-    protected final HibernateDAO dao;
+    protected final EntityDAO dao;
     protected boolean isNew = true;
     protected int id = 0;
     private boolean disposeIfLostFocus = true;
 
-    public EntityForm(String title, HibernateDAO dao, int id) {
+    public EntityForm(String title, EntityDAO dao, int id) {
         this(title, dao);
         this.id = id;
     }
 
-    public EntityForm(String title, HibernateDAO dao) {
+    public EntityForm(String title, EntityDAO dao) {
         this.dao = dao;
 
         addWindowFocusListener(new WindowAdapter() {

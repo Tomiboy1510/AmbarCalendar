@@ -25,17 +25,6 @@ public class EgresoForm extends EntityForm {
         fechaField.setText(dateFormat.format(new Date()));
     }
 
-    public EgresoForm(Egreso e, EgresoDAO dao) {
-        super("Modificar Egreso", dao, e.getId());
-        isNew = false;
-
-        motivoField.setText(e.getMotivo());
-        montoField.setText(String.valueOf(e.getMonto()));
-        fechaField.setText(dateFormat.format(e.getFecha()));
-
-        init();
-    }
-
     private void init() {
         addField("Motivo", motivoField);
         addField("Monto", montoField);

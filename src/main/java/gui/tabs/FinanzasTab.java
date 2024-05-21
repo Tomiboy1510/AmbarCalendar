@@ -11,12 +11,8 @@ import java.awt.*;
 
 public class FinanzasTab extends JPanel {
 
-    public FinanzasTab(
-            TurnoDAO turnoDAO,
-            ClienteDAO clienteDAO,
-            ProfesionalDAO profesionalDAO,
-            VentaDAO ventaDAO,
-            EgresoDAO egresoDAO
+    public FinanzasTab(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO,
+            VentaDAO ventaDAO, ProductoDAO productoDAO, EgresoDAO egresoDAO
     ) {
         super();
 
@@ -37,7 +33,7 @@ public class FinanzasTab extends JPanel {
         JSplitPane nestedPanel = new JSplitPane(
                 JSplitPane.VERTICAL_SPLIT,
                 new TurnoTablePanel(turnoDAO, clienteDAO, profesionalDAO),
-                new VentaTablePanel(ventaDAO)
+                new VentaTablePanel(ventaDAO, productoDAO)
         );
 
         JSplitPane centerPanel = new JSplitPane(

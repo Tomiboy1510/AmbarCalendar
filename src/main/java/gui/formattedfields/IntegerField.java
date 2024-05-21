@@ -8,9 +8,7 @@ import javax.swing.text.DocumentFilter;
 
 public class IntegerField extends JTextField {
 
-    public IntegerField(int columns) {
-        super(columns);
-
+    public IntegerField() {
         ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
             public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
@@ -31,5 +29,10 @@ public class IntegerField extends JTextField {
                 insertString(fb, offset, text, attrs);
             }
         });
+    }
+
+    public IntegerField(int columns) {
+        this();
+        setColumns(columns);
     }
 }

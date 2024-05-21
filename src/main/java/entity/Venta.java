@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Venta extends Ingreso {
 
-    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ItemVenta> items;
 
     public Venta() {}
@@ -23,11 +23,6 @@ public class Venta extends Ingreso {
         return items;
     }
     public void setItems(List<ItemVenta> items) {
-        this.items = new ArrayList<>(items) {
-            @Override
-            public String toString() {
-                return "Items";
-            }
-        };
+        this.items = new ArrayList<>(items);
     }
 }

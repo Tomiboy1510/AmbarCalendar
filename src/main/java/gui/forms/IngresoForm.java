@@ -2,7 +2,7 @@ package gui.forms;
 
 import entity.Ingreso;
 import entity.enums.TipoPago;
-import persistence.dao.HibernateDAO;
+import persistence.dao.EntityDAO;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -12,11 +12,11 @@ public abstract class IngresoForm extends EntityForm {
 
     protected final JComboBox<TipoPago> tipoPagoField = new JComboBox<>();
 
-    public IngresoForm(String title, HibernateDAO dao) {
+    public IngresoForm(String title, EntityDAO dao) {
         super(title, dao);
     }
 
-    public IngresoForm(String title, Ingreso i, HibernateDAO dao) {
+    public IngresoForm(String title, Ingreso i, EntityDAO dao) {
         super(title, dao, i.getId());
 
         tipoPagoField.setSelectedItem(i.getTipoPago());
