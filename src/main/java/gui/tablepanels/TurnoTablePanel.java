@@ -11,7 +11,7 @@ import persistence.dao.TurnoDAO;
 import javax.swing.table.TableColumnModel;
 import java.util.Date;
 
-public class TurnoTablePanel extends EntityTablePanel<Turno> {
+public class TurnoTablePanel extends StandaloneEntityTablePanel<Turno> {
 
     public TurnoTablePanel(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
         super("Turnos", new TurnoTableModel(turnoDAO));

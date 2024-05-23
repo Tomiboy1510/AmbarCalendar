@@ -13,9 +13,7 @@ import java.awt.event.WindowEvent;
     - Pago de salarios
     - Informe de finanzas
     - Agenda (registrar como subscriber!)
-    - Formulario de ventas
     - Implementar un sistema de focus ownership para los formularios
-    - Refactorizar jerarquías de TablePanels, TableModels y Forms para reutilizar más código
     - Añadir comentarios y Javadoc?
  */
 

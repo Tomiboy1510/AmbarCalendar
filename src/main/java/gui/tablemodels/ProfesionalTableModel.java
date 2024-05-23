@@ -3,7 +3,7 @@ package gui.tablemodels;
 import entity.Profesional;
 import persistence.dao.ProfesionalDAO;
 
-public class ProfesionalTableModel extends EntityTableModel<Profesional> {
+public class ProfesionalTableModel extends StandaloneEntityTableModel<Profesional> {
 
     public ProfesionalTableModel(ProfesionalDAO dao) {
         super(dao, new String[] {"Nombre", "Porcentaje de Cobro", "Salario Básico"}, 40);

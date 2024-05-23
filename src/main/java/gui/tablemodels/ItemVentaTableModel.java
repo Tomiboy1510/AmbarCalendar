@@ -2,32 +2,21 @@ package gui.tablemodels;
 
 import entity.ItemVenta;
 
-import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemVentaTableModel extends AbstractTableModel {
+public class ItemVentaTableModel extends EntityTableModel {
 
     private final List<ItemVenta> data;
-    private final String[] columnNames = {"Producto", "Cantidad", "Monto"};
 
     public ItemVentaTableModel() {
+        super(new String[] {"Producto", "Cantidad", "Monto"});
         data = new ArrayList<>();
     }
 
     @Override
     public int getRowCount() {
         return data.size();
-    }
-
-    @Override
-    public int getColumnCount() {
-        return columnNames.length;
-    }
-
-    @Override
-    public String getColumnName(int columnIndex) {
-        return columnNames[columnIndex];
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {

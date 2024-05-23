@@ -9,7 +9,7 @@ import persistence.dao.VentaDAO;
 
 import javax.swing.table.TableColumnModel;
 
-public class VentaTablePanel extends EntityTablePanel<Venta> {
+public class VentaTablePanel extends StandaloneEntityTablePanel<Venta> {
 
     public VentaTablePanel(VentaDAO ventaDAO, ProductoDAO productoDAO) {
         super("Ventas", new VentaTableModel(ventaDAO));

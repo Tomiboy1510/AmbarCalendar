@@ -6,7 +6,7 @@ import persistence.dao.StandaloneEntityDAO;
 
 import java.text.SimpleDateFormat;
 
-public class EgresoTableModel extends EntityTableModel<Egreso> {
+public class EgresoTableModel extends StandaloneEntityTableModel<Egreso> {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 

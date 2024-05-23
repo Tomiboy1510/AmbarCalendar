@@ -17,8 +17,8 @@ public class ItemVentaDAO extends EntityDAO<ItemVenta> {
         if (item.getCantidad() <= 0)
             throw new IllegalArgumentException("La cantidad de un item debe ser positiva");
 
-        if (item.getMonto() <= 0)
-            throw new IllegalArgumentException("El monto de un item debe ser positivo");
+        if (item.getMonto() < 0)
+            throw new IllegalArgumentException("El monto de un item no puede ser negativo");
 
         if (! productoDAO.entityExists(item.getProducto()))
             throw new IllegalArgumentException("El producto de un item no existe");

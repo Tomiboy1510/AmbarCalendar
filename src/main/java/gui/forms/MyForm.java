@@ -1,32 +1,18 @@
 package gui.forms;
 
-import entity.AbstractEntity;
-import gui.MyJFrame;
-import persistence.dao.EntityDAO;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
-public abstract class EntityForm extends MyJFrame {
+public abstract class MyForm extends JFrame {
 
     protected final JPanel panel;
     protected final JButton saveButton;
-    protected final EntityDAO dao;
-    protected boolean isNew = true;
-    protected int id = 0;
-    private boolean disposeIfLostFocus = true;
 
-    public EntityForm(String title, EntityDAO dao, int id) {
-        this(title, dao);
-        this.id = id;
-    }
+    protected boolean disposeIfLostFocus = true;
 
-    public EntityForm(String title, EntityDAO dao) {
-        this.dao = dao;
-
+    public MyForm(String title) {
         addWindowFocusListener(new WindowAdapter() {
             @Override
             public void windowLostFocus(WindowEvent e) {
@@ -45,26 +31,6 @@ public abstract class EntityForm extends MyJFrame {
 
         saveButton = new JButton("Guardar");
         saveButton.setFocusable(false);
-
-        saveButton.addActionListener(_ -> {
-            disposeIfLostFocus = false;
-            AbstractEntity entity = buildEntity();
-            if (entity == null) {
-                disposeIfLostFocus = true;
-                return;
-            }
-            try {
-                if (isNew) {
-                    dao.save(entity);
-                } else {
-                    dao.update(entity);
-                }
-                dispose();
-            } catch (IllegalArgumentException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            disposeIfLostFocus = true;
-        });
 
         add(panel);
     }
@@ -86,6 +52,4 @@ public abstract class EntityForm extends MyJFrame {
         panel.add(label);
         panel.add(field);
     }
-
-    protected abstract AbstractEntity buildEntity();
 }

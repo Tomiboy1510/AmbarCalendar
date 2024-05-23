@@ -1,6 +1,6 @@
 package entity;
 
-import entity.util.MyUtils;
+import entity.util.MyStringUtils;
 import jakarta.persistence.*;
 
 @Entity
@@ -31,13 +31,13 @@ public class Cliente implements AbstractEntity {
         return nombre;
     }
     public void setNombre(String nombre) {
-        this.nombre = MyUtils.abbreviate(nombre, 50);
+        this.nombre = MyStringUtils.abbreviate(nombre, 50);
     }
     public String getTelefono() {
         return telefono;
     }
     public void setTelefono(String telefono) {
-        this.telefono = MyUtils.abbreviate(telefono, 25);
+        this.telefono = MyStringUtils.abbreviate(telefono, 25);
     }
 
     @Override

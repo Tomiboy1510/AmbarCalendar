@@ -1,7 +1,7 @@
 package gui.tablepanels;
 
 import entity.ItemVenta;
-import gui.UiUtils;
+import gui.forms.ItemVentaForm;
 import gui.tablemodels.ItemVentaTableModel;
 import persistence.dao.ProductoDAO;
 
@@ -10,24 +10,22 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.List;
 
-public class ItemVentaTablePanel extends JPanel {
+public class ItemVentaTablePanel extends MyTablePanel {
 
-    private final JTable table;
     private final JLabel montoTotalLabel;
 
     public ItemVentaTablePanel(ItemVentaTableModel tableModel, ProductoDAO productoDAO) {
-        setLayout(new BorderLayout());
+        super(tableModel);
 
-        table = new JTable(tableModel);
         JButton addButton = new JButton("+");
         JButton removeButton = new JButton("-");
-        montoTotalLabel = new JLabel("Monto total: $0");
-
         addButton.setFocusable(false);
         removeButton.setFocusable(false);
 
-        addButton.addActionListener(_ -> {
+        montoTotalLabel = new JLabel("Monto total: $0");
 
+        addButton.addActionListener(_ -> {
+            new ItemVentaForm(productoDAO, tableModel);
         });
 
         removeButton.addActionListener(_ -> {
@@ -39,30 +37,17 @@ public class ItemVentaTablePanel extends JPanel {
             updateMontoLabel();
         });
 
-        table.setBackground(UiUtils.GREYSCALE[3]);
-        table.getTableHeader().setBackground(UiUtils.GREYSCALE[2]);
-        table.setSelectionBackground(UiUtils.GREYSCALE[1]);
-
         SwingUtilities.invokeLater(() -> table.setRowHeight(table.getTableHeader().getHeight()));
 
-        table.setAutoCreateRowSorter(false);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        JScrollPane tablePanel = new JScrollPane(table);
-        JPanel bottomPanel = new JPanel(new BorderLayout());
         JPanel bottomRightPanel = new JPanel();
-
-        tablePanel.setPreferredSize(new Dimension(500, 200));
-
         bottomRightPanel.add(addButton);
         bottomRightPanel.add(removeButton);
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
         bottomPanel.add(montoTotalLabel, BorderLayout.WEST);
-
-        tablePanel.setBorder(new EmptyBorder(10, 10, 0, 10));
         bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        add(tablePanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
     }
 

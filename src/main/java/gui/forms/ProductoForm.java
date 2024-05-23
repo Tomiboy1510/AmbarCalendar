@@ -6,7 +6,7 @@ import persistence.dao.ProductoDAO;
 
 import javax.swing.*;
 
-public class ProductoForm extends EntityForm {
+public class ProductoForm extends StandaloneEntityForm {
 
     private final JTextField nombreField = new JTextField(20);
     private final JTextField marcaField = new JTextField(20);

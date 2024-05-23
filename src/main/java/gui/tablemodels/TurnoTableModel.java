@@ -6,7 +6,7 @@ import persistence.dao.TurnoDAO;
 
 import java.text.SimpleDateFormat;
 
-public class TurnoTableModel extends EntityTableModel<Turno> {
+public class TurnoTableModel extends StandaloneEntityTableModel<Turno> {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy (HH:mm)");
 

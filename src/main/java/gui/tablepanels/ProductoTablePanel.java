@@ -5,7 +5,7 @@ import gui.forms.ProductoForm;
 import gui.tablemodels.ProductoTableModel;
 import persistence.dao.ProductoDAO;
 
-public class ProductoTablePanel extends EntityTablePanel<Producto> {
+public class ProductoTablePanel extends StandaloneEntityTablePanel<Producto> {
 
     public ProductoTablePanel(ProductoDAO dao) {
         super("Productos", new ProductoTableModel(dao));

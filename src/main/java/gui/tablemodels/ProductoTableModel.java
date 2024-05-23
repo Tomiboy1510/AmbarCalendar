@@ -3,7 +3,7 @@ package gui.tablemodels;
 import entity.Producto;
 import persistence.dao.ProductoDAO;
 
-public class ProductoTableModel extends EntityTableModel<Producto> {
+public class ProductoTableModel extends StandaloneEntityTableModel<Producto> {
 
     public ProductoTableModel(ProductoDAO dao) {
         super(dao, new String[] {"Nombre", "Marca", "Costo", "Precio", "Stock"}, 80);

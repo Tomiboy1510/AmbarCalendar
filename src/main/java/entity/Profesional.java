@@ -1,6 +1,6 @@
 package entity;
 
-import entity.util.MyUtils;
+import entity.util.MyStringUtils;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,7 +25,7 @@ public class Profesional implements AbstractEntity {
         return nombre;
     }
     public void setNombre(String nombre) {
-        this.nombre = MyUtils.abbreviate(nombre, 50);
+        this.nombre = MyStringUtils.abbreviate(nombre, 50);
     }
     public float getPorcentajeCobro() {
         return porcentajeCobro;

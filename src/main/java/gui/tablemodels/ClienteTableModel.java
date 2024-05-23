@@ -3,7 +3,7 @@ package gui.tablemodels;
 import entity.Cliente;
 import persistence.dao.ClienteDAO;
 
-public class ClienteTableModel extends EntityTableModel<Cliente> {
+public class ClienteTableModel extends StandaloneEntityTableModel<Cliente> {
 
     public ClienteTableModel(ClienteDAO dao) {
         super(dao, new String[] {"DNI", "Nombre", "Teléfono"}, 40);

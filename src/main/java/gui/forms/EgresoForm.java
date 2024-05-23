@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EgresoForm extends EntityForm {
+public class EgresoForm extends StandaloneEntityForm {
 
     private final JTextField motivoField = new JTextField(20);
     private final IntegerField montoField = new IntegerField(20);

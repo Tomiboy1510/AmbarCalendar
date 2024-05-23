@@ -5,7 +5,7 @@ import gui.forms.EgresoForm;
 import gui.tablemodels.EgresoTableModel;
 import persistence.dao.EgresoDAO;
 
-public class EgresoTablePanel extends EntityTablePanel<Egreso> {
+public class EgresoTablePanel extends StandaloneEntityTablePanel<Egreso> {
 
     public EgresoTablePanel(EgresoDAO dao) {
         super("Egresos", new EgresoTableModel(dao));

@@ -1,34 +1,25 @@
 package gui.tablepanels;
 
 import entity.AbstractEntity;
-import gui.UiUtils;
-import gui.tablemodels.EntityTableModel;
+import gui.tablemodels.StandaloneEntityTableModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel {
+public abstract class StandaloneEntityTablePanel<T extends AbstractEntity> extends MyTablePanel {
 
-    protected final JTable table;
     protected final JButton addButton;
     protected final JButton modifyButton;
     protected final JButton removeButton;
+
     private final JLabel pageLabel;
 
-    public EntityTablePanel(String title, EntityTableModel<T> tableModel) {
-        setLayout(new BorderLayout());
+    public StandaloneEntityTablePanel(String title, StandaloneEntityTableModel<T> tableModel) {
+        super(tableModel);
 
-        table = new JTable(tableModel);
-
-        table.setBackground(UiUtils.GREYSCALE[3]);
-        table.getTableHeader().setBackground(UiUtils.GREYSCALE[2]);
-        table.setSelectionBackground(UiUtils.GREYSCALE[1]);
-
-        table.setAutoCreateRowSorter(false);
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -38,37 +29,9 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
             }
         });
 
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            {
-                setHorizontalAlignment(SwingConstants.CENTER);
-            }
-
-            @Override
-            public Component getTableCellRendererComponent(
-                    JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column
-            ) {
-                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (isSelected) {
-                    setBackground(UiUtils.MAIN_COLOR);
-                    setForeground(Color.WHITE);
-                } else {
-                    setForeground(Color.BLACK);
-                    if (row % 2 == 0) {
-                        setBackground(UiUtils.GREYSCALE[0]);
-                    } else {
-                        setBackground(UiUtils.GREYSCALE[1]);
-                    }
-                }
-                return this;
-            }
-        });
-
         addButton = new JButton("Añadir");
         modifyButton = new JButton("Modificar");
         removeButton = new JButton("Eliminar");
-
         addButton.setFocusable(false);
         modifyButton.setFocusable(false);
         removeButton.setFocusable(false);
@@ -91,24 +54,15 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
 
             if (choice == JOptionPane.YES_OPTION) {
                 @SuppressWarnings("rawtypes")
-                EntityTableModel model = ((EntityTableModel) table.getModel());
+                StandaloneEntityTableModel model = ((StandaloneEntityTableModel) table.getModel());
                 model.delete(selectedRow);
             }
-
         });
-
-        JScrollPane tablePanel = new JScrollPane(table);
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-
-        tablePanel.setBorder(new EmptyBorder(10, 10, 0, 10));
-        bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setBorder(new EmptyBorder(15, 20, 8, 0));
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 25));
-
         add(titleLabel, BorderLayout.NORTH);
-        add(tablePanel, BorderLayout.CENTER);
 
         JButton prevPageButton = new JButton("-");
         JButton nextPageButton = new JButton("+");
@@ -127,9 +81,10 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
         bottomRightPanel.add(modifyButton);
         bottomRightPanel.add(removeButton);
 
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
         bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
-
         add(bottomPanel, BorderLayout.SOUTH);
 
         prevPageButton.addActionListener(_ -> {
@@ -147,7 +102,7 @@ public abstract class EntityTablePanel<T extends AbstractEntity> extends JPanel 
 
     private void updatePageLabel() {
         @SuppressWarnings("unchecked")
-        EntityTableModel<T> tableModel = ((EntityTableModel<T>) table.getModel());
+        StandaloneEntityTableModel<T> tableModel = ((StandaloneEntityTableModel<T>) table.getModel());
         pageLabel.setText("Página " + tableModel.getCurrentPage() + " de " + tableModel.getMaxPage());
     }
 }

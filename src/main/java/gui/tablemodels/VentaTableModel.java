@@ -6,7 +6,7 @@ import persistence.dao.VentaDAO;
 
 import java.text.SimpleDateFormat;
 
-public class VentaTableModel extends EntityTableModel<Venta> {
+public class VentaTableModel extends StandaloneEntityTableModel<Venta> {
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 

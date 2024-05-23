@@ -1,7 +1,7 @@
 package entity;
 
 import entity.enums.Servicio;
-import entity.util.MyUtils;
+import entity.util.MyStringUtils;
 import jakarta.persistence.*;
 
 @Entity
@@ -62,6 +62,6 @@ public class Turno extends Ingreso {
         return notas;
     }
     public void setNotas(String notas) {
-        this.notas = MyUtils.abbreviate(notas, 100);
+        this.notas = MyStringUtils.abbreviate(notas, 100);
     }
 }

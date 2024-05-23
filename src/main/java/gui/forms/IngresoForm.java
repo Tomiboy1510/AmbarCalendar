@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.util.Arrays;
 
 @SuppressWarnings("rawtypes")
-public abstract class IngresoForm extends EntityForm {
+public abstract class IngresoForm extends StandaloneEntityForm {
 
     protected final JComboBox<TipoPago> tipoPagoField = new JComboBox<>();
 

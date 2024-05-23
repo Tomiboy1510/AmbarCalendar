@@ -7,7 +7,7 @@ import persistence.dao.ProfesionalDAO;
 
 import javax.swing.*;
 
-public class ProfesionalForm extends EntityForm {
+public class ProfesionalForm extends StandaloneEntityForm {
 
     private final JTextField nombreField = new JTextField(20);
     private final FloatField porcentajeField = new FloatField(20);

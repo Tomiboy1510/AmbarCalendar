@@ -7,7 +7,7 @@ import persistence.dao.ClienteDAO;
 
 import javax.swing.*;
 
-public class ClienteForm extends EntityForm {
+public class ClienteForm extends StandaloneEntityForm {
 
     private final IntegerField dniField = new IntegerField(20);
     private final JTextField nombreField = new JTextField(20);

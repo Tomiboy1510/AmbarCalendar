@@ -5,7 +5,7 @@ import gui.forms.ClienteForm;
 import gui.tablemodels.ClienteTableModel;
 import persistence.dao.ClienteDAO;
 
-public class ClienteTablePanel extends EntityTablePanel<Cliente> {
+public class ClienteTablePanel extends StandaloneEntityTablePanel<Cliente> {
 
     public ClienteTablePanel(ClienteDAO dao) {
         super("Clientes", new ClienteTableModel(dao));

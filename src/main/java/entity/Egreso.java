@@ -1,6 +1,6 @@
 package entity;
 
-import entity.util.MyUtils;
+import entity.util.MyStringUtils;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -27,7 +27,7 @@ public class Egreso implements AbstractEntity {
         return motivo;
     }
     public void setMotivo(String motivo) {
-        this.motivo = MyUtils.abbreviate(motivo, 50);
+        this.motivo = MyStringUtils.abbreviate(motivo, 50);
     }
     public int getMonto() {
         return monto;
