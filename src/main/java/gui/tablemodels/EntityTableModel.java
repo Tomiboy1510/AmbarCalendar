@@ -27,4 +27,6 @@ public abstract class EntityTableModel extends AbstractTableModel {
                 .findFirst()
                 .orElse(-1);
     }
+
+    public abstract Object getEntityAtRow(int rowIndex);
 }

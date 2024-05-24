@@ -40,4 +40,9 @@ public class ItemVentaTableModel extends EntityTableModel {
     public List<ItemVenta> getItems() {
         return data;
     }
+
+    @Override
+    public ItemVenta getEntityAtRow(int rowIndex) {
+        return data.get(rowIndex);
+    }
 }

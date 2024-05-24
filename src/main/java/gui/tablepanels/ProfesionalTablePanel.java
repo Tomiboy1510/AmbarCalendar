@@ -1,11 +1,13 @@
 package gui.tablepanels;
 
 import entity.Profesional;
+import gui.MyTableCellRenderer;
 import gui.forms.ProfesionalForm;
 import gui.tablemodels.ProfesionalTableModel;
 import persistence.dao.ProfesionalDAO;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 
 public class ProfesionalTablePanel extends StandaloneEntityTablePanel<Profesional> {
@@ -52,6 +54,21 @@ public class ProfesionalTablePanel extends StandaloneEntityTablePanel<Profesiona
                 p.setSalarioBasico(0);
                 p.setPorcentajeCobro(0f);
                 dao.update(p);
+            }
+        });
+
+        table.setDefaultRenderer(Object.class, new MyTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(
+                    JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column
+            ) {
+                Component res = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                ProfesionalTableModel tableModel = ((ProfesionalTableModel) table.getModel());
+                Profesional p = tableModel.getEntityAtRow(row);
+                if ((! isSelected) && (p.getSalarioBasico() == 0 && p.getPorcentajeCobro() == 0))
+                    setForeground(Color.RED);
+                return res;
             }
         });
     }

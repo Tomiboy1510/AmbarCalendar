@@ -45,6 +45,7 @@ public abstract class StandaloneEntityTableModel<T extends AbstractEntity>
         fireTableDataChanged();
     }
 
+    @Override
     public T getEntityAtRow(int rowIndex) {
         return data.get(rowIndex);
     }
