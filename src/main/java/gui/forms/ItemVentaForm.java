@@ -2,6 +2,7 @@ package gui.forms;
 
 import entity.ItemVenta;
 import entity.Producto;
+import gui.Focusable;
 import gui.formattedfields.IntegerField;
 import gui.tablemodels.ItemVentaTableModel;
 import persistence.dao.ProductoDAO;
@@ -14,18 +15,21 @@ public class ItemVentaForm extends MyForm {
 
     private final JComboBox<Producto> productoField = new JComboBox<>();
     private final IntegerField cantidadField = new IntegerField(20);
-    private final IntegerField montoField = new IntegerField(20);
+    private final IntegerField precioUnitarioField = new IntegerField(20);
 
     private final ProductoDAO productoDAO;
 
-    public ItemVentaForm(ProductoDAO productoDAO, ItemVentaTableModel tableModel) {
-        super("Añadir Item");
+    public ItemVentaForm(ProductoDAO productoDAO, ItemVentaTableModel tableModel, Focusable parent) {
+        super("Añadir Item", parent);
         this.productoDAO = productoDAO;
 
         saveButton.addActionListener(_ -> {
+            setHasFocusOwnership(false);
             ItemVenta item = buildItemVenta();
+            setHasFocusOwnership(true);
             if (item != null) {
                 tableModel.add(item);
+                removeFocusOwnership();
                 dispose();
             }
         });
@@ -36,7 +40,7 @@ public class ItemVentaForm extends MyForm {
     protected void init() {
         addField("Producto", productoField);
         addField("Cantidad", cantidadField);
-        addField("Monto", montoField);
+        addField("Precio por unidad", precioUnitarioField);
 
         productoField.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -59,6 +63,12 @@ public class ItemVentaForm extends MyForm {
             }
         });
 
+        productoField.addActionListener(_ -> {
+            Producto p = (Producto) productoField.getSelectedItem();
+            if (p != null)
+                precioUnitarioField.setText(String.valueOf(p.getPrecio()));
+        });
+
         cantidadField.setText("1");
 
         productoDAO.getAll().stream()
@@ -67,7 +77,7 @@ public class ItemVentaForm extends MyForm {
 
         Producto selectedProducto = ((Producto) productoField.getSelectedItem());
         if (selectedProducto != null)
-            montoField.setText(String.valueOf(selectedProducto.getPrecio()));
+            precioUnitarioField.setText(String.valueOf(selectedProducto.getPrecio()));
 
         afterInit();
     }
@@ -83,20 +93,21 @@ public class ItemVentaForm extends MyForm {
             JOptionPane.showMessageDialog(null, "Cantidad obligatoria", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Cantidad de un item debe ser positiva", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Cantidad debe ser positiva", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         try {
-            item.setMonto(Integer.parseInt(montoField.getText()));
+            item.setMonto(item.getCantidad() * Integer.parseInt(precioUnitarioField.getText()));
             if (item.getMonto() < 0)
                 throw new Exception();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Monto obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Precio unitario obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Monto no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Precio unitario no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+
         return item;
     }
 }

@@ -2,6 +2,7 @@ package gui.tablepanels;
 
 import entity.ItemVenta;
 import gui.forms.ItemVentaForm;
+import gui.forms.VentaForm;
 import gui.tablemodels.ItemVentaTableModel;
 import persistence.dao.ProductoDAO;
 
@@ -14,7 +15,7 @@ public class ItemVentaTablePanel extends MyTablePanel {
 
     private final JLabel montoTotalLabel;
 
-    public ItemVentaTablePanel(ItemVentaTableModel tableModel, ProductoDAO productoDAO) {
+    public ItemVentaTablePanel(ItemVentaTableModel tableModel, ProductoDAO productoDAO, VentaForm ventaForm) {
         super(tableModel);
 
         JButton addButton = new JButton("+");
@@ -24,8 +25,12 @@ public class ItemVentaTablePanel extends MyTablePanel {
 
         montoTotalLabel = new JLabel("Monto total: $0");
 
+        tableModel.addDataChangedListener(_ -> updateMontoLabel());
+
         addButton.addActionListener(_ -> {
-            new ItemVentaForm(productoDAO, tableModel);
+            ItemVentaForm form = new ItemVentaForm(productoDAO, tableModel, ventaForm);
+            ventaForm.removeFocusOwnership();
+            form.giveFocusOwnership();
         });
 
         removeButton.addActionListener(_ -> {
@@ -33,11 +38,8 @@ public class ItemVentaTablePanel extends MyTablePanel {
             if (selectedRow == -1)
                 return;
 
-            ((ItemVentaTableModel) table.getModel()).remove(selectedRow);
-            updateMontoLabel();
+            tableModel.remove(selectedRow);
         });
-
-        SwingUtilities.invokeLater(() -> table.setRowHeight(table.getTableHeader().getHeight()));
 
         JPanel bottomRightPanel = new JPanel();
         bottomRightPanel.add(addButton);

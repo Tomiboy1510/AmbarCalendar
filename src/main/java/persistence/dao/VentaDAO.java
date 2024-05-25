@@ -1,11 +1,13 @@
 package persistence.dao;
 
 import entity.ItemVenta;
+import entity.Producto;
 import entity.Venta;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -13,11 +15,13 @@ import java.util.List;
 public class VentaDAO extends StandaloneEntityDAO<Venta> {
 
     private final ItemVentaDAO itemVentaDAO;
+    private final ProductoDAO productoDAO;
 
-    public VentaDAO(SessionFactory sessionFactory, ItemVentaDAO itemVentaDAO) {
+    public VentaDAO(SessionFactory sessionFactory, ItemVentaDAO itemVentaDAO, ProductoDAO productoDAO) {
         super(sessionFactory, Venta.class,
                 new HashSet<>(List.of("tipoPago", "fechaHora")));
         this.itemVentaDAO = itemVentaDAO;
+        this.productoDAO = productoDAO;
     }
 
     @Override
@@ -31,11 +35,32 @@ public class VentaDAO extends StandaloneEntityDAO<Venta> {
             if (entityExists(v))
                 throw new IllegalArgumentException("La entidad provista ya existe");
 
-            v.getItems().forEach(i -> itemVentaDAO.save(i, s));
+            HashMap<Integer, Producto> productoMap = new HashMap<>();
+
+            v.getItems().forEach(item -> {
+                itemVentaDAO.save(item, s);
+
+                int id = item.getProducto().getId();
+                Producto p;
+                if (productoMap.containsKey(id))
+                    p = productoMap.get(id);
+                else {
+                    p = item.getProducto();
+                    productoMap.put(id, p);
+                }
+                p.setStock(p.getStock() - item.getCantidad());
+            });
+
+            productoMap.values().forEach(p -> {
+                    productoDAO.update(p, s);
+                System.out.println("Nuevo stock = " + p.getStock());
+            });
+
             _save(v, s);
 
             t.commit();
             updateSubscribers();
+            productoDAO.updateSubscribers();
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {

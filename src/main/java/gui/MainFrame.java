@@ -26,7 +26,7 @@ public class MainFrame extends MyJFrame {
 
         ProductoDAO productoDAO = new ProductoDAO(sessionFactory);
         ItemVentaDAO itemVentaDAO = new ItemVentaDAO(sessionFactory, productoDAO);
-        VentaDAO ventaDAO = new VentaDAO(sessionFactory, itemVentaDAO);
+        VentaDAO ventaDAO = new VentaDAO(sessionFactory, itemVentaDAO, productoDAO);
         EgresoDAO egresoDAO = new EgresoDAO(sessionFactory);
         ClienteDAO clienteDAO = new ClienteDAO(sessionFactory);
         ProfesionalDAO profesionalDAO = new ProfesionalDAO(sessionFactory);

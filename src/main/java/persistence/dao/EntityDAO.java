@@ -85,6 +85,10 @@ public abstract class EntityDAO<T extends AbstractEntity> {
         s.persist(entity);
     }
 
+    protected void _update(T entity, Session s) {
+        s.merge(entity);
+    }
+
     protected void save(T entity, Session s) throws IllegalArgumentException {
         if (entity == null)
             throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
@@ -92,6 +96,15 @@ public abstract class EntityDAO<T extends AbstractEntity> {
         if (entityExists(entity))
             throw new IllegalArgumentException("La entidad provista ya existe");
         _save(entity, s);
+    }
+
+    protected void update(T entity, Session s) throws IllegalArgumentException {
+        if (entity == null)
+            throw new IllegalArgumentException("Intentando modificar una entidad 'null'");
+        validate(entity);
+        if (! entityExists(entity))
+            throw new IllegalArgumentException("La entidad provista no existe");
+        _update(entity, s);
     }
 
     public void save(T entity) throws IllegalArgumentException {

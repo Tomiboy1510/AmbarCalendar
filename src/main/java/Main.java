@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
     - Pago de salarios
     - Informe de finanzas
     - Agenda (registrar como subscriber!)
-    - Implementar un sistema de focus ownership para los formularios
+    - Restablecer stock al eliminar venta
     - Añadir comentarios y Javadoc?
  */
 

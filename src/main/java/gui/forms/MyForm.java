@@ -1,23 +1,28 @@
 package gui.forms;
 
+import gui.Focusable;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public abstract class MyForm extends JFrame {
+public abstract class MyForm extends JFrame implements Focusable {
 
     protected final JPanel panel;
     protected final JButton saveButton;
 
-    protected boolean disposeIfLostFocus = true;
+    private boolean hasFocusOwnership = true;
+    private Focusable parent = null;
 
     public MyForm(String title) {
         addWindowFocusListener(new WindowAdapter() {
             @Override
             public void windowLostFocus(WindowEvent e) {
-                if (disposeIfLostFocus)
+                if (hasFocusOwnership()) {
+                    removeFocusOwnership();
                     dispose();
+                }
             }
         });
 
@@ -33,6 +38,11 @@ public abstract class MyForm extends JFrame {
         saveButton.setFocusable(false);
 
         add(panel);
+    }
+
+    public MyForm(String title, Focusable parent) {
+        this(title);
+        this.parent = parent;
     }
 
     protected void afterInit() {
@@ -51,5 +61,33 @@ public abstract class MyForm extends JFrame {
         label.setBorder(new EmptyBorder(10, 0, 0, 0));
         panel.add(label);
         panel.add(field);
+    }
+
+    @Override
+    public boolean hasFocusOwnership() {
+        return hasFocusOwnership;
+    }
+
+    @Override
+    public void giveFocusOwnership() {
+        hasFocusOwnership = true;
+    }
+
+    @Override
+    public void removeFocusOwnership() {
+        hasFocusOwnership = false;
+        if (parent != null) {
+            parent.giveFocusOwnership();
+            parent.focus();
+        }
+    }
+
+    @Override
+    public void focus() {
+        requestFocus();
+    }
+
+    public void setHasFocusOwnership(boolean hasFocusOwnership) {
+        this.hasFocusOwnership = hasFocusOwnership;
     }
 }

@@ -22,10 +22,10 @@ public abstract class StandaloneEntityForm extends MyForm {
         this.dao = dao;
 
         saveButton.addActionListener(_ -> {
-            disposeIfLostFocus = false;
+            setHasFocusOwnership(false);
             AbstractEntity entity = buildEntity();
             if (entity == null) {
-                disposeIfLostFocus = true;
+                setHasFocusOwnership(true);
                 return;
             }
             try {
@@ -38,7 +38,7 @@ public abstract class StandaloneEntityForm extends MyForm {
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            disposeIfLostFocus = true;
+            setHasFocusOwnership(true);
         });
     }
 
