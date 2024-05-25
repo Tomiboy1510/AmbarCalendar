@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
     - Pago de salarios
     - Informe de finanzas
     - Agenda (registrar como subscriber!)
-    - Restablecer stock al eliminar venta
     - Añadir comentarios y Javadoc?
  */
 

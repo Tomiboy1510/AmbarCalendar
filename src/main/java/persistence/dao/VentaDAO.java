@@ -31,9 +31,9 @@ public class VentaDAO extends StandaloneEntityDAO<Venta> {
 
             if (v == null)
                 throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
-            validate(v);
             if (entityExists(v))
                 throw new IllegalArgumentException("La entidad provista ya existe");
+            validate(v);
 
             HashMap<Integer, Producto> productoMap = new HashMap<>();
 
@@ -51,12 +51,50 @@ public class VentaDAO extends StandaloneEntityDAO<Venta> {
                 p.setStock(p.getStock() - item.getCantidad());
             });
 
-            productoMap.values().forEach(p -> {
-                    productoDAO.update(p, s);
-                System.out.println("Nuevo stock = " + p.getStock());
-            });
+            productoMap.values().forEach(p -> productoDAO.update(p, s));
 
             _save(v, s);
+
+            t.commit();
+            updateSubscribers();
+            productoDAO.updateSubscribers();
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(Venta v) throws IllegalArgumentException {
+        try (Session s = sessionFactory.openSession()) {
+            Transaction t = s.beginTransaction();
+
+            if (v == null)
+                throw new IllegalArgumentException("Intentando eliminar una entidad 'null'");
+            if (! entityExists(v))
+                throw new IllegalArgumentException("La entidad provista no existe");
+            validate(v);
+
+            HashMap<Integer, Producto> productoMap = new HashMap<>();
+
+            v.getItems().forEach(item -> {
+                itemVentaDAO.delete(item, s);
+
+                int id = item.getProducto().getId();
+                Producto p;
+                if (productoMap.containsKey(id))
+                    p = productoMap.get(id);
+                else {
+                    p = item.getProducto();
+                    productoMap.put(id, p);
+                }
+                p.setStock(p.getStock() + item.getCantidad());
+            });
+
+            productoMap.values().forEach(p -> productoDAO.update(p, s));
+
+            _delete(v, s);
 
             t.commit();
             updateSubscribers();

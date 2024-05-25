@@ -89,41 +89,58 @@ public abstract class EntityDAO<T extends AbstractEntity> {
         s.merge(entity);
     }
 
+    protected void _delete(T entity, Session s) {
+        s.remove(entity);
+    }
+
     protected void save(T entity, Session s) throws IllegalArgumentException {
         if (entity == null)
             throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
-        validate(entity);
         if (entityExists(entity))
             throw new IllegalArgumentException("La entidad provista ya existe");
+        validate(entity);
         _save(entity, s);
     }
 
     protected void update(T entity, Session s) throws IllegalArgumentException {
         if (entity == null)
             throw new IllegalArgumentException("Intentando modificar una entidad 'null'");
-        validate(entity);
         if (! entityExists(entity))
             throw new IllegalArgumentException("La entidad provista no existe");
+        validate(entity);
         _update(entity, s);
+    }
+
+    protected void delete(T entity, Session s) throws IllegalArgumentException {
+        if (entity == null)
+            throw new IllegalArgumentException("Intentando eliminar una entidad 'null'");
+        if (! entityExists(entity))
+            throw new IllegalArgumentException("La entidad provista no existe");
+        validate(entity);
+        _delete(entity, s);
     }
 
     public void save(T entity) throws IllegalArgumentException {
         if (entity == null)
             throw new IllegalArgumentException("Intentando persistir una entidad 'null'");
-        validate(entity);
         if (entityExists(entity))
             throw new IllegalArgumentException("La entidad provista ya existe");
+        validate(entity);
         _save(entity);
     }
 
     public void update(T entity) throws IllegalArgumentException {
-        validate(entity);
+        if (entity == null)
+            throw new IllegalArgumentException("Intentando modificar una entidad 'null'");
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando modificar una entidad que no existe");
+        validate(entity);
         _update(entity);
     }
 
     public void delete(T entity) throws IllegalArgumentException {
+        if (entity == null)
+            throw new IllegalArgumentException("Intentando eliminar una entidad 'null'");
         if (! entityExists(entity))
             throw new IllegalArgumentException("Intentando eliminar una entidad que no existe");
         _delete(entity);
