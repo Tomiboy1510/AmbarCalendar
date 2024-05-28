@@ -1,5 +1,6 @@
 package gui.tabs;
 
+import gui.forms.InformeForm;
 import gui.tablepanels.EgresoTablePanel;
 import gui.tablepanels.TurnoTablePanel;
 import gui.tablepanels.VentaTablePanel;
@@ -26,6 +27,8 @@ public class FinanzasTab extends JPanel {
         JButton informeButton = new JButton("Informe de contabilidad");
         pagosButton.setFocusable(false);
         informeButton.setFocusable(false);
+
+        informeButton.addActionListener(_ -> new InformeForm(turnoDAO, ventaDAO, egresoDAO));
 
         topPanel.add(pagosButton);
         topPanel.add(informeButton);
