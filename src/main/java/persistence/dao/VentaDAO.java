@@ -6,7 +6,9 @@ import entity.Venta;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -128,5 +130,17 @@ public class VentaDAO extends StandaloneEntityDAO<Venta> {
 
     public void sortByFechaHora(boolean ascending) {
         super.setSorting("fechaHora", ascending);
+    }
+
+    public List<Venta> getAllWithDateRange(Date startDate, Date endDate) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Venta> q = session.createQuery("FROM Venta v WHERE v.fechaHora BETWEEN :start AND :end", Venta.class);
+            q.setParameter("start", startDate);
+            q.setParameter("end", endDate);
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

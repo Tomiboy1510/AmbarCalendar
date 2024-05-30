@@ -1,15 +1,22 @@
 package gui.forms;
 
-import entity.Egreso;
-import entity.Turno;
-import entity.Venta;
+import gui.InformeFrame;
 import gui.formattedfields.FechaField;
 import persistence.dao.*;
+
+import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class InformeForm extends MyForm {
 
     private final FechaField desdeField = new FechaField(20);
     private final FechaField hastaField = new FechaField(20);
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
     private final TurnoDAO turnoDAO;
     private final VentaDAO ventaDAO;
@@ -27,27 +34,47 @@ public class InformeForm extends MyForm {
         addField("Desde", desdeField);
         addField("Hasta", hastaField);
 
+        Date today = new Date();
+        hastaField.setText(dateFormat.format(today));
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.add(Calendar.MONTH, -1);
+        desdeField.setText(dateFormat.format(calendar.getTime()));
+
         saveButton.setText("Generar Informe");
         saveButton.addActionListener(_ -> {
             setHasFocusOwnership(false);
-            // Validate dates
+
+            Date startDate;
+            Date endDate;
+            try {
+                startDate = dateTimeFormat.parse(desdeField.getText() + " 23:59");
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "Fecha de inicio inválida", "Error", JOptionPane.ERROR_MESSAGE);
+                setHasFocusOwnership(true);
+                return;
+            }
+            try {
+                endDate = dateTimeFormat.parse(hastaField.getText() + " 23:59");
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "Fecha de fin inválida", "Error", JOptionPane.ERROR_MESSAGE);
+                setHasFocusOwnership(true);
+                return;
+            }
 
             setHasFocusOwnership(true);
-
-            // Filter by date
-            int ingresos =
-                    ventaDAO.getAll().stream().mapToInt(Venta::getMonto).sum() +
-                    turnoDAO.getAll().stream().mapToInt(Turno::getMontoPagado).sum();
-            int egresos =
-                    egresoDAO.getAll().stream().mapToInt(Egreso::getMonto).sum();
-
-            System.out.println("Ingresos: $" + ingresos);
-            System.out.println("Egresos: $" + egresos);
-            System.out.println("Beneficio: " + ((ingresos - egresos) / (float) ingresos) * 100 + "%");
-
+            new InformeFrame(
+                    startDate,
+                    endDate,
+                    egresoDAO.getAllWithDateRange(startDate, endDate),
+                    ventaDAO.getAllWithDateRange(startDate, endDate),
+                    turnoDAO.getAllWithDateRange(startDate, endDate)
+            );
             dispose();
         });
 
         afterInit();
     }
+
 }

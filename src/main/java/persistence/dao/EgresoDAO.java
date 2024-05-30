@@ -1,12 +1,15 @@
 package persistence.dao;
 
 import entity.Egreso;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class EgresoDAO extends StandaloneEntityDAO<Egreso> {
 
     public EgresoDAO(SessionFactory sessionFactory) {
@@ -39,5 +42,17 @@ public class EgresoDAO extends StandaloneEntityDAO<Egreso> {
 
     public void sortByFecha(boolean ascending) {
         super.setSorting("fecha", ascending);
+    }
+
+    public List<Egreso> getAllWithDateRange(Date startDate, Date endDate) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Egreso> q = session.createQuery("FROM Egreso e WHERE e.fecha BETWEEN :start AND :end", Egreso.class);
+            q.setParameter("start", startDate);
+            q.setParameter("end", endDate);
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -11,8 +11,8 @@ public class TurnoTableModel extends StandaloneEntityTableModel<Turno> {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy (HH:mm)");
 
     public TurnoTableModel(StandaloneEntityDAO<Turno> dao) {
-        super(dao, new String[] {"Monto total", "Monto pagado", "Fecha y Hora", "Tipo de Pago",
-                "Servicio", "Profesional", "Cliente", "Notas adicionales"}, 200);
+        super(dao, new String[] {"Monto Total", "Monto Pagado", "Fecha y Hora", "Tipo de Pago",
+                "Servicio", "Profesional", "Cliente", "Notas Adicionales"}, 200);
     }
 
     @Override
@@ -45,15 +45,7 @@ public class TurnoTableModel extends StandaloneEntityTableModel<Turno> {
             case 3 -> t.getTipoPago();
             case 4 -> t.getServicio();
             case 5 -> t.getProfesional().getNombre();
-            case 6 -> {
-                StringBuilder resBuilder = new StringBuilder();
-                resBuilder
-                        .append(t.getCliente().getNombre())
-                        .append("\n(Tel: ")
-                        .append(t.getCliente().getTelefono())
-                        .append(")");
-                yield resBuilder.toString();
-            }
+            case 6 -> t.getCliente().getNombre() + "\n(Tel: " + t.getCliente().getTelefono() + ")";
             case 7 -> t.getNotas();
             default -> null;
         };

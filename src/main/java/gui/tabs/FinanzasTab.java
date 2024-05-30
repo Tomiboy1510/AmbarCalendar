@@ -24,7 +24,7 @@ public class FinanzasTab extends JPanel {
         topPanel.setBorder(new EmptyBorder(10, 10, 0, 10));
 
         JButton pagosButton = new JButton("Registrar pago de salarios");
-        JButton informeButton = new JButton("Informe de contabilidad");
+        JButton informeButton = new JButton("Informe de finanzas");
         pagosButton.setFocusable(false);
         informeButton.setFocusable(false);
 

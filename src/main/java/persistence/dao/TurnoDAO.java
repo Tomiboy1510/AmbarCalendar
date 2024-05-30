@@ -1,11 +1,15 @@
 package persistence.dao;
 
 import entity.Turno;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class TurnoDAO extends StandaloneEntityDAO<Turno> {
 
     private final ClienteDAO clienteDAO;
@@ -76,5 +80,17 @@ public class TurnoDAO extends StandaloneEntityDAO<Turno> {
 
     public void sortByNotas(boolean ascending) {
         super.setSorting("notas", ascending);
+    }
+
+    public List<Turno> getAllWithDateRange(Date startDate, Date endDate) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Turno> q = session.createQuery("FROM Turno t WHERE t.fechaHora BETWEEN :start AND :end", Turno.class);
+            q.setParameter("start", startDate);
+            q.setParameter("end", endDate);
+            return q.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
