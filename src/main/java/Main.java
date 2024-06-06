@@ -11,7 +11,6 @@ import java.awt.event.WindowEvent;
 /*
     TODO
     - Pago de salarios
-    - Informe de finanzas
     - Agenda (registrar como subscriber!)
     - Añadir comentarios y Javadoc?
  */

@@ -49,7 +49,7 @@ public class InformeForm extends MyForm {
             Date startDate;
             Date endDate;
             try {
-                startDate = dateTimeFormat.parse(desdeField.getText() + " 23:59");
+                startDate = dateTimeFormat.parse(desdeField.getText() + " 00:00");
             } catch (ParseException e) {
                 JOptionPane.showMessageDialog(null, "Fecha de inicio inválida", "Error", JOptionPane.ERROR_MESSAGE);
                 setHasFocusOwnership(true);
