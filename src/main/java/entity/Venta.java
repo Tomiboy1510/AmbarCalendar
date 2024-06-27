@@ -5,9 +5,15 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a sale of products provided by the business.
+ */
 @Entity
 public class Venta extends Ingreso {
 
+    /**
+     * List of items comprising the sale
+     */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ItemVenta> items;
 

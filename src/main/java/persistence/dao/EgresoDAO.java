@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * DAO for managing database operations on expenses ({@link Egreso}).
+ */
 @SuppressWarnings("CallToPrintStackTrace")
 public class EgresoDAO extends StandaloneEntityDAO<Egreso> {
 
@@ -32,18 +35,37 @@ public class EgresoDAO extends StandaloneEntityDAO<Egreso> {
             throw new IllegalArgumentException("La fecha no debe ser futura");
     }
 
+    /**
+     * Sets sorting by the reason of the expense
+     * @param ascending true if ascending order should be used
+     */
     public void sortByMotivo(boolean ascending) {
         super.setSorting("motivo", ascending);
     }
 
+    /**
+     * Sets sorting by the amount of money expended
+     * @param ascending true if ascending order should be used
+     */
     public void sortByMonto(boolean ascending) {
         super.setSorting("monto", ascending);
     }
 
+    /**
+     * Sets sorting by the date of the expense
+     * @param ascending true if ascending order should be used
+     */
     public void sortByFecha(boolean ascending) {
         super.setSorting("fecha", ascending);
     }
 
+    /**
+     * Retrieves all expenses from the database within the specified date range
+     * @param startDate the start date and time of the range (inclusive)
+     * @param endDate the end date and time of the range (inclusive)
+     * @return a {@link List} of {@link Egreso} entities that fall within the specified
+     * date range, or {@code null} if an exception occurs
+     */
     public List<Egreso> getAllWithDateRange(Date startDate, Date endDate) {
         try (Session session = sessionFactory.openSession()) {
             Query<Egreso> q = session.createQuery("FROM Egreso e WHERE e.fecha BETWEEN :start AND :end", Egreso.class);

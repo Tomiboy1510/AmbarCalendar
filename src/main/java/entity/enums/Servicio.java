@@ -1,5 +1,9 @@
 package entity.enums;
 
+/**
+ * Represents the types of services provided by the business.
+ */
+@SuppressWarnings("NonAsciiCharacters")
 public enum Servicio {
 
     DEPILACION_LASER,
@@ -10,6 +14,10 @@ public enum Servicio {
     HIFU,
     ESTETICA_CORPORAL;
 
+    /**
+     * Returns the string representation of the service type in a readable format.
+     * @return a string representation of the service type.
+     */
     @Override
     public String toString() {
         return switch (this) {

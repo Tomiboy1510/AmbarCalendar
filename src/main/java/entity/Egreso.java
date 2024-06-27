@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
+/**
+ * Represents an expense of the business.
+ */
 @Entity
 public class Egreso implements AbstractEntity {
 
@@ -12,12 +15,21 @@ public class Egreso implements AbstractEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     * Description or name for the reason of the expense. Maximum length: 50 characters
+     */
     @Column(length = 50, nullable = false)
     private String motivo;
 
+    /**
+     * Amount of money expended. Must be a non-negative integer
+     */
     @Column(nullable = false)
     private int monto;
 
+    /**
+     * Date of the expense
+     */
     @Column(nullable = false)
     private Date fecha;
 

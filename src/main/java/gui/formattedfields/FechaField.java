@@ -6,18 +6,13 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Custom JTextField to input dates in the dd/MM/yyyy format. Does not allow removing text, only editing.
+ * Text will only be valid if it matches the regex {@code "\\d{1,2}/\\d{1,2}/\\d{1,4}"}.
+ */
 public class FechaField extends JTextField {
 
     public FechaField() {
-        init();
-    }
-
-    public FechaField(int columns) {
-        super(columns);
-        init();
-    }
-
-    private void init() {
         ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
             public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
@@ -48,5 +43,14 @@ public class FechaField extends JTextField {
                 return text.matches("\\d{1,2}/\\d{1,2}/\\d{1,4}");
             }
         });
+    }
+
+    /**
+     * Constructor that sets the width of the component to {@code columns}
+     * @param columns the integer to be set as the width of the component
+     */
+    public FechaField(int columns) {
+        this();
+        setColumns(columns);
     }
 }

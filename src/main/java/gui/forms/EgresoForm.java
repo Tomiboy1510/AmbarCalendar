@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Form for creating or modifying expenses ({@link Egreso}).
+ */
 public class EgresoForm extends StandaloneEntityForm {
 
     private final JTextField motivoField = new JTextField(20);
@@ -49,6 +52,7 @@ public class EgresoForm extends StandaloneEntityForm {
         } catch (ParseException ex) {
             e.setFecha(null);
         }
+
         return e;
     }
 }

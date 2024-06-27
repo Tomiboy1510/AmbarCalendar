@@ -7,6 +7,9 @@ import persistence.dao.ClienteDAO;
 
 import javax.swing.*;
 
+/**
+ * Form for creating or modifying customers ({@link Cliente}).
+ */
 public class ClienteForm extends StandaloneEntityForm {
 
     private final IntegerField dniField = new IntegerField(20);
@@ -18,6 +21,11 @@ public class ClienteForm extends StandaloneEntityForm {
         init();
     }
 
+    /**
+     * Constructor to create a form for modifying a customer
+     * @param c the customer whose data will be used to fill the form
+     * @param dao the DAO used to persist changes to the customer
+     */
     public ClienteForm(Cliente c, ClienteDAO dao) {
         super("Modificar Cliente", dao, c.getId());
         isNew = false;
@@ -49,6 +57,7 @@ public class ClienteForm extends StandaloneEntityForm {
         }
         c.setNombre(nombreField.getText());
         c.setTelefono(telefonoField.getText());
+
         return c;
     }
 }

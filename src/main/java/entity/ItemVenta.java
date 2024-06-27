@@ -2,6 +2,9 @@ package entity;
 
 import jakarta.persistence.*;
 
+/**
+ * Represents an item in a sale of products.
+ */
 @Entity
 public class ItemVenta implements AbstractEntity {
 
@@ -9,12 +12,21 @@ public class ItemVenta implements AbstractEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     * Product sold
+     */
     @ManyToOne(optional = false)
     private Producto producto;
 
+    /**
+     * Quantity of the product sold. Must be a positive integer
+     */
     @Column(nullable = false)
     private int cantidad;
 
+    /**
+     * Amount of money charged. Must be a non-negative integer
+     */
     @Column(nullable = false)
     private int monto;
 

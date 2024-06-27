@@ -3,6 +3,9 @@ package entity;
 import entity.util.MyStringUtils;
 import jakarta.persistence.*;
 
+/**
+ * Represents a professional working for the business.
+ */
 @Entity
 public class Profesional implements AbstractEntity {
 
@@ -10,12 +13,22 @@ public class Profesional implements AbstractEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     * Name and surname of the professional. Maximum length: 50 characters
+     */
     @Column(length = 50, nullable = false)
     private String nombre;
 
+    /**
+     * Commission rate.
+     * Must be an integer in the range [0, 100)
+     */
     @Column(nullable = false)
     private float porcentajeCobro;
 
+    /**
+     * Base salary. Must be a positive integer
+     */
     @Column(nullable = false)
     private int salarioBasico;
 

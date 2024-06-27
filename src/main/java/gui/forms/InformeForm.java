@@ -10,6 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Form for generating a financial report
+ */
 public class InformeForm extends MyForm {
 
     private final FechaField desdeField = new FechaField(20);
@@ -76,5 +79,4 @@ public class InformeForm extends MyForm {
 
         afterInit();
     }
-
 }

@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
+/**
+ * Custom {@link TableCellRenderer} used for showing text containing newline characters ('\n')
+ * in multiple lines
+ */
 public class MultiLineTableCellRenderer implements TableCellRenderer {
 
     @Override
@@ -19,6 +23,7 @@ public class MultiLineTableCellRenderer implements TableCellRenderer {
             panel.setForeground(Color.WHITE);
         } else {
             panel.setForeground(Color.BLACK);
+            // Alternating colors for better readability
             if (row % 2 == 0) {
                 panel.setBackground(UiUtils.GREYSCALE[0]);
             } else {
@@ -37,7 +42,9 @@ public class MultiLineTableCellRenderer implements TableCellRenderer {
         String text = (value == null) ? "" : value.toString();
         String[] lines = text.split("\n");
         int totalHeight = 0;
+
         for (String line : lines) {
+            // Put each line for text in its own JLabel
             JLabel label = new JLabel(line);
             label.setFont(table.getFont());
             label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -54,7 +61,6 @@ public class MultiLineTableCellRenderer implements TableCellRenderer {
         }
 
         table.setRowHeight(row, totalHeight);
-
         return panel;
     }
 }

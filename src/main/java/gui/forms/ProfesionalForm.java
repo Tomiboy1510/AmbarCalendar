@@ -7,6 +7,9 @@ import persistence.dao.ProfesionalDAO;
 
 import javax.swing.*;
 
+/**
+ * Form for creating or modifying professionals ({@link Profesional}).
+ */
 public class ProfesionalForm extends StandaloneEntityForm {
 
     private final JTextField nombreField = new JTextField(20);
@@ -18,6 +21,11 @@ public class ProfesionalForm extends StandaloneEntityForm {
         init();
     }
 
+    /**
+     * Constructor to create a form for modifying a professional
+     * @param p the professional whose data will be used to fill the form
+     * @param dao the DAO used to persist changes to the professional
+     */
     public ProfesionalForm(Profesional p, ProfesionalDAO dao) {
         super("Modificar Profesional", dao, p.getId());
         isNew = false;
@@ -54,6 +62,7 @@ public class ProfesionalForm extends StandaloneEntityForm {
             JOptionPane.showMessageDialog(null, "Salario básico obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+
         return p;
     }
 }

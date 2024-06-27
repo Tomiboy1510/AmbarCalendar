@@ -19,6 +19,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 
+/**
+ * Form for creating or modifying service sales ({@link Turno}).
+ */
 public class TurnoForm extends IngresoForm {
 
     private final FechaField fechaField = new FechaField(10);
@@ -30,10 +33,24 @@ public class TurnoForm extends IngresoForm {
     private final IntegerField montoField = new IntegerField(20);
     private final IntegerField montoPagadoField = new IntegerField(20);
 
+    /**
+     * DAO to get all customers
+     */
     private final ClienteDAO clienteDAO;
+
+    /**
+     * DAO to get all professionals
+     */
     private final ProfesionalDAO profesionalDAO;
 
+    /**
+     * Date format used for parsing dates
+     */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+    /**
+     * Date format used for parsing times
+     */
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     public TurnoForm(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO, Date defaultDate) {
@@ -46,11 +63,15 @@ public class TurnoForm extends IngresoForm {
         horaField.setText(timeFormat.format(defaultDate));
     }
 
+    /**
+     * Constructor to create a form for modifying a service sale
+     * @param t the service sale whose data will be used to fill the form
+     * @param dao the DAO used to persist changes to the service sale
+     */
     public TurnoForm(Turno t, TurnoDAO dao, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
         super("Modificar Turno", t, dao);
         this.clienteDAO = clienteDAO;
         this.profesionalDAO = profesionalDAO;
-        isNew = false;
 
         fechaField.setText(dateFormat.format(t.getFechaHora()));
         horaField.setText(timeFormat.format(t.getFechaHora()));
@@ -82,6 +103,7 @@ public class TurnoForm extends IngresoForm {
 
         Arrays.stream(Servicio.values()).forEach(servicioField::addItem);
 
+        // Set custom List Cell Renderer that shows a customer's name followed by their DNI number
         clienteField.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
@@ -89,13 +111,14 @@ public class TurnoForm extends IngresoForm {
                     boolean isSelected, boolean cellHasFocus
             ) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                Cliente c = ((Cliente) value);
+                Cliente c = (Cliente) value;
                 if (c != null)
                     label.setText(c.getNombre() + " (" + c.getDni() + ")");
                 return label;
             }
         });
 
+        // Set custom List Cell Renderer that shows a professional's name
         profesionalField.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
@@ -103,17 +126,19 @@ public class TurnoForm extends IngresoForm {
                     boolean isSelected, boolean cellHasFocus
             ) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                Profesional p = ((Profesional) value);
+                Profesional p = (Profesional) value;
                 if (p != null)
                     label.setText(p.getNombre());
                 return label;
             }
         });
 
+        // Get all customers and sort them by name
         clienteDAO.getAll().stream()
                 .sorted(Comparator.comparing(Cliente::getNombre))
                 .forEach(clienteField::addItem);
 
+        // Get all professionals and sort them by name
         profesionalDAO.getAll().stream()
                 .sorted(Comparator.comparing(Profesional::getNombre))
                 .forEach(profesionalField::addItem);
@@ -151,6 +176,7 @@ public class TurnoForm extends IngresoForm {
         }
         t.setCliente((Cliente) clienteField.getSelectedItem());
         t.setProfesional((Profesional) profesionalField.getSelectedItem());
+
         return t;
     }
 }

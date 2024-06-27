@@ -6,18 +6,13 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Custom JTextField to input times in the "HH:mm" format. Does not allow removing text, only editing.
+ * Text will only be valid if it matches the regex {@code "\\d{1,2}:\\d{1,2}"}.
+ */
 public class HoraField extends JTextField {
 
     public HoraField() {
-        init();
-    }
-
-    public HoraField(int columns) {
-        super(columns);
-        init();
-    }
-
-    private void init() {
         ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
             public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
@@ -48,5 +43,14 @@ public class HoraField extends JTextField {
                 return text.matches("\\d{1,2}:\\d{1,2}");
             }
         });
+    }
+
+    /**
+     * Constructor that sets the width of the component to {@code columns}
+     * @param columns the integer to be set as the width of the component
+     */
+    public HoraField(int columns) {
+        this();
+        setColumns(columns);
     }
 }

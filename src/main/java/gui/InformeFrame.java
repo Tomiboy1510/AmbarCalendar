@@ -15,13 +15,20 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * {@link JFrame} to show results of financial report.
+ */
 public class InformeFrame extends MyJFrame {
 
+    /**
+     * Date format used for formatting dates
+     */
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public InformeFrame(Date startDate, Date endDate, java.util.List<Egreso> egresos, java.util.List<Venta> ventas, List<Turno> turnos) {
         setTitle("Informe de Finanzas");
 
+        // Close if focus is lost
         addWindowFocusListener(new WindowAdapter() {
             @Override
             public void windowLostFocus(WindowEvent e) {
@@ -37,6 +44,7 @@ public class InformeFrame extends MyJFrame {
 
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setBorder(null);
+        // Move scrollbar to the top
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         getContentPane().add(scrollPane);
         setMinimumSize(new Dimension(600, 600));
@@ -59,22 +67,27 @@ public class InformeFrame extends MyJFrame {
         int[] ingresosPorServicio = new int[Servicio.values().length];
         Arrays.fill(ingresosPorServicio, 0);
 
+        // Sum expenses and salary
         for (Egreso e : egresos) {
             montoEgresos += e.getMonto();
             if (e.getMotivo().toLowerCase().contains("salario"))
                 montoSalarios += e.getMonto();
         }
 
+        // Sum income from product sales
         montoVentas = ventas.stream()
                 .mapToInt(Venta::getMonto)
                 .sum();
 
+        // Sum income from service sales (and distinguish between service types)
         for (Turno t : turnos) {
             montoTurnos += t.getMontoPagado();
             ingresosPorServicio[t.getServicio().ordinal()] += t.getMontoPagado();
         }
 
+        // Total income
         int montoIngresos = montoTurnos + montoVentas;
+
         StringBuilder builder = new StringBuilder();
 
         builder.append("Informe de Finanzas - Desde el ");

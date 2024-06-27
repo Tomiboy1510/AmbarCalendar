@@ -6,11 +6,13 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Custom JTextField to input telephone numbers. It only allows digits, spaces and plus and minus signs.
+ * (It doesn't check that the text is a valid phone number, I just wanted to limit the sort of characters accepted)
+ */
 public class TelefonoField extends JTextField {
 
-    public TelefonoField(int columns) {
-        super(columns);
-
+    public TelefonoField() {
         ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
             public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
@@ -31,5 +33,14 @@ public class TelefonoField extends JTextField {
                 insertString(fb, offset, text, attrs);
             }
         });
+    }
+
+    /**
+     * Constructor that sets the width of the component to {@code columns}
+     * @param columns the integer to be set as the width of the component
+     */
+    public TelefonoField(int columns) {
+        this();
+        setColumns(columns);
     }
 }

@@ -3,8 +3,15 @@ package persistence.dao;
 import entity.ItemVenta;
 import org.hibernate.SessionFactory;
 
+/**
+ * DAO for managing database operations on sale items ({@link ItemVenta}).
+ */
 public class ItemVentaDAO extends EntityDAO<ItemVenta> {
 
+    /**
+     * DAO used for managing database operations on products ({@link entity.Producto}).
+     * (For example, checking if a certain product exists)
+     */
     private final ProductoDAO productoDAO;
 
     public ItemVentaDAO(SessionFactory sessionFactory, ProductoDAO productoDAO) {

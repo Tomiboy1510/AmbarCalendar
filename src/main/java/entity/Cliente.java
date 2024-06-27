@@ -3,6 +3,9 @@ package entity;
 import entity.util.MyStringUtils;
 import jakarta.persistence.*;
 
+/**
+ * Represents a customer of the business.
+ */
 @Entity
 public class Cliente implements AbstractEntity {
 
@@ -10,12 +13,21 @@ public class Cliente implements AbstractEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     * National Identity Document number. Must be a non-negative integer
+     */
     @Column(nullable = false)
     private int dni;
 
+    /**
+     * Name and surname of the customer. Maximum length: 50 characters
+     */
     @Column(length = 50, nullable = false)
     private String nombre;
 
+    /**
+     * Telephone number of the customer. Maximum length: 25 characters
+     */
     @Column(length = 25, nullable = false)
     private String telefono;
 

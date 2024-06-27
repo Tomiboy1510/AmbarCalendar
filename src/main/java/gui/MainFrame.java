@@ -10,6 +10,9 @@ import persistence.dao.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Main frame of the application.
+ */
 public class MainFrame extends MyJFrame {
 
     public MainFrame(SessionFactory sessionFactory) {
@@ -24,6 +27,7 @@ public class MainFrame extends MyJFrame {
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
+        // Create all DAOs
         ProductoDAO productoDAO = new ProductoDAO(sessionFactory);
         ItemVentaDAO itemVentaDAO = new ItemVentaDAO(sessionFactory, productoDAO);
         VentaDAO ventaDAO = new VentaDAO(sessionFactory, itemVentaDAO, productoDAO);
@@ -32,23 +36,11 @@ public class MainFrame extends MyJFrame {
         ProfesionalDAO profesionalDAO = new ProfesionalDAO(sessionFactory);
         TurnoDAO turnoDAO = new TurnoDAO(sessionFactory, clienteDAO, profesionalDAO);
 
+        // Create all tabs
         tabbedPane.addTab("Agenda", new AgendaTab(turnoDAO));
-
         tabbedPane.addTab("Inventario", new InventarioTab(productoDAO));
-
-        tabbedPane.addTab("Finanzas", new FinanzasTab(
-                turnoDAO,
-                clienteDAO,
-                profesionalDAO,
-                ventaDAO,
-                productoDAO,
-                egresoDAO)
-        );
-
-        tabbedPane.addTab("Personas", new PersonasTab(
-                clienteDAO,
-                profesionalDAO)
-        );
+        tabbedPane.addTab("Finanzas", new FinanzasTab(turnoDAO, clienteDAO, profesionalDAO, ventaDAO, productoDAO, egresoDAO));
+        tabbedPane.addTab("Personas", new PersonasTab(clienteDAO, profesionalDAO));
 
         getContentPane().add(tabbedPane, BorderLayout.CENTER);
     }

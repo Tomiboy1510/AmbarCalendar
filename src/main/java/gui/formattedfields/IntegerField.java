@@ -6,6 +6,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Custom JTextField to input integers. Only allows digits and (optionally) a negative sign at the start.
+ */
 public class IntegerField extends JTextField {
 
     public IntegerField() {
@@ -31,6 +34,10 @@ public class IntegerField extends JTextField {
         });
     }
 
+    /**
+     * Constructor that sets the width of the component to {@code columns}
+     * @param columns the integer to be set as the width of the component
+     */
     public IntegerField(int columns) {
         this();
         setColumns(columns);

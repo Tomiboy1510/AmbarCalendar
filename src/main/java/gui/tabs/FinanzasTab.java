@@ -10,6 +10,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * One of the tabs in the main window of the application.
+ * Contains everything related to incomes and expenses.
+ */
 public class FinanzasTab extends JPanel {
 
     public FinanzasTab(TurnoDAO turnoDAO, ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO,
@@ -28,7 +32,11 @@ public class FinanzasTab extends JPanel {
         pagosButton.setFocusable(false);
         informeButton.setFocusable(false);
 
+        // Generate financial report
         informeButton.addActionListener(_ -> new InformeForm(turnoDAO, ventaDAO, egresoDAO));
+
+        // Calculate salaries
+        // pagosButton.addActionListener(_ -> {});
 
         topPanel.add(pagosButton);
         topPanel.add(informeButton);

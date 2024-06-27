@@ -8,13 +8,18 @@ import persistence.dao.ProfesionalDAO;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * One of the tabs in the main window of the application.
+ * Contains everything related to customers and employees.
+ */
 public class PersonasTab extends JPanel {
 
     public PersonasTab(ClienteDAO clienteDAO, ProfesionalDAO profesionalDAO) {
         super();
-
         setLayout(new BorderLayout());
-        JSplitPane panel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+
+        JSplitPane panel = new JSplitPane(
+                JSplitPane.HORIZONTAL_SPLIT,
                 new ClienteTablePanel(clienteDAO),
                 new ProfesionalTablePanel(profesionalDAO)
         );

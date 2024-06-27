@@ -3,6 +3,9 @@ package entity;
 import entity.util.MyStringUtils;
 import jakarta.persistence.*;
 
+/**
+ * Represents a product put up for sale by the business.
+ */
 @Entity
 public class Producto implements AbstractEntity {
 
@@ -10,18 +13,33 @@ public class Producto implements AbstractEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     * Name of the product. Maximum length: 50 characters
+     */
     @Column(length = 60, nullable = false)
     private String nombre;
 
+    /**
+     * Brand of the product. Maximum length: 40 characters
+     */
     @Column(length = 40, nullable = false)
     private String marca;
 
+    /**
+     * Cost of the product. Must be a non-negative integer
+     */
     @Column(nullable = false)
     private int costo;
 
+    /**
+     * Selling price of the product. Must be a non-negative integer
+     */
     @Column(nullable = false)
     private int precio;
 
+    /**
+     * Amount of units of the product in stock
+     */
     @Column(nullable = false)
     private int stock;
 

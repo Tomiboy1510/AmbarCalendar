@@ -6,11 +6,12 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Custom JTextField to input float numbers. Only allows digits and (optionally) a decimal point and/or a negative sign.
+ */
 public class FloatField extends JTextField {
 
-    public FloatField(int columns) {
-        super(columns);
-
+    public FloatField() {
         ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
             public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
@@ -43,5 +44,14 @@ public class FloatField extends JTextField {
                 insertString(fb, offset, text, attrs);
             }
         });
+    }
+
+    /**
+     * Constructor that sets the width of the component to {@code columns}
+     * @param columns the integer to be set as the width of the component
+     */
+    public FloatField(int columns) {
+        this();
+        setColumns(columns);
     }
 }

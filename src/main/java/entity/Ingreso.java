@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
+/**
+ * Represents a sale of the business.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Ingreso implements AbstractEntity {
@@ -13,9 +16,15 @@ public abstract class Ingreso implements AbstractEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     * Date and time of the sale
+     */
     @Column(nullable = false)
     private Date fechaHora;
 
+    /**
+     * Payment method used in the sale
+     */
     @Enumerated(EnumType.STRING)
     private TipoPago tipoPago;
 

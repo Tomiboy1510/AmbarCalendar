@@ -6,6 +6,9 @@ import persistence.dao.ProductoDAO;
 
 import javax.swing.*;
 
+/**
+ * Form for creating or modifying products ({@link Producto}).
+ */
 public class ProductoForm extends StandaloneEntityForm {
 
     private final JTextField nombreField = new JTextField(20);
@@ -19,6 +22,11 @@ public class ProductoForm extends StandaloneEntityForm {
         init();
     }
 
+    /**
+     * Constructor to create a form for modifying a product
+     * @param p the product whose data will be used to fill the form
+     * @param dao the DAO used to persist changes to the product
+     */
     public ProductoForm(Producto p, ProductoDAO dao) {
         super("Modificar Producto", dao, p.getId());
         isNew = false;
@@ -66,6 +74,7 @@ public class ProductoForm extends StandaloneEntityForm {
             JOptionPane.showMessageDialog(null, "Stock obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+
         return p;
     }
 }

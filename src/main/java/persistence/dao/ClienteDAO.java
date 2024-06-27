@@ -6,6 +6,9 @@ import org.hibernate.SessionFactory;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * DAO for managing database operations on customers ({@link Cliente}).
+ */
 public class ClienteDAO extends StandaloneEntityDAO<Cliente> {
 
     public ClienteDAO(SessionFactory sessionFactory) {
@@ -25,14 +28,26 @@ public class ClienteDAO extends StandaloneEntityDAO<Cliente> {
             throw new IllegalArgumentException("Teléfono obligatorio");
     }
 
+    /**
+     * Sets sorting by DNI (National Identity Document) number
+     * @param ascending true if ascending order should be used
+     */
     public void sortByDni(boolean ascending) {
         super.setSorting("dni", ascending);
     }
 
+    /**
+     * Sets sorting by name
+     * @param ascending true if ascending order should be used
+     */
     public void sortByNombre(boolean ascending) {
         super.setSorting("nombre", ascending);
     }
 
+    /**
+     * Sets sorting by phone number
+     * @param ascending true if ascending order should be used
+     */
     public void sortByTelefono(boolean ascending) {
         super.setSorting("telefono", ascending);
     }

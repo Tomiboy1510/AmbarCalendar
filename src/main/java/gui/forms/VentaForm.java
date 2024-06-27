@@ -11,15 +11,26 @@ import persistence.dao.VentaDAO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Form for creating or modifying product sales ({@link Venta}).
+ */
 public class VentaForm extends IngresoForm {
 
     private final FechaField fechaField = new FechaField(20);
+
+    /**
+     * Panel for adding and removing items to the sale
+     */
     private final ItemVentaTablePanel itemsField;
 
+    /**
+     * Date format used for parsing dates
+     */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public VentaForm(VentaDAO ventaDAO, ProductoDAO productoDAO) {
         super("Registrar Venta", ventaDAO);
+        // Do not allow invalid dates (such as 99/12/2001 for example)
         dateFormat.setLenient(false);
         itemsField = new ItemVentaTablePanel(new ItemVentaTableModel(), productoDAO, this);
 
@@ -46,6 +57,7 @@ public class VentaForm extends IngresoForm {
             v.setFechaHora(null);
         }
         v.setItems(itemsField.getItems());
+
         return v;
     }
 }

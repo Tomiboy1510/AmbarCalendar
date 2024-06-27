@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * Splashscreen to show while the application establishes database connection.
+ */
 public class SplashScreen extends JWindow {
 
     public SplashScreen() {

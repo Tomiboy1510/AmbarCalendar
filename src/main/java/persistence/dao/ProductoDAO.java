@@ -6,6 +6,9 @@ import org.hibernate.SessionFactory;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * DAO for managing database operations on products ({@link Producto}).
+ */
 public class ProductoDAO extends StandaloneEntityDAO<Producto> {
 
     public ProductoDAO(SessionFactory sessionFactory) {
@@ -28,22 +31,42 @@ public class ProductoDAO extends StandaloneEntityDAO<Producto> {
             throw new IllegalArgumentException("El precio debe ser positivo");
     }
 
+    /**
+     * Sets sorting by name
+     * @param ascending true if ascending order should be used
+     */
     public void sortByNombre(boolean ascending) {
         super.setSorting("nombre", ascending);
     }
 
+    /**
+     * Sets sorting by brand
+     * @param ascending true if ascending order should be used
+     */
     public void sortByMarca(boolean ascending) {
         super.setSorting("marca", ascending);
     }
 
+    /**
+     * Sets sorting by cost
+     * @param ascending true if ascending order should be used
+     */
     public void sortByCosto(boolean ascending) {
         super.setSorting("costo", ascending);
     }
 
+    /**
+     * Sets sorting by selling price
+     * @param ascending true if ascending order should be used
+     */
     public void sortByPrecio(boolean ascending) {
         super.setSorting("precio", ascending);
     }
 
+    /**
+     * Sets sorting by amount in stock
+     * @param ascending true if ascending order should be used
+     */
     public void sortByStock(boolean ascending) {
         super.setSorting("stock", ascending);
     }

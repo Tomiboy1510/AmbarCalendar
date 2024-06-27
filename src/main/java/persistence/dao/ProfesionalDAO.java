@@ -6,6 +6,9 @@ import org.hibernate.SessionFactory;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * DAO for managing database operations on professionals ({@link Profesional}).
+ */
 public class ProfesionalDAO extends StandaloneEntityDAO<Profesional> {
 
     public ProfesionalDAO(SessionFactory sessionFactory) {
@@ -25,14 +28,26 @@ public class ProfesionalDAO extends StandaloneEntityDAO<Profesional> {
             throw new IllegalArgumentException("El salario básico no puede ser negativo");
     }
 
+    /**
+     * Sets sorting by name
+     * @param ascending true if ascending order should be used
+     */
     public void sortByNombre(boolean ascending) {
         super.setSorting("nombre", ascending);
     }
 
+    /**
+     * Sets sorting by commission rate
+     * @param ascending true if ascending order should be used
+     */
     public void sortByPorcentajeCobro(boolean ascending) {
         super.setSorting("porcentajeCobro", ascending);
     }
 
+    /**
+     * Sets sorting by base salary
+     * @param ascending true if ascending order should be used
+     */
     public void sortBySalarioBasico(boolean ascending) {
         super.setSorting("salarioBasico", ascending);
     }
