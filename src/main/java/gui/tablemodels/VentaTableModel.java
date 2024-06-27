@@ -4,10 +4,17 @@ import entity.Venta;
 import persistence.dao.StandaloneEntityDAO;
 import persistence.dao.VentaDAO;
 
+import javax.swing.*;
 import java.text.SimpleDateFormat;
 
+/**
+ * Table model to manage and display product sales ({@link Venta}) in a {@link JTable}.
+ */
 public class VentaTableModel extends StandaloneEntityTableModel<Venta> {
 
+    /**
+     * Date format for displaying dates
+     */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public VentaTableModel(StandaloneEntityDAO<Venta> dao) {

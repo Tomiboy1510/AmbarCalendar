@@ -10,13 +10,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
+/**
+ * GUI component used for displaying professionals ({@link Profesional}) and allowing the user to
+ * create new ones and modify or delete existing ones.
+ */
 public class ProfesionalTablePanel extends StandaloneEntityTablePanel<Profesional> {
 
     public ProfesionalTablePanel(ProfesionalDAO dao) {
         super("Profesionales", new ProfesionalTableModel(dao));
 
+        // Show form for new professional
         addButton.addActionListener(_ -> new ProfesionalForm(dao));
 
+        // Show form for modifying
         modifyButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)
@@ -26,12 +32,14 @@ public class ProfesionalTablePanel extends StandaloneEntityTablePanel<Profesiona
             new ProfesionalForm(model.getEntityAtRow(selectedRow), dao);
         });
 
+        // Rather than removing professionals, you "invalidate" them
         removeButton.setText("Invalidar");
 
-        // Remove current ActionListener which allows deleting the selected Profesional
+        // Remove current ActionListener which allows deleting the selected professional
         Arrays.stream(removeButton.getActionListeners())
                 .forEach(removeButton::removeActionListener);
 
+        // New ActionListener which just sets their base salary and commission rate to zero
         removeButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)
@@ -57,18 +65,22 @@ public class ProfesionalTablePanel extends StandaloneEntityTablePanel<Profesiona
             }
         });
 
+        // Set custom default cell renderer
         table.setDefaultRenderer(Object.class, new MyTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(
                     JTable table, Object value, boolean isSelected,
                     boolean hasFocus, int row, int column
             ) {
-                Component res = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Show text in red if the professional has been "invalidated"
                 ProfesionalTableModel tableModel = ((ProfesionalTableModel) table.getModel());
                 Profesional p = tableModel.getEntityAtRow(row);
                 if ((! isSelected) && (p.getSalarioBasico() == 0 && p.getPorcentajeCobro() == 0))
                     setForeground(Color.RED);
-                return res;
+
+                return this;
             }
         });
     }

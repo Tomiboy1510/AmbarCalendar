@@ -44,10 +44,10 @@ public class MultiLineTableCellRenderer implements TableCellRenderer {
         int totalHeight = 0;
 
         for (String line : lines) {
-            // Put each line for text in its own JLabel
+            // Put each line of text in its own JLabel
             JLabel label = new JLabel(line);
             label.setFont(table.getFont());
-            label.setHorizontalAlignment(SwingConstants.CENTER);
+            //label.setHorizontalAlignment(SwingConstants.CENTER);
 
             if (isSelected) {
                 label.setForeground(Color.WHITE);

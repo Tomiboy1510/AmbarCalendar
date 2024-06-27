@@ -3,6 +3,11 @@ package gui.tablemodels;
 import entity.Cliente;
 import persistence.dao.ClienteDAO;
 
+import javax.swing.*;
+
+/**
+ * Table model to manage and display customers ({@link Cliente}) in a {@link JTable}.
+ */
 public class ClienteTableModel extends StandaloneEntityTableModel<Cliente> {
 
     public ClienteTableModel(ClienteDAO dao) {

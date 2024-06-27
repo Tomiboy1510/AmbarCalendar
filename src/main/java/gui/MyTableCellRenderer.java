@@ -10,7 +10,7 @@ import java.awt.*;
 public class MyTableCellRenderer extends DefaultTableCellRenderer {
 
     public MyTableCellRenderer() {
-        setHorizontalAlignment(SwingConstants.CENTER);
+        //setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     @Override

@@ -4,10 +4,17 @@ import entity.Egreso;
 import persistence.dao.EgresoDAO;
 import persistence.dao.StandaloneEntityDAO;
 
+import javax.swing.*;
 import java.text.SimpleDateFormat;
 
+/**
+ * Table model to manage and display expenses ({@link Egreso}) in a {@link JTable}.
+ */
 public class EgresoTableModel extends StandaloneEntityTableModel<Egreso> {
 
+    /**
+     * Date format for displaying dates
+     */
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public EgresoTableModel(StandaloneEntityDAO<Egreso> dao) {

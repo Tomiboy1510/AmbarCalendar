@@ -3,6 +3,11 @@ package gui.tablemodels;
 import entity.Producto;
 import persistence.dao.ProductoDAO;
 
+import javax.swing.*;
+
+/**
+ * Table model to manage and display products ({@link Producto}) in a {@link JTable}.
+ */
 public class ProductoTableModel extends StandaloneEntityTableModel<Producto> {
 
     public ProductoTableModel(ProductoDAO dao) {

@@ -3,6 +3,11 @@ package gui.tablemodels;
 import entity.Profesional;
 import persistence.dao.ProfesionalDAO;
 
+import javax.swing.*;
+
+/**
+ * Table model to manage and display professionals ({@link Profesional}) in a {@link JTable}.
+ */
 public class ProfesionalTableModel extends StandaloneEntityTableModel<Profesional> {
 
     public ProfesionalTableModel(ProfesionalDAO dao) {

@@ -9,17 +9,37 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Generic GUI component used for displaying entities and allowing the user to
+ * create new ones and modify or delete existing ones.
+ * @param <T> the type of the entity, which must extend {@link AbstractEntity}
+ */
 public abstract class StandaloneEntityTablePanel<T extends AbstractEntity> extends MyTablePanel {
 
+    /**
+     * Button to create new entities
+     */
     protected final JButton addButton;
+
+    /**
+     * Button to modify existing entities
+     */
     protected final JButton modifyButton;
+
+    /**
+     * Button to delete existing entities
+     */
     protected final JButton removeButton;
 
+    /**
+     * Text label that shows the current page
+     */
     private final JLabel pageLabel;
 
     public StandaloneEntityTablePanel(String title, StandaloneEntityTableModel<T> tableModel) {
         super(tableModel);
 
+        // Sort when clicking on a column header
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -36,6 +56,7 @@ public abstract class StandaloneEntityTablePanel<T extends AbstractEntity> exten
         modifyButton.setFocusable(false);
         removeButton.setFocusable(false);
 
+        // Set listener for remove button (this logic should more or less be the same for all subclasses)
         removeButton.addActionListener(_ -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1)
@@ -59,11 +80,13 @@ public abstract class StandaloneEntityTablePanel<T extends AbstractEntity> exten
             }
         });
 
+        // Title label
         JLabel titleLabel = new JLabel(title);
         titleLabel.setBorder(new EmptyBorder(15, 20, 8, 0));
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 25));
         add(titleLabel, BorderLayout.NORTH);
 
+        // Buttons to traverse pages
         JButton prevPageButton = new JButton("-");
         JButton nextPageButton = new JButton("+");
         prevPageButton.setFocusable(false);
@@ -100,6 +123,9 @@ public abstract class StandaloneEntityTablePanel<T extends AbstractEntity> exten
         updatePageLabel();
     }
 
+    /**
+     * Updates page label with current page number
+     */
     private void updatePageLabel() {
         @SuppressWarnings("unchecked")
         StandaloneEntityTableModel<T> tableModel = ((StandaloneEntityTableModel<T>) table.getModel());
