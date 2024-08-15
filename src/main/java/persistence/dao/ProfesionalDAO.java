@@ -24,7 +24,7 @@ public class ProfesionalDAO extends StandaloneEntityDAO<Profesional> {
         if (p.getPorcentajeCobro() < 0 || p.getPorcentajeCobro() >= 100)
             throw new IllegalArgumentException("El porcentaje de cobro debe estar entre 0% y 100%");
 
-        if (p.getSalarioBasico() < 0)
+        if (p.getSalarioBasicoSemanal() < 0)
             throw new IllegalArgumentException("El salario básico no puede ser negativo");
     }
 

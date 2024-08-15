@@ -23,7 +23,7 @@ public class ItemVentaTablePanel extends MyTablePanel {
     private final JLabel montoTotalLabel;
 
     public ItemVentaTablePanel(ItemVentaTableModel tableModel, ProductoDAO productoDAO, VentaForm ventaForm) {
-        super(tableModel);
+        super(tableModel, true);
 
         // Buttons to add and remove items to the list
         JButton addButton = new JButton("+");

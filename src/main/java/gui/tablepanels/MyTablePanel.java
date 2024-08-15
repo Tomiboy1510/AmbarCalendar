@@ -19,31 +19,35 @@ public abstract class MyTablePanel extends JPanel {
      */
     protected final JTable table;
 
-    public MyTablePanel(EntityTableModel tableModel) {
+    public MyTablePanel(EntityTableModel tableModel, boolean showToolTips) {
         setLayout(new BorderLayout());
 
-        table = new JTable(tableModel) {
-            // Show full value of a cell when hovering the cursor over it
-            @Override
-            public String getToolTipText(MouseEvent e) {
-                int rowIndex = rowAtPoint(e.getPoint());
-                int colIndex = columnAtPoint(e.getPoint());
-                if (rowIndex < 0 || colIndex < 0)
+        if (showToolTips) {
+            table = new JTable(tableModel) {
+                // Show full value of a cell when hovering the cursor over it
+                @Override
+                public String getToolTipText(MouseEvent e) {
+                    int rowIndex = rowAtPoint(e.getPoint());
+                    int colIndex = columnAtPoint(e.getPoint());
+                    if (rowIndex < 0 || colIndex < 0)
+                        return null;
+                    Object value = getValueAt(rowIndex, colIndex);
+                    if (value != null)
+                        return value.toString();
                     return null;
-                Object value = getValueAt(rowIndex, colIndex);
-                if (value != null)
-                    return value.toString();
-                return null;
-            }
+                }
 
-            // Tooltip text follows the cursor at all times
-            @Override
-            public Point getToolTipLocation(MouseEvent e) {
-                Point mousePoint = e.getPoint();
-                mousePoint.translate(10, 10);
-                return mousePoint;
-            }
-        };
+                // Tooltip text follows the cursor at all times
+                @Override
+                public Point getToolTipLocation(MouseEvent e) {
+                    Point mousePoint = e.getPoint();
+                    mousePoint.translate(10, 10);
+                    return mousePoint;
+                }
+            };
+        } else {
+            table = new JTable(tableModel);
+        }
 
         // Set colors
         table.setBackground(UiUtils.GREYSCALE[3]);

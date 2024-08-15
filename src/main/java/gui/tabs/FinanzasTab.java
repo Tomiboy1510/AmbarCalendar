@@ -1,6 +1,7 @@
 package gui.tabs;
 
 import gui.forms.InformeForm;
+import gui.forms.SalariosForm;
 import gui.tablepanels.EgresoTablePanel;
 import gui.tablepanels.TurnoTablePanel;
 import gui.tablepanels.VentaTablePanel;
@@ -27,7 +28,7 @@ public class FinanzasTab extends JPanel {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         topPanel.setBorder(new EmptyBorder(10, 10, 0, 10));
 
-        JButton pagosButton = new JButton("Registrar pago de salarios");
+        JButton pagosButton = new JButton("Calcular pago de salarios");
         JButton informeButton = new JButton("Informe de finanzas");
         pagosButton.setFocusable(false);
         informeButton.setFocusable(false);
@@ -36,7 +37,7 @@ public class FinanzasTab extends JPanel {
         informeButton.addActionListener(_ -> new InformeForm(turnoDAO, ventaDAO, egresoDAO));
 
         // Calculate salaries
-        // pagosButton.addActionListener(_ -> {});
+        pagosButton.addActionListener(_ -> new SalariosForm(turnoDAO));
 
         topPanel.add(pagosButton);
         topPanel.add(informeButton);

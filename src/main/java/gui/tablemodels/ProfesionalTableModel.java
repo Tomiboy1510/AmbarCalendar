@@ -35,7 +35,7 @@ public class ProfesionalTableModel extends StandaloneEntityTableModel<Profesiona
         return switch (columnIndex) {
             case 0 -> p.getNombre();
             case 1 -> p.getPorcentajeCobro() + "%";
-            case 2 -> "$" + p.getSalarioBasico();
+            case 2 -> "$" + p.getSalarioBasicoSemanal();
             default -> null;
         };
     }

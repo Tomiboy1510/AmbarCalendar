@@ -27,10 +27,10 @@ public class Profesional implements AbstractEntity {
     private float porcentajeCobro;
 
     /**
-     * Base salary. Must be a positive integer
+     * Weekly base salary. Must be a positive integer
      */
     @Column(nullable = false)
-    private int salarioBasico;
+    private int salarioBasicoSemanal;
 
     public Profesional() {}
 
@@ -46,11 +46,11 @@ public class Profesional implements AbstractEntity {
     public void setPorcentajeCobro(float porcentajeCobro) {
         this.porcentajeCobro = porcentajeCobro;
     }
-    public int getSalarioBasico() {
-        return salarioBasico;
+    public int getSalarioBasicoSemanal() {
+        return salarioBasicoSemanal;
     }
-    public void setSalarioBasico(int salarioBasico) {
-        this.salarioBasico = salarioBasico;
+    public void setSalarioBasicoSemanal(int salarioBasicoSemanal) {
+        this.salarioBasicoSemanal = salarioBasicoSemanal;
     }
 
     @Override

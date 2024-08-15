@@ -47,6 +47,7 @@ public class InformeFrame extends MyJFrame {
         // Move scrollbar to the top
         SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(0));
         getContentPane().add(scrollPane);
+
         setMinimumSize(new Dimension(600, 600));
         setSize(600, 600);
         setLocationRelativeTo(null);

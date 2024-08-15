@@ -1,8 +1,8 @@
 package gui.forms;
 
-import gui.InformeFrame;
+import gui.SalariosFrame;
 import gui.formattedfields.FechaField;
-import persistence.dao.*;
+import persistence.dao.TurnoDAO;
 
 import javax.swing.*;
 import java.text.ParseException;
@@ -11,9 +11,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Form for generating a financial report
+ * Form for calculating salary payments within a certain period
  */
-public class InformeForm extends MyForm {
+public class SalariosForm extends MyForm {
 
     private final FechaField desdeField = new FechaField(20);
     private final FechaField hastaField = new FechaField(20);
@@ -22,14 +22,10 @@ public class InformeForm extends MyForm {
     private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
     private final TurnoDAO turnoDAO;
-    private final VentaDAO ventaDAO;
-    private final EgresoDAO egresoDAO;
 
-    public InformeForm(TurnoDAO turnoDAO, VentaDAO ventaDAO, EgresoDAO egresoDAO) {
-        super("Informe de Finanzas");
+    public SalariosForm(TurnoDAO turnoDAO) {
+        super("Calcular pago de salarios");
         this.turnoDAO = turnoDAO;
-        this.ventaDAO = ventaDAO;
-        this.egresoDAO = egresoDAO;
         init();
     }
 
@@ -42,10 +38,10 @@ public class InformeForm extends MyForm {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(today);
-        calendar.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.WEEK_OF_YEAR, -1);
         desdeField.setText(dateFormat.format(calendar.getTime()));
 
-        saveButton.setText("Generar Informe");
+        saveButton.setText("Calcular salarios");
         saveButton.addActionListener(_ -> {
             setHasFocusOwnership(false);
 
@@ -68,11 +64,9 @@ public class InformeForm extends MyForm {
 
             setHasFocusOwnership(true);
 
-            new InformeFrame(
+            new SalariosFrame(
                     startDate,
                     endDate,
-                    egresoDAO.getAllWithDateRange(startDate, endDate),
-                    ventaDAO.getAllWithDateRange(startDate, endDate),
                     turnoDAO.getAllWithDateRange(startDate, endDate)
             );
             dispose();

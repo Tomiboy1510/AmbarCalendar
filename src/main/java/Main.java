@@ -26,6 +26,7 @@ public class Main {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         splashScreen.dispose();
 
+        // Exit if it couldn't access DB (usually because DB service isn't running)
         if (sessionFactory == null) {
             JOptionPane.showMessageDialog(
                     null,
@@ -41,7 +42,7 @@ public class Main {
         window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (!sessionFactory.isClosed()) {
+                if (! sessionFactory.isClosed()) {
                     sessionFactory.close();
                 }
             }

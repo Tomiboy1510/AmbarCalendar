@@ -32,7 +32,7 @@ public class ProfesionalForm extends StandaloneEntityForm {
 
         nombreField.setText(p.getNombre());
         porcentajeField.setText(String.valueOf(p.getPorcentajeCobro()));
-        salarioField.setText(String.valueOf(p.getSalarioBasico()));
+        salarioField.setText(String.valueOf(p.getSalarioBasicoSemanal()));
 
         init();
     }
@@ -57,7 +57,7 @@ public class ProfesionalForm extends StandaloneEntityForm {
             return null;
         }
         try {
-            p.setSalarioBasico(Integer.parseInt(salarioField.getText()));
+            p.setSalarioBasicoSemanal(Integer.parseInt(salarioField.getText()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Salario básico obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
             return null;

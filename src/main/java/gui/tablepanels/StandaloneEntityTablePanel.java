@@ -37,7 +37,7 @@ public abstract class StandaloneEntityTablePanel<T extends AbstractEntity> exten
     private final JLabel pageLabel;
 
     public StandaloneEntityTablePanel(String title, StandaloneEntityTableModel<T> tableModel) {
-        super(tableModel);
+        super(tableModel, true);
 
         // Sort when clicking on a column header
         table.getTableHeader().addMouseListener(new MouseAdapter() {
