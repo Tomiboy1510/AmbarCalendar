@@ -2,6 +2,7 @@ package gui.forms;
 
 import gui.SalariosFrame;
 import gui.formattedfields.FechaField;
+import persistence.dao.EgresoDAO;
 import persistence.dao.TurnoDAO;
 
 import javax.swing.*;
@@ -22,10 +23,12 @@ public class SalariosForm extends MyForm {
     private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
     private final TurnoDAO turnoDAO;
+    private final EgresoDAO egresoDAO;
 
-    public SalariosForm(TurnoDAO turnoDAO) {
+    public SalariosForm(TurnoDAO turnoDAO, EgresoDAO egresoDAO) {
         super("Calcular pago de salarios");
         this.turnoDAO = turnoDAO;
+        this.egresoDAO = egresoDAO;
         init();
     }
 
@@ -67,7 +70,8 @@ public class SalariosForm extends MyForm {
             new SalariosFrame(
                     startDate,
                     endDate,
-                    turnoDAO.getAllWithDateRange(startDate, endDate)
+                    turnoDAO.getAllWithDateRange(startDate, endDate),
+                    egresoDAO
             );
             dispose();
         });

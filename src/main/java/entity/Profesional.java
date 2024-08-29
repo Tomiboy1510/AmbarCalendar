@@ -61,4 +61,13 @@ public class Profesional implements AbstractEntity {
     public void setId(int id) {
         this.id = id;
     }
+
+    public boolean isValid() {
+        return (porcentajeCobro != 0f) || (salarioBasicoSemanal != 0);
+    }
+
+    public void invalidate() {
+        salarioBasicoSemanal = 0;
+        porcentajeCobro = 0f;
+    }
 }

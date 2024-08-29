@@ -37,7 +37,7 @@ public class FinanzasTab extends JPanel {
         informeButton.addActionListener(_ -> new InformeForm(turnoDAO, ventaDAO, egresoDAO));
 
         // Calculate salaries
-        pagosButton.addActionListener(_ -> new SalariosForm(turnoDAO));
+        pagosButton.addActionListener(_ -> new SalariosForm(turnoDAO, egresoDAO));
 
         topPanel.add(pagosButton);
         topPanel.add(informeButton);

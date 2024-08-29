@@ -59,8 +59,7 @@ public class ProfesionalTablePanel extends StandaloneEntityTablePanel<Profesiona
             if (choice == JOptionPane.YES_OPTION) {
                 ProfesionalTableModel model = ((ProfesionalTableModel) table.getModel());
                 Profesional p = model.getEntityAtRow(selectedRow);
-                p.setSalarioBasicoSemanal(0);
-                p.setPorcentajeCobro(0f);
+                p.invalidate();
                 dao.update(p);
             }
         });
